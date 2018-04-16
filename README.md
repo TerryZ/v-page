@@ -2,6 +2,8 @@
 
 > A simple pagination bar, based on Vue2.x
 
+<p align="center"><img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px"></p>
+
 ## Install
 
 ``` bash
