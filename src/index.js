@@ -1,4 +1,4 @@
-import vPage from './vPagination';
+import vPage from './vPage';
 
 const Plugin = {
     install(Vue, options = {}){

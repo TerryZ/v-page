@@ -8,8 +8,8 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
     //filename: 'build.js'
-	filename: 'v-pagination.js',
-	library: 'vPagination',
+	filename: 'v-page.js',
+	library: 'vPage',
 	libraryTarget: 'umd',
 	umdNamedDefine: true
   },

@@ -40,7 +40,7 @@
     let {languages} = con;
 
     export default {
-        name: "v-pagination",
+        name: "v-page",
         props: ['setting'],
         data(){
             let {totalRow = 0, pageSizeMenu = [10,20,50,100], language = 'cn'} = this.setting;
