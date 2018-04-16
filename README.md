@@ -27,6 +27,8 @@ template code
 
 ```html
 <template>
+  <!-- v-bind 'setting' data to config page bar -->
+  <!-- bind event 'page-change' to receive page info change -->
   <v-page :setting="pageSet" @page-change="pageChange"></v-page>
 </template>
 ```
@@ -46,6 +48,7 @@ export default {
     }
   },
   methods:{
+    //receive page info change callback
     pageChange(pInfo){
       console.log(pInfo);//{pageNumber: 1, pageSize: 10}
     }
