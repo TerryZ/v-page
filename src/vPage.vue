@@ -85,10 +85,7 @@
         },
         watch:{
             currentPage:function(val){
-                this.$emit('page-change',{
-                    pageNumber: this.currentPage,
-                    pageSize: Number(this.pageSize)
-                });
+                this.goPage(val);
             },
             'setting.totalRow':function(val){
                 this.totalRow = val;
@@ -96,11 +93,21 @@
                 if(!this.lengthList.includes(this.pageSize)){
                     this.pageSize = this.lengthList[0];
                 }
-
-                this.totalPage = Math.ceil(this.totalRow / this.pageSize);
+                this.calcTotalPage();
             }
         },
         methods:{
+            goPage(pNum){
+                this.currentPage = pNum;
+                this.$emit('page-change',{
+                    pageNumber: pNum,
+                    pageSize: Number(this.pageSize)
+                });
+                this.calcTotalPage();
+            },
+            calcTotalPage(){
+                this.totalPage = Math.ceil(this.totalRow / this.pageSize);
+            },
             switchPage(pNum){
                 if(typeof(pNum) === 'string'){
                     switch (pNum){
@@ -122,11 +129,11 @@
                 }
             },
             switchLength(){
-                this.$emit('page-change',{
-                    pageNumber: 1,
-                    pageSize: Number(this.pageSize)
-                });
+                this.goPage(1);
             }
+        },
+        mounted(){
+            this.goPage(1);
         }
     }
 </script>
