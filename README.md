@@ -1,6 +1,6 @@
 # v-page
 
-> A simple pagination bar, based on Vue2.x
+A simple pagination bar, including length Menu, i18n support, based on Vue2.x
 
 *plugin preview*
 
