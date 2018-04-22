@@ -25,6 +25,14 @@ const languages = {
     }
 };
 
+const defaults = {
+    totalRow: 0,
+    pageSizeMenu: [10,20,50,100],
+    language: 'cn',
+    align: 'right'
+};
+
 export default {
-    languages
+    languages,
+    defaults
 };

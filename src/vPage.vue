@@ -1,5 +1,5 @@
 <template>
-    <div class="vPagination vPaginationRight">
+    <div :class="[pageClass]">
         <ul>
             <li class="disabled vPaginationList">
                 <a>{{i18n.pageLength}}
@@ -37,24 +37,30 @@
 
 <script>
     import con from './constants';
-    let {languages} = con;
+    let {languages, defaults} = con;
 
     export default {
         name: "v-page",
         props: ['setting'],
         data(){
-            let {totalRow = 0, pageSizeMenu = [10,20,50,100], language = 'cn'} = this.setting;
-            let i18n = languages[language];
+            let config = Object.assign({}, defaults, this.setting);
+            let i18n = languages[config.language];
             return {
+                config: config,
                 pageNumber: 1,
                 pageSize: 10,
-                totalRow: totalRow,
+                totalRow: config.totalRow,
                 totalPage: 0,
                 currentPage: 1,
-                lengthList: pageSizeMenu,
+                lengthList: config.pageSizeMenu,
                 pageNumberSize: 5,
-                language: language,
-                i18n: i18n
+                language: config.language,
+                i18n: i18n,
+                pageClass : {
+                    vPagination: true,
+                    vPaginationRight: false,
+                    vPaginationCenter: false
+                }
             };
         },
         computed:{
@@ -133,6 +139,10 @@
             }
         },
         mounted(){
+            if(this.config.align === 'center')
+                this.pageClass.vPaginationCenter = true;
+            else if(this.config.align === 'right')
+                this.pageClass.vPaginationRight = true;
             this.goPage(1);
         }
     }
@@ -143,6 +153,7 @@
     div.vPagination{
         margin: 0;display: block;
         &.vPaginationRight{ text-align: right; }
+        &.vPaginationCenter{ text-align: center; }
         & > ul {
             display: inline-block;
             margin-bottom: 0;
@@ -155,7 +166,7 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             padding: 0;
             & > li {
-                text-align: center;display: inline;box-sizing: border-box;
+                text-align: center;display: inline;box-sizing: border-box;margin: 0;
                 & > a {
                     margin: 0;
                     border: 1px solid #dddddd;
