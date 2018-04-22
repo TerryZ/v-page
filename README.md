@@ -6,6 +6,12 @@
 
 <p align="center"><img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px"></p>
 
+## Demo、Document、Changelog
+Explorer on
+
+- [English official site](https://terryz.github.io/vue)
+- [中文官网]((https://terryz.oschina.io/vue))
+
 ## State
 
 [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page)
