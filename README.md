@@ -10,7 +10,7 @@
 Explorer on
 
 - [English official site](https://terryz.github.io/vue)
-- [中文官网]((https://terryz.oschina.io/vue))
+- [中文官网](https://terryz.oschina.io/vue)
 
 ## State
 
