@@ -12,6 +12,8 @@ Explorer on
 - [English official site](https://terryz.github.io/vue)
 - [中文官网](https://terryz.gitee.io/vue)
 
+the jQuery version: [bPage](https://github.com/TerryZ/bPage)
+
 ## State
 
 [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page)
