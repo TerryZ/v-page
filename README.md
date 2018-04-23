@@ -10,7 +10,7 @@ A simple pagination bar, including length Menu, i18n support, based on Vue2.x
 Explorer on
 
 - [English official site](https://terryz.github.io/vue)
-- [中文官网](https://terryz.oschina.io/vue)
+- [中文官网](https://terryz.gitee.io/vue)
 
 ## State
 
