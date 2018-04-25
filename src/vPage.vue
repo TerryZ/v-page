@@ -66,23 +66,20 @@
         computed:{
             pageNumbers: function(){
                 let start, end, nums = [], pNum = this.currentPage, half = Math.floor(this.pageNumberSize / 2);
-                //总页数小于显示页码个数
                 if(this.totalPage < this.pageNumberSize) {
                     start = 1;
                     end = this.totalPage;
-                    //当前页码小于显示页码个数的一半
                 } else if ( pNum <= half ) {
                     start = 1;
                     end = this.pageNumberSize;
-                    //当前页码大于等于总页数减去显示页码个数一半的值
                 } else if ( pNum >= (this.totalPage - half) ) {
-                    start = this.totalPage - this.pageBarSize + 1;
+                    start = this.totalPage - this.pageNumberSize + 1;
                     end = this.totalPage;
-                    //常规情况
                 } else {
                     start = pNum - half;
                     end = start + this.pageNumberSize - 1;
                 }
+
                 for(let i = start;i <= end; i++){
                     nums.push(i);
                 }
