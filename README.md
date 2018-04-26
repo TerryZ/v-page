@@ -8,8 +8,8 @@ A simple pagination bar, including length Menu, i18n support, based on Vue2.x
 <p align="center"><img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px"></p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/v-page"><img src="https://img.shields.io/npm/v/v-page.svg"></a>
-  <a href="https://mit-license.org/"><img src="(https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
+  <a href="https://www.npmjs.com/package/v-page" target="_blank"><img src="https://img.shields.io/npm/v/v-page.svg"></a>
+  <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
   <a href="https://www.npmjs.com/package/v-page"><img src="https://img.shields.io/npm/dy/v-page.svg"></a>
 </p>
 
