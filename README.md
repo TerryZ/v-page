@@ -1,10 +1,17 @@
-# v-page
 
+<h1 align="center">v-page</h1>
+
+<h4 align="center">
 A simple pagination bar, including length Menu, i18n support, based on Vue2.x
-
-*plugin preview*
+</h4>
 
 <p align="center"><img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px"></p>
+
+<p align="center">
+[![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/)
+[![npm](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page)
+</p>
 
 ## Demo、Document、Changelog
 Explorer on
