@@ -1,5 +1,5 @@
 
-<h2 align="center">v-page</h2>
+<h3 align="center">v-page</h3>
 
 <p align="center">
 A simple pagination bar, including length Menu, i18n support, based on Vue2.x
