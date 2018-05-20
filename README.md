@@ -25,6 +25,8 @@ Explorer on
 
 the jQuery version: [bPage](https://github.com/TerryZ/bPage)
 
+Quick demo: [v-page gallery](https://codepen.io/terry05/pen/yjZYLR)
+
 <br><br>
 
 ## Install
