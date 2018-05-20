@@ -21,7 +21,7 @@ A simple pagination bar, including length Menu, i18n support, based on Vue2.x
 Explorer on
 
 - [English site](https://terryz.github.io/vue/#/page)
-- [中文官网](https://terryz.gitee.io/vue/#/page)
+- [国内站点](https://terryz.gitee.io/vue/#/page)
 
 the jQuery version: [bPage](https://github.com/TerryZ/bPage)
 
