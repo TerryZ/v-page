@@ -45,10 +45,11 @@
         data(){
             let config = Object.assign({}, defaults, this.setting);
             let i18n = languages[config.language];
+
             return {
                 config: config,
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: config.pageSizeMenu&&Array.isArray(config.pageSizeMenu)&&config.pageSizeMenu.length?config.pageSizeMenu[0]:10,
                 totalRow: config.totalRow,
                 totalPage: 0,
                 currentPage: 1,
@@ -92,10 +93,6 @@
             },
             'setting.totalRow':function(val){
                 this.totalRow = val;
-
-                if(!this.lengthList.includes(this.pageSize)){
-                    this.pageSize = this.lengthList[0];
-                }
                 this.calcTotalPage();
             }
         },
