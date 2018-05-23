@@ -29,6 +29,16 @@ Quick demo: [v-page gallery](https://codepen.io/terry05/pen/yjZYLR)
 
 <br><br>
 
+## Vue plugin series
+
+| Plugin Name | Status | Description |
+| :-- | :-- | :-- |
+| [v-page](https://github.com/TerryZ/v-page) | [![npm version](https://img.shields.io/npm/v/selectmenu.svg)](https://www.npmjs.com/package/selectmenu) | A simple pagination bar, including length Menu, i18n support, based on Vue2.x |
+| 苹果        | $1      |   6    |
+| 草莓        | $1      |   7    |
+
+<br><br>
+
 ## Install
 
 ``` bash
