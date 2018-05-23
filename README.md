@@ -31,7 +31,7 @@ Quick demo: [v-page gallery](https://codepen.io/terry05/pen/yjZYLR)
 
 ## Vue plugin series
 
-| Plugin name | Status | Description |
+| Plugin name      | Status | Description |
 | :---------------- | :-- | :-- |
 | [v-page](https://github.com/TerryZ/v-page) | [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) | A simple pagination bar, including length Menu, i18n support, based on Vue2.x |
 | [v-dialogs](https://github.com/TerryZ/v-dialogs) | [![npm version](https://img.shields.io/npm/v/v-dialogs.svg)](https://www.npmjs.com/package/v-dialogs) | A simple and powerful dialog, including Modal, Alert, Mask and Toast modes, based on Vue2.x |
