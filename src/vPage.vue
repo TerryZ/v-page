@@ -1,14 +1,14 @@
 <template>
     <div :class="[pageClass]">
         <ul>
-            <li class="disabled vPaginationList">
+            <li class="disabled vPaginationList" v-if="config.pageSizeMenu">
                 <a>{{i18n.pageLength}}
                     <select @change="switchLength" v-model="pageSize">
                         <option v-for="len in lengthList">{{len}}</option>
                     </select>
                 </a>
             </li>
-            <li class="disabled bPageInfo">
+            <li class="disabled bPageInfo" v-if="config.info">
                 <a>{{
                     i18n.pageInfo
                     .replace('#pageNumber#', currentPage)
