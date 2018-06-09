@@ -25,8 +25,6 @@ Explorer on
 
 the jQuery version: [bPage](https://github.com/TerryZ/bPage)
 
-Quick demo: [v-page gallery](https://codepen.io/terry05/pen/yjZYLR)
-
 <br><br>
 
 ## Vue plugin series
@@ -46,7 +44,6 @@ Quick demo: [v-page gallery](https://codepen.io/terry05/pen/yjZYLR)
 ## Install
 
 ``` bash
-# install dependencies
 npm install v-page --save
 ```
 
