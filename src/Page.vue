@@ -1,14 +1,14 @@
 <template>
     <div :class="[pageClass]">
         <ul>
-            <li class="disabled vPaginationList" v-if="config.pageSizeMenu">
+            <li class="disabled v-pagination__list" v-if="pageSizeMenu">
                 <a>{{i18n.pageLength}}
-                    <select @change="switchLength" v-model="pageSize">
-                        <option v-for="len in lengthList">{{len}}</option>
+                    <select @change="switchLength" v-model="pageSize" :disabled="disabled">
+                        <option v-for="len in pageSizeMenu">{{len}}</option>
                     </select>
                 </a>
             </li>
-            <li class="disabled bPageInfo" v-if="config.info">
+            <li class="disabled bPageInfo" v-if="info">
                 <a>{{
                     i18n.pageInfo
                     .replace('#pageNumber#', currentPage)
@@ -16,51 +16,69 @@
                     .replace('#totalRow#', totalRow)
                     }}</a>
             </li>
-            <li :class="{disabled:currentPage === 1,bPageControlButton:true} ">
-                <a href="javascript:void(0);" @click="switchPage('first')">{{i18n.first}}</a>
+            <li :class="{disabled:currentPage === 1||disabled,bPageControlButton:true} ">
+                <a href="javascript:void(0);" @click="switchPage('first')" v-text="i18n.first"></a>
             </li>
-            <li :class="{disabled:currentPage === 1,bPageControlButton:true}">
-                <a href="javascript:void(0);" @click="switchPage('previous')">{{i18n.previous}}</a>
+            <li :class="{disabled:currentPage === 1||disabled,bPageControlButton:true}">
+                <a href="javascript:void(0);" @click="switchPage('previous')" v-text="i18n.previous"></a>
             </li>
-            <li :class="{active:(num === currentPage)}" v-for="num,index in pageNumbers">
-                <a href="javascript:void(0);" @click="switchPage(num)">{{num}}</a>
+            <li :class="{active:(num === currentPage),disabled:disabled&&num !== currentPage}"
+                v-for="num,index in pageNumbers">
+                <a href="javascript:void(0);" @click="switchPage(num)" v-text="num"></a>
             </li>
-            <li :class="{bPageControlButton:true,disabled:currentPage === totalPage}">
-                <a href="javascript:void(0);" @click="switchPage('next')">{{i18n.next}}</a>
+            <li :class="{bPageControlButton:true,disabled:currentPage === totalPage||disabled}">
+                <a href="javascript:void(0);" @click="switchPage('next')" v-text="i18n.next"></a>
             </li>
-            <li :class="{bPageControlButton:true,disabled:currentPage === totalPage}">
-                <a href="javascript:void(0);" @click="switchPage('last')">{{i18n.last}}</a>
+            <li :class="{bPageControlButton:true,disabled:currentPage === totalPage||disabled}">
+                <a href="javascript:void(0);" @click="switchPage('last')" v-text="i18n.last"></a>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-    import con from './constants';
-    let {languages, defaults} = con;
+    import languages from './language';
 
     export default {
         name: "v-page",
-        props: ['setting'],
+        props: {
+            totalRow: {
+                type: Number,
+                default: 0
+            },
+            info: {
+                type: Boolean,
+                default: true
+            },
+            pageSizeMenu: {
+                type: [Array, Boolean],
+                default: () => [10,20,50,100]
+            },
+            language: {
+                type: String,
+                default: 'cn'
+            },
+            align: {
+                type: String,
+                default: 'right'
+            },
+            disabled: {
+                type: Boolean,
+                default: false
+            }
+        },
         data(){
-            let config = Object.assign({}, defaults, this.setting);
-            let i18n = languages[config.language];
-
             return {
-                config: config,
                 pageNumber: 1,
-                pageSize: config.pageSizeMenu&&Array.isArray(config.pageSizeMenu)&&config.pageSizeMenu.length?config.pageSizeMenu[0]:10,
-                totalRow: config.totalRow,
+                pageSize: typeof(this.pageSizeMenu)==='boolean'?10:this.pageSizeMenu[0],
                 totalPage: 0,
                 currentPage: 1,
-                lengthList: config.pageSizeMenu,
                 pageNumberSize: 5,
-                language: config.language,
-                i18n: i18n,
+                i18n: languages[this.language],
                 pageClass : {
-                    vPagination: true,
-                    vPaginationRight: false,
-                    vPaginationCenter: false
+                    'v-pagination': true,
+                    'v-pagination--right': this.align === 'right',
+                    'v-pagination--center': this.align === 'center'
                 }
             };
         },
@@ -91,8 +109,7 @@
             currentPage:function(val){
                 this.goPage(val);
             },
-            'setting.totalRow':function(val){
-                this.totalRow = val;
+            totalRow:function(val){
                 this.calcTotalPage();
             }
         },
@@ -109,6 +126,7 @@
                 this.totalPage = Math.ceil(this.totalRow / this.pageSize);
             },
             switchPage(pNum){
+                if(this.disabled) return;
                 if(typeof(pNum) === 'string'){
                     switch (pNum){
                         case 'first':
@@ -124,34 +142,27 @@
                             if(this.currentPage!==this.totalPage) this.currentPage = this.totalPage;
                             break;
                     }
-                }else if(typeof(pNum) === 'number'){
-                    this.currentPage = pNum;
-                }
+                }else if(typeof(pNum) === 'number') this.currentPage = pNum;
             },
             switchLength(){
                 this.goPage(1);
             }
         },
         mounted(){
-            if(this.config.align === 'center')
-                this.pageClass.vPaginationCenter = true;
-            else if(this.config.align === 'right')
-                this.pageClass.vPaginationRight = true;
             this.goPage(1);
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     $borderRadius: 2px;
-    div.vPagination{
+    div.v-pagination{
         margin: 0;display: block;
-        &.vPaginationRight{ text-align: right; }
-        &.vPaginationCenter{ text-align: center; }
+        &.v-pagination--right{ text-align: right; }
+        &.v-pagination--center{ text-align: center; }
         & > ul {
             display: inline-block;
-            margin-bottom: 0;
-            margin-left: 0;
+            margin: 0;
             -webkit-border-radius: 0;
             -moz-border-radius: 0;
             border-radius: 0;
@@ -177,7 +188,7 @@
 
                     border-left-width: 0;
                     box-sizing: content-box;
-                    color: black;
+                    color: #333;
                     -webkit-transition: all .5s cubic-bezier(.175,.885,.32,1);
                     transition: all .5s cubic-bezier(.175,.885,.32,1);
                     &:hover {
@@ -216,7 +227,7 @@
                     -moz-border-radius-bottomright: $borderRadius;
                     -moz-border-radius-topright: $borderRadius;
                 }
-                &.vPaginationList {
+                &.v-pagination__list {
                     a { line-height: 20px;height: 20px; }
                     select{
                         margin: -2px 0 0 5px;
@@ -228,11 +239,13 @@
                         padding: 0;
                         display: inline-block;
                         border: 1px solid #CCCCCC;
+                        color: #333;
                         &:hover{
                             box-shadow: 0 0 8px rgba(0,0,0,0.2);
                             -moz-box-shadow: 0 0 8px rgba(0,0,0,0.2);
                             -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2);
                         }
+                        &[disabled]{ color: #999; }
                     }
                 }
             }

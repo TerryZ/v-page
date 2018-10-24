@@ -25,15 +25,4 @@ const languages = {
     }
 };
 
-const defaults = {
-    totalRow: 0,
-    info: true,
-    pageSizeMenu: [10,20,50,100],
-    language: 'cn',
-    align: 'right'
-};
-
-export default {
-    languages,
-    defaults
-};
+export default languages;
