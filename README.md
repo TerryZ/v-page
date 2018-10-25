@@ -49,7 +49,7 @@ The jQuery version: [bPage](https://github.com/TerryZ/bPage)
 ## Install
 
 ``` bash
-npm install v-page --save
+npm i v-page --save
 ```
 
 Include plugin in your `main.js` file.
@@ -57,9 +57,7 @@ Include plugin in your `main.js` file.
 ```js
 import Vue from 'vue'
 import vPage from 'v-page';
-...
-
-Vue.use(vPage);
+Vue.use(vPage, { global config options });
 ```
 
 ## Deploy on your component
@@ -68,9 +66,7 @@ template code
 
 ```html
 <template>
-  <!-- v-bind 'setting' data to config page bar -->
-  <!-- bind event 'page-change' to receive page info change -->
-  <v-page :setting="pageSet" @page-change="pageChange"></v-page>
+  <v-page :total-row="totalRow" @page-change="pageChange"></v-page>
 </template>
 ```
 
@@ -81,11 +77,7 @@ export default {
   name: 'myComponent',
   data(){
     return {
-      pageSet: {
-        totalRow: 0,//required option
-        language: 'en',//default: 'cn'
-        pageSizeMenu: [20,100]//default: [10, 20, 50, 100]
-      }
+      totalRow: 100//required option
     }
   },
   methods:{
