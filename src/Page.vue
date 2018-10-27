@@ -8,7 +8,7 @@
                     </select>
                 </a>
             </li>
-            <li class="disabled bPageInfo" v-if="info">
+            <li class="disabled" v-if="info">
                 <a>{{
                     i18n.pageInfo
                     .replace('#pageNumber#', currentPage)
@@ -16,20 +16,20 @@
                     .replace('#totalRow#', totalRow)
                     }}</a>
             </li>
-            <li :class="{disabled:currentPage === 1||disabled,bPageControlButton:true} ">
+            <li :class="{disabled:currentPage === 1||disabled} ">
                 <a href="javascript:void(0);" @click="switchPage('first')" v-text="i18n.first"></a>
             </li>
-            <li :class="{disabled:currentPage === 1||disabled,bPageControlButton:true}">
+            <li :class="{disabled:currentPage === 1||disabled}">
                 <a href="javascript:void(0);" @click="switchPage('previous')" v-text="i18n.previous"></a>
             </li>
             <li :class="{active:(num === currentPage),disabled:disabled&&num !== currentPage}"
                 v-for="num,index in pageNumbers">
                 <a href="javascript:void(0);" @click="switchPage(num)" v-text="num"></a>
             </li>
-            <li :class="{bPageControlButton:true,disabled:currentPage === totalPage||disabled}">
+            <li :class="{disabled:currentPage === totalPage||disabled}">
                 <a href="javascript:void(0);" @click="switchPage('next')" v-text="i18n.next"></a>
             </li>
-            <li :class="{bPageControlButton:true,disabled:currentPage === totalPage||disabled}">
+            <li :class="{disabled:currentPage === totalPage||disabled}">
                 <a href="javascript:void(0);" @click="switchPage('last')" v-text="i18n.last"></a>
             </li>
         </ul>
@@ -72,7 +72,7 @@
                 pageNumber: 1,
                 pageSize: typeof(this.pageSizeMenu)==='boolean'?10:this.pageSizeMenu[0],
                 totalPage: 0,
-                currentPage: 1,
+                currentPage: 0,
                 pageNumberSize: 5,
                 i18n: languages[this.language],
                 pageClass : {
@@ -106,9 +106,6 @@
             }
         },
         watch:{
-            currentPage:function(val){
-                this.goPage(val);
-            },
             totalRow:function(val){
                 this.calcTotalPage();
             }
@@ -127,22 +124,24 @@
             },
             switchPage(pNum){
                 if(this.disabled) return;
+                let num = 1;
                 if(typeof(pNum) === 'string'){
                     switch (pNum){
                         case 'first':
-                            if(this.currentPage!==1) this.currentPage = 1;
+                            if(this.currentPage!==1) num = 1;
                             break;
                         case 'previous':
-                            if(this.currentPage!==1) this.currentPage--;
+                            if(this.currentPage!==1) num = this.currentPage - 1;
                             break;
                         case 'next':
-                            if(this.currentPage!==this.totalPage) this.currentPage++;
+                            if(this.currentPage!==this.totalPage) num = this.currentPage + 1;
                             break;
                         case 'last':
-                            if(this.currentPage!==this.totalPage) this.currentPage = this.totalPage;
+                            if(this.currentPage!==this.totalPage) num = this.totalPage;
                             break;
                     }
-                }else if(typeof(pNum) === 'number') this.currentPage = pNum;
+                }else if(typeof(pNum) === 'number') num = pNum;
+                this.goPage(num);
             },
             switchLength(){
                 this.goPage(1);
