@@ -52,7 +52,7 @@
             },
             pageSizeMenu: {
                 type: [Array, Boolean],
-                default: () => [10,20,50,100]
+                default: function(){ return [10,20,50,100]; }
             },
             language: {
                 type: String,
@@ -69,7 +69,6 @@
         },
         data(){
             return {
-                pageNumber: 1,
                 pageSize: typeof(this.pageSizeMenu)==='boolean'?10:this.pageSizeMenu[0],
                 totalPage: 0,
                 currentPage: 0,
@@ -84,18 +83,18 @@
         },
         computed:{
             pageNumbers: function(){
-                let start, end, nums = [], pNum = this.currentPage, half = Math.floor(this.pageNumberSize / 2);
+                let start, end, nums = [], half = Math.floor(this.pageNumberSize / 2);
                 if(this.totalPage < this.pageNumberSize) {
                     start = 1;
                     end = this.totalPage;
-                } else if ( pNum <= half ) {
+                } else if ( this.currentPage <= half ) {
                     start = 1;
                     end = this.pageNumberSize;
-                } else if ( pNum >= (this.totalPage - half) ) {
+                } else if ( this.currentPage >= (this.totalPage - half) ) {
                     start = this.totalPage - this.pageNumberSize + 1;
                     end = this.totalPage;
                 } else {
-                    start = pNum - half;
+                    start = this.currentPage - half;
                     end = start + this.pageNumberSize - 1;
                 }
 
@@ -128,15 +127,19 @@
                 if(typeof(pNum) === 'string'){
                     switch (pNum){
                         case 'first':
+							if(this.currentPage === 1) return;
                             if(this.currentPage!==1) num = 1;
                             break;
                         case 'previous':
+							if(this.currentPage === 1) return;
                             if(this.currentPage!==1) num = this.currentPage - 1;
                             break;
                         case 'next':
+							if(this.currentPage === this.totalPage) return;
                             if(this.currentPage!==this.totalPage) num = this.currentPage + 1;
                             break;
                         case 'last':
+							if(this.currentPage === this.totalPage) return;
                             if(this.currentPage!==this.totalPage) num = this.totalPage;
                             break;
                     }
