@@ -13,4 +13,5 @@ const Plugin = {
     }
 };
 
+export {vPage};
 export default Plugin;

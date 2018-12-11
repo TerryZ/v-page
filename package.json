@@ -1,7 +1,7 @@
 {
   "name": "v-page",
   "description": "A simple pagination bar, based on Vue2.x",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "TerryZ <terry5@foxmail.com>",
   "main": "dist/v-page.js",
   "license": "MIT",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TerryZ/v-pagination.git"
+    "url": "https://github.com/TerryZ/v-page.git"
   },
   "keywords": [
     "front-end",
@@ -22,7 +22,7 @@
     "pagination"
   ],
   "dependencies": {
-    "vue": "^2.5.11"
+    "vue": "^2.5.19"
   },
   "browserslist": [
     "> 1%",

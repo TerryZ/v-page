@@ -4,7 +4,7 @@
             <li class="disabled v-pagination__list" v-if="pageSizeMenu">
                 <a>{{i18n.pageLength}}
                     <select @change="switchLength" v-model="pageSize" :disabled="disabled">
-                        <option v-for="len in pageSizeMenu">{{len}}</option>
+                        <option :key="index" v-for="(len,index) in pageSizeMenu">{{len}}</option>
                     </select>
                 </a>
             </li>
@@ -22,8 +22,8 @@
             <li :class="{disabled:currentPage === 1||disabled}">
                 <a href="javascript:void(0);" @click="switchPage('previous')" v-text="i18n.previous"></a>
             </li>
-            <li :class="{active:(num === currentPage),disabled:disabled&&num !== currentPage}"
-                v-for="num,index in pageNumbers">
+            <li :class="{active:(num === currentPage),disabled:disabled&&num !== currentPage}" :key="index"
+                v-for="(num,index) in pageNumbers">
                 <a href="javascript:void(0);" @click="switchPage(num)" v-text="num"></a>
             </li>
             <li :class="{disabled:currentPage === totalPage||disabled}">
@@ -106,7 +106,7 @@
             }
         },
         watch:{
-            totalRow:function(val){
+            totalRow(){
                 this.calcTotalPage();
             }
         },
