@@ -176,11 +176,12 @@
                     border: 1px solid #dddddd;
                     border-radius: 0;
                     padding: 6px 12px;
-                    line-height: 20px;
+                    line-height: 1.4;
                     box-shadow: none;
                     -moz-box-shadow: none;
                     -webkit-box-shadow: none;
                     background-color: white;
+                    font-size: 14px;
 
                     float: left;
                     text-decoration: none;
@@ -227,22 +228,20 @@
                     -moz-border-radius-topright: $borderRadius;
                 }
                 &.v-pagination__list {
-                    a { line-height: 20px;height: 20px; }
+                    a { line-height: 1.4; }
                     select{
-                        margin: -2px 0 0 5px;
+                        margin-left: 5px;
                         width: auto !important;
-                        vertical-align: middle;
-                        height: 22px;
-                        line-height: 22px;
-                        font-size: 12px;
+                        font-size: 13px;
                         padding: 0;
                         display: inline-block;
                         border: 1px solid #CCCCCC;
                         color: #333;
+                        outline: 0;
                         &:hover{
-                            box-shadow: 0 0 8px rgba(0,0,0,0.2);
-                            -moz-box-shadow: 0 0 8px rgba(0,0,0,0.2);
-                            -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2);
+                            -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.2);
+                            -moz-box-shadow: 0 0 3px rgba(0,0,0,0.2);
+                            box-shadow: 0 0 3px rgba(0,0,0,0.2);
                         }
                         &[disabled]{ color: #999; }
                     }
