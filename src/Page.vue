@@ -9,12 +9,10 @@
                 </a>
             </li>
             <li class="disabled" v-if="info">
-                <a>{{
-                    i18n.pageInfo
+                <a>{{i18n.pageInfo
                     .replace('#pageNumber#', currentPage)
                     .replace('#totalPage#', totalPage)
-                    .replace('#totalRow#', totalRow)
-                    }}</a>
+                    .replace('#totalRow#', totalRow)}}</a>
             </li>
             <li :class="{disabled:currentPage === 1||disabled} ">
                 <a href="javascript:void(0);" @click="switchPage('first')" v-text="i18n.first"></a>
@@ -65,6 +63,10 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            border: {
+            	type: Boolean,
+                default: true
             }
         },
         data(){
@@ -76,6 +78,7 @@
                 i18n: languages[this.language],
                 pageClass : {
                     'v-pagination': true,
+					'v-pagination--no-border': !this.border,
                     'v-pagination--right': this.align === 'right',
                     'v-pagination--center': this.align === 'center'
                 }
@@ -164,40 +167,40 @@
         &.v-pagination--center{ text-align: center; }
         & > ul {
             display: inline-block;
+            list-style: none;
             margin: 0;
+            padding: 0;
             -webkit-border-radius: 0;
             -moz-border-radius: 0;
             border-radius: 0;
             -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            padding: 0;
             & > li {
-                text-align: center;display: inline;box-sizing: border-box;margin: 0;
+                text-align: center;margin: 0;display: inline;
                 & > a {
-                    margin: 0;
-                    border: 1px solid #dddddd;
+                    margin: 0 0 0 -1px;
+                    position: relative;
+                    border: 1px solid #DEE2E6;
                     border-radius: 0;
                     padding: 6px 12px;
                     line-height: 1.4;
-                    box-shadow: none;
-                    -moz-box-shadow: none;
                     -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    box-shadow: none;
                     background-color: white;
                     font-size: 14px;
-
+                    display: inline-block;
                     float: left;
                     text-decoration: none;
-
-                    border-left-width: 0;
-                    box-sizing: content-box;
                     color: #333;
                     -webkit-transition: all .5s cubic-bezier(.175,.885,.32,1);
                     transition: all .5s cubic-bezier(.175,.885,.32,1);
                     &:hover {
-                        box-shadow: 0 0 12px rgba(0,0,0,0.2);
-                        -moz-box-shadow: 0 0 12px rgba(0,0,0,0.2);
-                        -webkit-box-shadow: 0 0 12px rgba(0,0,0,0.2);
+                        z-index: 2;
+                        -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2);
+                        -moz-box-shadow: 0 0 8px rgba(0,0,0,0.2);
+                        box-shadow: 0 0 8px rgba(0,0,0,0.2);
                     }
                 }
                 &.disabled > a {
@@ -214,19 +217,19 @@
                 &:first-child > a,
                 &:first-child > span {
                     border-left-width: 1px;
-                    -webkit-border-bottom-left-radius: $borderRadius;
                     border-bottom-left-radius: $borderRadius;
-                    -webkit-border-top-left-radius: $borderRadius;
                     border-top-left-radius: $borderRadius;
+                    -webkit-border-bottom-left-radius: $borderRadius;
+                    -webkit-border-top-left-radius: $borderRadius;
                     -moz-border-radius-bottomleft: $borderRadius;
                     -moz-border-radius-topleft: $borderRadius;
                 }
                 &:last-child > a,
                 &:last-child > span {
-                    -webkit-border-bottom-right-radius: $borderRadius;
-                    border-bottom-right-radius: $borderRadius;
-                    -webkit-border-top-right-radius: $borderRadius;
                     border-top-right-radius: $borderRadius;
+                    border-bottom-right-radius: $borderRadius;
+                    -webkit-border-bottom-right-radius: $borderRadius;
+                    -webkit-border-top-right-radius: $borderRadius;
                     -moz-border-radius-bottomright: $borderRadius;
                     -moz-border-radius-topright: $borderRadius;
                 }
@@ -248,6 +251,15 @@
                         }
                         &[disabled]{ color: #999; }
                     }
+                }
+            }
+        }
+
+        &.v-pagination--no-border{
+            & > ul {
+                box-shadow: none;
+                & > li > a {
+                    border: 0;
                 }
             }
         }
