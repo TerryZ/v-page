@@ -48,6 +48,10 @@
     export default {
         name: "v-page",
         props: {
+            value: {
+                type: Number,
+                default: 0
+            },
             totalRow: {
                 type: Number,
                 default: 0
@@ -132,12 +136,15 @@
             }
         },
         watch: {
+            value(val){
+                this.goPage(val, false);
+            },
             totalRow() {
                 this.calcTotalPage();
             }
         },
         methods: {
-            goPage(pNum) {
+            goPage(pNum, respond = true) {
                 if(typeof pNum !== 'number') return;
                 let num = FIRST;
                 if(pNum > num) num = pNum;
@@ -145,6 +152,8 @@
 
                 if(num === this.currentPage) return;
                 this.currentPage = num;
+                // update v-model value
+                if(respond) this.$emit('input', this.currentPage);
                 this.change();
                 this.calcTotalPage();
             },
@@ -179,7 +188,7 @@
             }
         },
         mounted() {
-            this.goPage(FIRST);
+            this.goPage(this.value ? this.value : FIRST);
         }
     }
 </script>
