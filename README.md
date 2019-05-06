@@ -62,17 +62,12 @@ Vue.use(vPage, { global config options });
 
 ## Deploy on your component
 
-template code
-
-```html
+```vue
 <template>
   <v-page :total-row="totalRow" @page-change="pageChange"></v-page>
 </template>
-```
 
-script code
-
-```js
+<script>
 export default {
   name: 'myComponent',
   data(){
@@ -87,4 +82,5 @@ export default {
     }
   }
 };
+</script>
 ```
