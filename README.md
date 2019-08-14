@@ -1,26 +1,13 @@
+# v-page &middot; [![circle ci](https://circleci.com/gh/TerryZ/v-page.svg?style=svg)](https://circleci.com/gh/TerryZ/v-page) [![code coverage](https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-page) [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/) [![npm download](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page) [![npm version](https://img.shields.io/badge/language-Vue2-brightgreen.svg)](https://www.npmjs.com/package/v-dropdown)
+
+A simple pagination bar, including length Menu, i18n support, based on <strong>Vue2</strong>
+
+<img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px">
+
 <br><br>
-
-<h3 align="center">v-page</h3>
-
-<br><br>
-
-<p align="center">
-  A simple pagination bar, including length Menu, i18n support, based on <strong>Vue2</strong>
-</p>
-
-<p align="center"><img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px"></p>
-
-<p align="center">
-  <a href="https://circleci.com/gh/TerryZ/v-page"><img src="https://circleci.com/gh/TerryZ/v-page.svg?style=svg"></a>
-  <a href="https://codecov.io/gh/TerryZ/v-page"><img src="https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg"></a>
-  <a href="https://www.npmjs.com/package/v-page"><img src="https://img.shields.io/npm/v/v-page.svg"></a>
-  <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"></a>
-  <a href="https://www.npmjs.com/package/v-page"><img src="https://img.shields.io/npm/dy/v-page.svg"></a>
-</p>
-<br><br><br><br><br>
-
 
 ## Demos and Documents
+
 Explorer on
 
 - [English site](https://terryz.github.io/vue/#/page)
