@@ -1,10 +1,8 @@
-# v-page &middot; [![circle ci](https://circleci.com/gh/TerryZ/v-page.svg?style=svg)](https://circleci.com/gh/TerryZ/v-page) [![code coverage](https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-page) [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/) [![npm download](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page) [![npm version](https://img.shields.io/badge/language-Vue2-brightgreen.svg)](https://www.npmjs.com/package/v-dropdown)
+# [v-page](https://terryz.github.io/vue/#/page) &middot; [![circle ci](https://circleci.com/gh/TerryZ/v-page.svg?style=svg)](https://circleci.com/gh/TerryZ/v-page) [![code coverage](https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-page) [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/) [![npm download](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page) [![npm version](https://img.shields.io/badge/language-Vue2-brightgreen.svg)](https://www.npmjs.com/package/v-dropdown)
 
 A simple pagination bar, including length Menu, i18n support, based on <strong>Vue2</strong>
 
 <img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px">
-
-<br><br>
 
 ## Demos and Documents
 
@@ -14,8 +12,6 @@ Explorer on
 - [国内站点](https://terryz.gitee.io/vue/#/page)
 
 The jQuery version: [bPage](https://github.com/TerryZ/bPage)
-
-<br><br>
 
 ## Install
 
@@ -36,17 +32,15 @@ you also can use `v-page` in local component
 
 ```vue
 <template>
-    <div>
-        <v-page></v-page>
-    </div>
+  <v-page></v-page>
 </template>
 
 <script>
 import { vPage } from 'v-page';
 export default {
-    components: {
-        'v-page': vPage
-    }
+  components: {
+    'v-page': vPage
+  }
 }
 </script>
 
@@ -77,8 +71,6 @@ export default {
 };
 </script>
 ```
-
-<br><br>
 
 ## Vue plugin series
 
