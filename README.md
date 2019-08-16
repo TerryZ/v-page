@@ -4,7 +4,7 @@ A simple pagination bar, including length Menu, i18n support, based on <strong>V
 
 <img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px">
 
-## Demos and Documents
+## Examples and Documentation
 
 Explorer on
 
@@ -13,7 +13,7 @@ Explorer on
 
 The jQuery version: [bPage](https://github.com/TerryZ/bPage)
 
-## Install
+## Installation
 
 ``` bash
 npm i v-page --save
