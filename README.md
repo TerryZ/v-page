@@ -15,6 +15,8 @@ The jQuery version: [bPage](https://github.com/TerryZ/bPage)
 
 ## Installation
 
+<a href="https://nodei.co/npm/v-page/"><img src="https://nodei.co/npm/v-page.png"></a>
+
 ``` bash
 npm i v-page --save
 ```
