@@ -6,7 +6,7 @@ A simple pagination bar, including length Menu, i18n support, based on <strong>V
 
 ## Examples and Documentation
 
-Explorer on
+Live Examples on [CodePen], more exmaples and documentation please visit below sites
 
 - [English site](https://terryz.github.io/vue/#/page)
 - [国内站点](https://terryz.gitee.io/vue/#/page)
@@ -30,7 +30,7 @@ import vPage from 'v-page';
 Vue.use(vPage, { global config options });
 ```
 
-you also can use `v-page` in local component
+You also can use `v-page` in local component
 
 ```vue
 <template>
