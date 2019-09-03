@@ -6,7 +6,7 @@ A simple pagination bar, including length Menu, i18n support, based on <strong>V
 
 ## Examples and Documentation
 
-Live Examples on [CodePen], more exmaples and documentation please visit below sites
+Live Examples on [CodePen](https://codepen.io/terry05/pen/yjZYLR), more exmaples and documentation please visit below sites
 
 - [English site](https://terryz.github.io/vue/#/page)
 - [国内站点](https://terryz.gitee.io/vue/#/page)
