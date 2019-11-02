@@ -18,7 +18,7 @@ The jQuery version: [bPage](https://github.com/TerryZ/bPage)
 <a href="https://nodei.co/npm/v-page/"><img src="https://nodei.co/npm/v-page.png"></a>
 
 ```
-npm i v-page -S
+npm i -S v-page
 ```
 
 Include and install plugin in your `main.js` file.
@@ -26,8 +26,8 @@ Include and install plugin in your `main.js` file.
 ```js
 //add component in global scope as plugin
 import Vue from 'vue'
-import vPage from 'v-page';
-Vue.use(vPage, { global config options });
+import vPage from 'v-page'
+Vue.use(vPage, { global config options })
 ```
 
 You also can use `v-page` in local component
@@ -38,7 +38,7 @@ You also can use `v-page` in local component
 </template>
 
 <script>
-import { vPage } from 'v-page';
+import { vPage } from 'v-page'
 export default {
   components: {
     'v-page': vPage
@@ -46,7 +46,6 @@ export default {
 }
 </script>
 ```
-
 
 ## Usage
 
@@ -64,12 +63,12 @@ export default {
     }
   },
   methods:{
-    //receive page info change callback
+    // receive page info change callback
     pageChange(pInfo){
-      console.log(pInfo);//{pageNumber: 1, pageSize: 10}
+      console.log(pInfo) // {pageNumber: 1, pageSize: 10}
     }
   }
-};
+}
 </script>
 ```
 
