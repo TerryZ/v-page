@@ -24,10 +24,10 @@ npm i -S v-page
 Include and install plugin in your `main.js` file.
 
 ```js
-//add component in global scope as plugin
+// add component in global scope as plugin
 import Vue from 'vue'
-import vPage from 'v-page'
-Vue.use(vPage, { global config options })
+import Page from 'v-page'
+Vue.use(Page, { global config options })
 ```
 
 You also can use `v-page` in local component
