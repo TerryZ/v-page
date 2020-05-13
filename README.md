@@ -27,7 +27,9 @@ Include and install plugin in your `main.js` file.
 // add component in global scope as plugin
 import Vue from 'vue'
 import Page from 'v-page'
-Vue.use(Page, { global config options })
+Vue.use(Page, {
+  global config options
+})
 ```
 
 You also can use `v-page` in local component
