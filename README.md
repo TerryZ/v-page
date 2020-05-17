@@ -40,10 +40,10 @@ You also can use `v-page` in local component
 </template>
 
 <script>
-import { Page } from 'v-page'
+import { vPage } from 'v-page'
 export default {
   components: {
-    'v-page': Page
+    'v-page': vPage
   }
 }
 </script>
