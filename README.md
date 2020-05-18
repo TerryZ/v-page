@@ -58,7 +58,6 @@ export default {
 
 <script>
 export default {
-  name: 'myComponent',
   data(){
     return {
       totalRow: 100//required option
