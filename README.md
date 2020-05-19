@@ -53,7 +53,10 @@ export default {
 
 ```vue
 <template>
-  <v-page :total-row="totalRow" @page-change="pageChange"></v-page>
+  <v-page
+    :total-row="totalRow"
+    @page-change="pageChange"
+  ></v-page>
 </template>
 
 <script>
