@@ -61,15 +61,15 @@ export default {
 
 <script>
 export default {
-  data(){
+  data () {
     return {
-      totalRow: 100//required option
+      totalRow: 100 // required option
     }
   },
-  methods:{
+  methods: {
     // receive page info change callback
-    pageChange(pInfo){
-      console.log(pInfo) // {pageNumber: 1, pageSize: 10}
+    pageChange (pInfo) {
+      console.log(pInfo) // { pageNumber: 1, pageSize: 10 }
     }
   }
 }
