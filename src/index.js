@@ -1,21 +1,32 @@
-import vPage from './Page';
+import Page from './Page'
 
 const Plugin = {
-    install(Vue, options = {}){
-        if(Object.keys(options).length){
-            if(options.language) vPage.props.language.default = options.language;
-            if(options.align) vPage.props.align.default = options.align;
-            if(typeof options.info === 'boolean') vPage.props.info.default = options.info;
-            if(typeof options.border === 'boolean') vPage.props.border.default = options.border;
-            if(typeof options.pageNumber === 'boolean') vPage.props.pageNumber.default = options.pageNumber;
-            if(typeof options.first === 'boolean') vPage.props.first.default = options.first;
-            if(typeof options.last === 'boolean') vPage.props.last.default = options.last;
-            if(typeof options.pageSizeMenu !== 'undefined')
-                vPage.props.pageSizeMenu.default = options.pageSizeMenu;
-        }
-        Vue.component(vPage.name, vPage);
-    }
-};
+  install (Vue, options = {}) {
+    if (Object.keys(options).length) {
+      const props = Page.props
+      const {
+        language,
+        align,
+        info,
+        border,
+        pageNumber,
+        first,
+        last,
+        pageSizeMenu
+      } = options
 
-export {vPage};
-export default Plugin;
+      if (language) props.language.default = language
+      if (align) props.align.default = align
+      if (typeof info === 'boolean') props.info.default = info
+      if (typeof border === 'boolean') props.border.default = border
+      if (typeof pageNumber === 'boolean') props.pageNumber.default = pageNumber
+      if (typeof first === 'boolean') props.first.default = first
+      if (typeof last === 'boolean') props.last.default = last
+      if (typeof pageSizeMenu !== 'undefined') props.pageSizeMenu.default = pageSizeMenu
+    }
+    Vue.component(Page.name, Page)
+  }
+}
+
+export { Page }
+export default Plugin

@@ -1,0 +1,116 @@
+$borderRadius: 2px
+
+@mixin disabled
+  color: #999
+  cursor: default
+  &:hover
+    color: #999
+    background-color: white
+    box-shadow: none
+    z-index: auto
+
+@mixin vendor-prefix($name, $value)
+  @each $vendor in ('-webkit-', '-moz-', '-ms-', '-o-', '')
+    #{$vendor}#{$name}: #{$value}
+
+
+div.v-pagination
+  margin: 0
+  display: block
+
+  &.v-pagination--right
+    text-align: right
+  &.v-pagination--center
+    text-align: center
+  &.v-pagination--disabled
+    li
+      a
+        @include disabled
+      &.active a
+        background-color: #f6f6f6
+
+  & > ul
+    display: inline-block
+    list-style: none
+    margin: 0
+    padding: 0
+    @include vendor-prefix('box-shadow', 0 1px 2px rgba(0, 0, 0, 0.05))
+
+    & > li
+      text-align: center
+      margin: 0
+      display: inline
+
+      & > a
+        margin: 0 0 0 -1px
+        position: relative
+        border: 1px solid #DEE2E6
+        padding: 6px 12px
+        line-height: 1.43
+        box-shadow: none
+        background-color: white
+        font-size: 14px
+        display: inline-block
+        text-decoration: none
+        color: #333
+        @include vendor-prefix('transition', all .5s cubic-bezier(.175, .885, .32, 1))
+
+        &:hover
+          z-index: 2
+          @include vendor-prefix('box-shadow', 0 0 8px rgba(0, 0, 0, 0.2))
+
+      &.disabled > a,
+      &.v-pagination__list > a,
+      &.v-pagination__info > a
+        @include disabled
+
+      &.active > a
+        cursor: default
+        color: #999
+        background-color: #eee
+        &:hover
+          box-shadow: none
+          z-index: auto
+
+      &:first-child > a
+        border-left-width: 1px
+        @include vendor-prefix('border-bottom-left-radius', $borderRadius)
+        @include vendor-prefix('border-top-left-radius', $borderRadius)
+
+      &:last-child > a
+        @include vendor-prefix('border-top-right-radius', $borderRadius)
+        @include vendor-prefix('border-bottom-right-radius', $borderRadius)
+
+      &.v-pagination__list
+        select
+          margin-left: 5px
+          width: auto !important
+          font-size: 12px
+          padding: 0
+          border: 1px solid #ccc
+          color: #333
+          outline: 0
+          &:hover
+            @include vendor-prefix('box-shadow', 0 0 2px rgba(0, 0, 0, 0.2))
+
+          &[disabled]
+            color: #999
+
+  &.v-pagination--no-border
+    & > ul
+      box-shadow: none
+
+      & > li
+        &:not(.active):not(.disabled):not(.v-pagination__info):not(.v-pagination__list) a:hover
+          box-shadow: none
+          z-index: auto
+          background-color: #ddd
+
+        &.active a
+          background-color: #f6f6f6
+          color: #aaa
+
+        & > a
+          border: 0
+          &:hover
+            z-index: auto
