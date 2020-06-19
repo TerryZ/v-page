@@ -15,6 +15,14 @@ const languages = {
         next: '»',
         last: 'Last'
     },
+    de: {
+        pageLength: 'Seitenlänge ',
+        pageInfo: 'Aktuell #pageNumber# / #totalPage# （gesamt #totalRow# Aufzeichnungen）',
+        first: 'Zuerst',
+        previous: '«',
+        next: '»',
+        last: 'Letzte'
+    },
     jp: {
         pageLength: 'ページごとの記録数',
         pageInfo: '現在の第 #pageNumber# / #totalPage# ページ（全部で #totalRow# 条の記録）',
