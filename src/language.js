@@ -30,5 +30,13 @@ export default {
     previous: '«',
     next: '»',
     last: '尾のページ'
+  },
+  pt: {
+    pageLength: 'Resultados por página ',
+    pageInfo: '#pageNumber# / #totalPage# （total de #totalRow#）',
+    first: 'Início',
+    previous: '<',
+    next: '>',
+    last: 'Fim'
   }
 }
