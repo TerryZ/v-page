@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
-var isCoverage = process.env.NODE_ENV === 'coverage';
+var isCoverage = process.env.NODE_ENV === 'coverage'
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -13,11 +14,13 @@ module.exports = {
   },
   module: {
     rules: [
-      isCoverage ? {
+      isCoverage
+        ? {
           test: /\.(js|ts)/,
           include: path.resolve('src'), // instrument only testing sources with Istanbul, after ts-loader runs
           loader: 'istanbul-instrumenter-loader'
-      } : {},
+        }
+        : {},
       {
         test: /\.css$/,
         use: [
@@ -38,7 +41,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
-          'sass-loader?indentedSyntax'
+          'sass-loader'
         ],
       },
       {
@@ -57,7 +60,7 @@ module.exports = {
             'sass': [
               'vue-style-loader',
               'css-loader',
-              'sass-loader?indentedSyntax'
+              'sass-loader'
             ]
           }
           // other vue-loader options go here

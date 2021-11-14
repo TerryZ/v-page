@@ -1,6 +1,6 @@
 # [v-page](https://terryz.github.io/vue/#/page) &middot; [![circle ci](https://circleci.com/gh/TerryZ/v-page.svg?style=svg)](https://circleci.com/gh/TerryZ/v-page) [![code coverage](https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-page) [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/) [![npm download](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-A simple pagination bar, including length Menu, i18n support, based on <strong>Vue2</strong>
+A simple pagination bar, including size Menu, i18n support, based on **Vue2**
 
 <img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px">
 
@@ -17,7 +17,7 @@ The jQuery version: [bPage](https://github.com/TerryZ/bPage)
 
 <a href="https://nodei.co/npm/v-page/"><img src="https://nodei.co/npm/v-page.png"></a>
 
-```
+```sh
 npm i -S v-page
 ```
 

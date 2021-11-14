@@ -27,7 +27,7 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
-      - run: npm rebuild node-sass
+      # - run: npm rebuild node-sass
       - run: sudo npm install -g codecov
 
       - save_cache:
