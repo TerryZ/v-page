@@ -5,23 +5,26 @@ export default {
     first: '首页',
     previous: '«',
     next: '»',
-    last: '尾页'
+    last: '尾页',
+    all: '全部'
   },
   en: {
     pageLength: 'Page length ',
-    pageInfo: 'Current #pageNumber# / #totalPage# （total #totalRow# records）',
+    pageInfo: 'Current #pageNumber# / #totalPage# (total #totalRow# records)',
     first: 'First',
     previous: '«',
     next: '»',
-    last: 'Last'
+    last: 'Last',
+    all: 'All'
   },
   de: {
     pageLength: 'Seitenlänge ',
-    pageInfo: 'Aktuell #pageNumber# / #totalPage# （gesamt #totalRow# Aufzeichnungen）',
+    pageInfo: 'Aktuell #pageNumber# / #totalPage# (gesamt #totalRow# Aufzeichnungen)',
     first: 'Zuerst',
     previous: '«',
     next: '»',
-    last: 'Letzte'
+    last: 'Letzte',
+    all: 'Alle'
   },
   jp: {
     pageLength: 'ページごとの記録数',
@@ -29,14 +32,16 @@ export default {
     first: 'トップページ',
     previous: '«',
     next: '»',
-    last: '尾のページ'
+    last: '尾のページ',
+    all: 'すべて'
   },
   pt: {
     pageLength: 'Resultados por página ',
-    pageInfo: '#pageNumber# / #totalPage# （total de #totalRow#）',
+    pageInfo: '#pageNumber# / #totalPage# (total de #totalRow#)',
     first: 'Início',
     previous: '<',
     next: '>',
-    last: 'Fim'
+    last: 'Fim',
+    all: 'Todos'
   }
 }

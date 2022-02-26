@@ -50,6 +50,11 @@ export module 'v-page' {
      * whether to display last page button
      */
     last?: boolean = true
+    /**
+     * whether add `All` item in page length list
+     */
+    displayAll?: boolean = false
+
     $emit(eventName: 'input'): this
     /**
      * page change event
@@ -57,6 +62,8 @@ export module 'v-page' {
      */
     $emit(eventName: 'page-change'): this
   }
+
+  export { Page }
 
   export default Page
 }

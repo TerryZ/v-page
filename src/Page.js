@@ -1,8 +1,12 @@
 import './page.sass'
 import languages from './language'
 import {
-  FIRST, defaultPageSize, defaultPageNumberSize,
-  defaultPageSizeMenu, getPageNumberStart
+  FIRST,
+  defaultPageSize,
+  defaultPageNumberSize,
+  defaultPageSizeMenu,
+  getPageNumberStart,
+  ALL_RECORD_PAGE_SIZE
 } from './helper'
 
 export default {
@@ -13,8 +17,8 @@ export default {
     language: { type: String, default: 'cn' },
     /**
      * Page size list
-     * false: close page size menu bar
-     * array: custom page sizes menu
+     * false: close page size list
+     * array: custom page sizes list
      */
     pageSizeMenu: {
       type: [Boolean, Array],
@@ -26,13 +30,15 @@ export default {
      */
     align: { type: String, default: 'right' },
     disabled: { type: Boolean, default: false },
-    border: { type: Boolean, default: true },
+    border: { type: Boolean, default: false },
     info: { type: Boolean, default: true },
     pageNumber: { type: Boolean, default: true },
     /** first page button */
     first: { type: Boolean, default: true },
     /** last page button */
-    last: { type: Boolean, default: true }
+    last: { type: Boolean, default: true },
+    /** display all records */
+    displayAll: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -45,7 +51,10 @@ export default {
   },
   computed: {
     totalPage () {
-      return Math.ceil(this.totalRow / this.pageSize)
+      const { totalRow, pageSize } = this
+      // when display all records, the totalPage allways be 1
+      if (pageSize === ALL_RECORD_PAGE_SIZE) return FIRST
+      return Math.ceil(totalRow / pageSize)
     },
     pageNumbers () {
       const { current, pageNumberSize, totalPage } = this
@@ -64,7 +73,7 @@ export default {
     classes () {
       return {
         'v-pagination': true,
-        'v-pagination--no-border': !this.border,
+        'v-pagination--border': this.border,
         'v-pagination--right': this.align === 'right',
         'v-pagination--center': this.align === 'center',
         'v-pagination--disabled': this.disabled
@@ -83,28 +92,53 @@ export default {
     }
   },
   render (h) {
-    const { pageNumberGenerator, current, i18n, isFirst, isLast } = this
+    const { pageNumberGenerator, current, i18n, isFirst, isLast, displayAll } = this
     const items = []
     // page length list
     if (Array.isArray(this.pageSizeMenu) && this.pageSizeMenu.length) {
-      items.push(h('li', { class: 'v-pagination__list' }, [h('a', [
-        h('span', i18n.pageLength),
-        h('select', {
-          attrs: { disabled: this.disabled },
-          on: {
-            change: e => {
-              this.pageSize = Number(e.srcElement.value)
-              this.goPage()
-            }
+      const selectOption = {
+        attrs: { disabled: this.disabled },
+        on: {
+          change: e => {
+            this.pageSize = Number(e.srcElement.value)
+            this.goPage()
           }
-        }, this.pageSizeMenu.map(val => {
-          return h('option', { attrs: { value: val } }, val)
-        }))
-      ])]))
+        }
+      }
+      const options = this.pageSizeMenu.map(val => {
+        return h('option', { attrs: { value: val } }, val)
+      })
+
+      if (displayAll) {
+        options.push(h('option', { attrs: { value: ALL_RECORD_PAGE_SIZE } }, i18n.all))
+      }
+
+      const select = h('select', selectOption, options)
+      const li = h(
+        'li',
+        { class: 'v-pagination__list' },
+        [h('a', [h('span', i18n.pageLength), select])]
+      )
+      items.push(li)
     }
     // page info
     if (this.info) {
       items.push(h('li', { class: 'v-pagination__info' }, [h('a', this.pageInfo)]))
+    }
+    // scoped slot
+    if ('default' in this.$scopedSlots) {
+      const li = h('li', { class: 'v-pagination__slot' }, [
+        h('a', this.$scopedSlots.default({
+          pageNumber: current,
+          pageSize: this.pageSize,
+          totalPage: this.totalPage,
+          totalRow: this.totalRow,
+          isFirst: this.isFirst,
+          isLast: this.isLast
+        }))
+      ])
+      // build scoped slot with named slot
+      items.push(li)
     }
     // first
     if (this.first) {

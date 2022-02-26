@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
+// import page from '@/components/v-page/Page'
 import page from '@/Page'
 // import Vue from 'vue'
 
@@ -91,6 +92,66 @@ describe('v-page', function () {
     })
     it('the number of total page should be 2', () => {
       expect(wapper.vm.totalPage).to.equal(2)
+    })
+    it('`displayAll` prop set to true, page length list should add `全部` option', async () => {
+      await wapper.setProps({ displayAll: true })
+      expect(
+        wapper
+          .find('li.v-pagination__list select')
+          .find('option:last-child')
+          .text()
+      ).to.equal('全部')
+    })
+    it('switch page length to all, the `page-change` event should return { pageNumber: 1, pageSize: 0 }', () => {
+      wapper
+        .find('li.v-pagination__list select')
+        .find('option:last-child')
+        .setSelected()
+      const emitted = wapper.emitted('page-change')
+      const lastEmited = emitted[emitted.length - 1][0]
+      expect(lastEmited.pageNumber).to.equal(1)
+      expect(lastEmited.pageSize).to.equal(0)
+    })
+  })
+
+  describe('slot', () => {
+    const wapper = shallowMount(page, {
+      propsData: {
+        totalRow: 100
+      },
+      scopedSlots: {
+        default: `
+        <div>
+          <div class="slot-page-number" v-text="props.pageNumber" />
+          <div class="slot-page-size" v-text="props.pageSize" />
+          <div class="slot-total-page" v-text="props.totalPage" />
+          <div class="slot-total-row" v-text="props.totalRow" />
+          <div class="slot-is-first" v-text="props.isFirst" />
+          <div class="slot-is-last" v-text="props.isLast" />
+        </div>
+        `
+      }
+    })
+
+    it('scoped slot should output 6 page current states', () => {
+      const slot = wapper.find('li.v-pagination__slot')
+      expect(slot.find('.slot-page-number').text()).to.equal('1')
+      expect(slot.find('.slot-page-size').text()).to.equal('10')
+      expect(slot.find('.slot-total-page').text()).to.equal('10')
+      expect(slot.find('.slot-total-row').text()).to.equal('100')
+      expect(slot.find('.slot-is-first').text()).to.equal('true')
+      expect(slot.find('.slot-is-last').text()).to.equal('false')
+    })
+    it('go to last page, scoped slot states should be updated', async () => {
+      await wapper.find('li.v-pagination__last a').trigger('click')
+
+      const slot = wapper.find('li.v-pagination__slot')
+      expect(slot.find('.slot-page-number').text()).to.equal('10')
+      expect(slot.find('.slot-page-size').text()).to.equal('10')
+      expect(slot.find('.slot-total-page').text()).to.equal('10')
+      expect(slot.find('.slot-total-row').text()).to.equal('100')
+      expect(slot.find('.slot-is-first').text()).to.equal('false')
+      expect(slot.find('.slot-is-last').text()).to.equal('true')
     })
   })
 })

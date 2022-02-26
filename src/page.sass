@@ -1,117 +1,70 @@
-$borderRadius: 2px
+$border-radius: .25rem
+$color-text: #333
+$color-muted: #999
 
-@mixin disabled
-  color: #999
-  cursor: default
-  &:hover
-    color: #999
-    background-color: white
-    box-shadow: none
-    z-index: auto
-
-@mixin vendor-prefix($name, $value)
-  @each $vendor in ('-webkit-', '-moz-', '-ms-', '-o-', '')
-    #{$vendor}#{$name}: #{$value}
-
-
-div.v-pagination
-  margin: 0
-  display: block
-
-  &.v-pagination--right
-    text-align: right
-  &.v-pagination--center
-    text-align: center
-  &.v-pagination--disabled
-    li
-      a
-        @include disabled
-      &.active a
-        background-color: #f6f6f6
-
-  & > ul
-    display: inline-block
-    list-style: none
+.v-pagination
+  display: flex
+  justify-content: flex-start
+  box-sizing: border-box
+  &--right
+    justify-content: flex-end
+  &--center
+    justify-content: center
+  ul
     margin: 0
     padding: 0
-    @include vendor-prefix('box-shadow', 0 1px 2px rgba(0, 0, 0, 0.05))
-
-    & > li
-      text-align: center
-      margin: 0
-      display: inline
-
-      & > a
-        margin: 0 0 0 -1px
-        outline: none
-        position: relative
-        border: 1px solid #DEE2E6
-        padding: 6px 12px
-        line-height: 1.43
-        box-shadow: none
-        background-color: white
-        font-size: 14px
-        display: inline-block
+    display: flex
+    li
+      list-style: none
+      display: flex
+      a
+        padding: .3rem .6rem
         text-decoration: none
-        color: #333
-        @include vendor-prefix('transition', all .5s cubic-bezier(.175, .885, .32, 1))
-
-        &:hover
-          z-index: 2
-          @include vendor-prefix('box-shadow', 0 0 8px rgba(0, 0, 0, 0.2))
-
-      &.disabled > a,
-      &.v-pagination__list > a,
-      &.v-pagination__info > a
-        @include disabled
-
-      &.active > a
-        cursor: default
-        color: #999
-        background-color: #eee
-        &:hover
-          box-shadow: none
-          z-index: auto
-
-      &:first-child > a
-        border-left-width: 1px
-        @include vendor-prefix('border-bottom-left-radius', $borderRadius)
-        @include vendor-prefix('border-top-left-radius', $borderRadius)
-
-      &:last-child > a
-        @include vendor-prefix('border-top-right-radius', $borderRadius)
-        @include vendor-prefix('border-bottom-right-radius', $borderRadius)
-
-      &.v-pagination__list
-        select
-          margin-left: 5px
-          width: auto !important
-          font-size: 12px
-          padding: 0
-          border: 1px solid #ccc
-          color: #333
-          outline: 0
-          &:hover
-            @include vendor-prefix('box-shadow', 0 0 2px rgba(0, 0, 0, 0.2))
-
-          &[disabled]
-            color: #999
-
-  &.v-pagination--no-border
-    & > ul
-      box-shadow: none
-
-      & > li
-        &:not(.active):not(.disabled):not(.v-pagination__info):not(.v-pagination__list) a:hover
-          box-shadow: none
-          z-index: auto
-          background-color: #ddd
-
-        &.active a
-          background-color: #f6f6f6
+        line-height: 1.3
+        font-size: 14px
+        margin: 0
+        outline: 0
+        color: $color-text
+        border-radius: $border-radius
+      &:not(.active):not(.disabled):not(.v-pagination__list):not(.v-pagination__info):not(.v-pagination__slot) a:hover
+        background-color: #fafafa
+      &.active
+        a
+          background-color: #eee
           color: #aaa
+      &.disabled
+        a
+          color: $color-muted
+          cursor: default
+      select
+        width: auto !important
+        font-size: 12px
+        padding: 0
+        outline: 0
+        margin: 0 0 0 5px
+        border: 1px solid #ccc
+        color: $color-text
+        border-radius: 2px
+        &:hover
+          &[disabled]
+            color: $color-muted
 
-        & > a
-          border: 0
-          &:hover
-            z-index: auto
+  &#{&}--border
+    ul
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .05)
+      border-radius: $border-radius
+      li
+        &:not(:first-child) a
+          margin-left: -1px
+        a
+          border: 1px solid #DEE2E6
+          border-radius: 0
+        &:first-child > a
+          border-bottom-left-radius: $border-radius
+          border-top-left-radius: $border-radius
+        &:last-child > a
+          border-top-right-radius: $border-radius
+          border-bottom-right-radius: $border-radius
+        &.active a
+          color: $color-muted
+          background-color: #eee

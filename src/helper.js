@@ -6,6 +6,8 @@ export const defaultPageSize = 10
 
 export const defaultPageSizeMenu = [defaultPageSize, 20, 50, 100]
 
+export const ALL_RECORD_PAGE_SIZE = 0
+
 export function getPageNumberStart (current, totalPage, pageNumberSize) {
   if (totalPage <= pageNumberSize) return FIRST
 
