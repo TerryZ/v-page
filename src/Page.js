@@ -1,5 +1,6 @@
+import { h, ref, computed, watch, defineComponent, onMounted } from 'vue'
 import './page.sass'
-import languages from './language'
+import languages, { CN } from './language'
 import {
   FIRST,
   defaultPageSize,
@@ -9,12 +10,12 @@ import {
   ALL_RECORD_PAGE_SIZE
 } from './helper'
 
-export default {
+export default defineComponent({
   name: 'v-page',
   props: {
-    value: { type: Number, default: 0 },
+    modelValue: { type: Number, default: 0 },
     totalRow: { type: Number, default: 0 },
-    language: { type: String, default: 'cn' },
+    language: { type: String, default: CN },
     /**
      * Page size list
      * false: close page size list
@@ -40,167 +41,177 @@ export default {
     /** display all records */
     displayAll: { type: Boolean, default: false }
   },
-  data () {
-    return {
-      current: 0,
-      pageSize: this.pageSizeMenu === false ? defaultPageSize : this.pageSizeMenu[0],
-      pageNumberSize: defaultPageNumberSize,
-      i18n: languages[this.language] || languages.cn,
-      lastPageSize: -1
-    }
-  },
-  computed: {
-    totalPage () {
-      const { totalRow, pageSize } = this
-      // when display all records, the totalPage allways be 1
-      if (pageSize === ALL_RECORD_PAGE_SIZE) return FIRST
-      return Math.ceil(totalRow / pageSize)
-    },
-    pageNumbers () {
-      const { current, pageNumberSize, totalPage } = this
-      const start = getPageNumberStart(current, totalPage, pageNumberSize)
+  emits: ['update:modelValue', 'change'],
+  setup (props, { emit, slots, expose }) {
+    const { pageSizeMenu } = props
+    const current = ref(0)
+    const pageSize = ref(pageSizeMenu === false ? defaultPageSize : pageSizeMenu[0])
+    const pageNumberSize = ref(defaultPageNumberSize)
+    const i18n = ref(languages[props.language] || languages[CN])
+    const lastPageSize = ref(-1)
 
-      return Array.apply(null, { length: pageNumberSize })
+
+    const totalPage = computed(() => {
+      // when display all records, the totalPage always be 1
+      if (pageSize.value === ALL_RECORD_PAGE_SIZE) {
+        return FIRST
+      }
+      return Math.ceil(props.totalRow / pageSize.value)
+    })
+    const pageNumbers = computed(() => {
+      const start = getPageNumberStart(
+        current.value,
+        totalPage.value,
+        pageNumberSize.value
+      )
+      return Array.apply(null, { length: pageNumberSize.value })
         .map((val, index) => start + index)
-        .filter(val => val >= FIRST && val <= totalPage)
-    },
-    pageInfo () {
-      return this.i18n.pageInfo
-        .replace('#pageNumber#', this.current)
-        .replace('#totalPage#', this.totalPage)
-        .replace('#totalRow#', this.totalRow)
-    },
-    classes () {
+        .filter(val => val >= FIRST && val <= totalPage.value)
+    })
+    const pageInfo = computed(() => {
+      return i18n.value.pageInfo
+        .replace('#pageNumber#', current.value)
+        .replace('#totalPage#', totalPage.value)
+        .replace('#totalRow#', props.totalRow)
+    })
+    const classes = computed(() => {
       return {
         'v-pagination': true,
-        'v-pagination--border': this.border,
-        'v-pagination--right': this.align === 'right',
-        'v-pagination--center': this.align === 'center',
-        'v-pagination--disabled': this.disabled
+        'v-pagination--border': props.border,
+        'v-pagination--right': props.align === 'right',
+        'v-pagination--center': props.align === 'center',
+        'v-pagination--disabled': props.disabled
       }
-    },
-    isFirst () {
-      return this.current === FIRST
-    },
-    isLast () {
-      return this.current === this.totalPage
+    })
+    const isFirst = computed(() => current.value === FIRST)
+    const isLast = computed(() => current.value === totalPage.value)
+
+    watch(() => props.modelValue, (val) => {
+      if (typeof val === 'number' && val > 0) {
+        goPage(val, false)
+      }
+    })
+
+    function goPage (pNum = FIRST, respond = true) {
+      if (props.disabled) return
+      if (typeof pNum !== 'number') return
+      let num = pNum < FIRST ? FIRST : pNum
+      if (pNum > totalPage.value && totalPage.value > 0) {
+        num = totalPage.value
+      }
+
+      // exit when duplicate operation
+      if (num === current.value && pageSize.value === lastPageSize.value) {
+        return
+      }
+
+      current.value = num
+      // update v-model value
+      if (respond) {
+        emit('update:modelValue', current.value)
+      }
+      lastPageSize.value = pageSize.value
+      change()
     }
-  },
-  watch: {
-    value (val) {
-      if (typeof val === 'number' && val > 0) this.goPage(val, false)
+    function reload () {
+      change()
     }
-  },
-  render (h) {
-    const { pageNumberGenerator, current, i18n, isFirst, isLast, displayAll } = this
+    function change () {
+      emit('change', {
+        pageNumber: current.value,
+        pageSize: Number(pageSize.value)
+      })
+    }
+    function pageNumberGenerator (classes, num, text) {
+      const option = {
+        href: 'javascript:void(0)',
+        onClick: () => goPage(num)
+      }
+      return h('li', { class: classes }, [
+        h('a', option, text)
+      ])
+    }
+
     const items = []
     // page length list
-    if (Array.isArray(this.pageSizeMenu) && this.pageSizeMenu.length) {
+    if (Array.isArray(pageSizeMenu) && pageSizeMenu.length) {
       const selectOption = {
-        attrs: { disabled: this.disabled },
-        on: {
-          change: e => {
-            this.pageSize = Number(e.srcElement.value)
-            this.goPage()
-          }
+        disabled: props.disabled,
+        onChange: e => {
+          pageSize.value = Number(e.srcElement.value)
+          goPage()
         }
       }
-      const options = this.pageSizeMenu.map(val => {
-        return h('option', { attrs: { value: val } }, val)
-      })
+      const options = pageSizeMenu.map(val => h('option', { value: val }, val))
 
-      if (displayAll) {
-        options.push(h('option', { attrs: { value: ALL_RECORD_PAGE_SIZE } }, i18n.all))
+      if (props.displayAll) {
+        options.push(h('option', { value: ALL_RECORD_PAGE_SIZE }, i18n.value.all))
       }
 
-      const select = h('select', selectOption, options)
       const li = h(
         'li',
         { class: 'v-pagination__list' },
-        [h('a', [h('span', i18n.pageLength), select])]
+        [
+          h('a', [
+            h('span', i18n.value.pageLength),
+            h('select', selectOption, options)
+          ])
+        ]
       )
       items.push(li)
     }
     // page info
-    if (this.info) {
-      items.push(h('li', { class: 'v-pagination__info' }, [h('a', this.pageInfo)]))
+    if (props.info) {
+      items.push(h('li', { class: 'v-pagination__info' }, [h('a', pageInfo.value)]))
     }
     // scoped slot
-    if ('default' in this.$scopedSlots) {
+    if ('default' in slots) {
       const li = h('li', { class: 'v-pagination__slot' }, [
-        h('a', this.$scopedSlots.default({
-          pageNumber: current,
-          pageSize: this.pageSize,
-          totalPage: this.totalPage,
-          totalRow: this.totalRow,
-          isFirst: this.isFirst,
-          isLast: this.isLast
+        h('a', slots.default({
+          pageNumber: current.value,
+          pageSize: pageSize.value,
+          totalPage: totalPage.value,
+          totalRow: props.totalRow,
+          isFirst: isFirst.value,
+          isLast: isLast.value
         }))
       ])
       // build scoped slot with named slot
       items.push(li)
     }
     // first
-    if (this.first) {
-      const firstClass = { 'v-pagination__first': true, disabled: isFirst }
-      items.push(pageNumberGenerator(firstClass, FIRST, i18n.first))
+    if (props.first) {
+      const firstClass = { 'v-pagination__first': true, disabled: isFirst.value }
+      items.push(pageNumberGenerator(firstClass, FIRST, i18n.value.first))
     }
     // previous
-    const prevClass = { 'v-pagination__previous': true, disabled: isFirst }
-    items.push(pageNumberGenerator(prevClass, current - 1, i18n.previous))
+    const prevClass = { 'v-pagination__previous': true, disabled: isFirst.value }
+    items.push(pageNumberGenerator(prevClass, current.value - 1, i18n.value.previous))
     // page numbers
-    if (this.pageNumber) {
-      items.push(...this.pageNumbers.map(val => {
-        const numberClass = { active: val === current }
+    if (props.pageNumber) {
+      items.push(...pageNumbers.value.map(val => {
+        console.log(val === current.value)
+        const numberClass = { active: val === current.value }
         return pageNumberGenerator(numberClass, val, val)
       }))
     }
     // next
-    const nextClass = { 'v-pagination__next': true, disabled: isLast }
-    items.push(pageNumberGenerator(nextClass, current + 1, i18n.next))
+    const nextClass = { 'v-pagination__next': true, disabled: isLast.value }
+    items.push(pageNumberGenerator(nextClass, current.value + 1, i18n.value.next))
     // last
-    if (this.last) {
-      const lastClass = { 'v-pagination__last': true, disabled: isLast }
-      items.push(pageNumberGenerator(lastClass, this.totalPage, i18n.last))
+    if (props.last) {
+      const lastClass = { 'v-pagination__last': true, disabled: isLast.value }
+      items.push(pageNumberGenerator(lastClass, totalPage.value, i18n.value.last))
     }
-    return h('div', { class: this.classes }, [h('ul', items)])
-  },
-  methods: {
-    goPage (pNum = FIRST, respond = true) {
-      if (this.disabled) return
-      if (typeof pNum !== 'number') return
-      let num = pNum < FIRST ? FIRST : pNum
-      if (pNum > this.totalPage && this.totalPage > 0) num = this.totalPage
 
-      // exit when duplicate operation
-      if (num === this.current && this.pageSize === this.lastPageSize) return
+    onMounted(() => {
+      goPage(props.value || FIRST)
+    })
 
-      this.current = num
-      // update v-model value
-      if (respond) this.$emit('input', this.current)
-      this.lastPageSize = this.pageSize
-      this.change()
-    },
-    reload () {
-      this.change()
-    },
-    change () {
-      this.$emit('page-change', {
-        pageNumber: this.current,
-        pageSize: Number(this.pageSize)
-      })
-    },
-    pageNumberGenerator (classes, num, text) {
-      const option = {
-        attrs: { href: 'javascript:void(0)' },
-        on: { click: () => this.goPage(num) }
-      }
-      return this.$createElement('li', { class: classes }, [
-        this.$createElement('a', option, text)
-      ])
-    }
-  },
-  mounted () {
-    this.goPage(this.value || FIRST)
+    expose({
+      current
+    })
+
+    return () => h('div', { class: classes.value }, [h('ul', items)])
   }
-}
+})
