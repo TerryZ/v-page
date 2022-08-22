@@ -7,9 +7,10 @@ const arr = ref(Array(108)
   .map((val, index) => index + 1))
 const pageArr = ref([])
 const disabled = ref(false)
-const target = ref(1)
+const target = ref(4)
 const current = ref(3)
 const align = ref('left')
+const page = ref(null)
 
 function pagePhotoChange (pInfo) {
   // console.log(pInfo);
@@ -20,7 +21,7 @@ function pagePhotoChange (pInfo) {
   pageArr.value = arr.value.filter((val, idx) => idx >= start && idx <= end)
 }
 function go () {
-  this.$refs.page.goPage(Number(this.target))
+  page.value.goPage(Number(target.value))
 }
 function displayAllPageChange (data) {
   console.log(data)
