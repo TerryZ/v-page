@@ -42,10 +42,12 @@ export default {
     displayAll: { type: Boolean, default: false }
   },
   emits: ['update:modelValue', 'change'],
-  setup (props, { emit, slots, expose }) {
+  setup(props, { emit, slots, expose }) {
     const { pageSizeMenu, totalRow } = toRefs(props)
     const current = ref(0)
-    const pageSize = ref(pageSizeMenu.value === false ? defaultPageSize : pageSizeMenu.value[0])
+    const pageSize = ref(
+      pageSizeMenu.value === false ? defaultPageSize : pageSizeMenu.value[0]
+    )
     const pageNumberSize = ref(defaultPageNumberSize)
     const i18n = ref(languages[props.language] || languages[CN])
     const lastPageSize = ref(-1)
@@ -85,13 +87,16 @@ export default {
     const isFirst = computed(() => current.value === FIRST)
     const isLast = computed(() => current.value === totalPage.value)
 
-    watch(() => props.modelValue, (val) => {
-      if (typeof val === 'number' && val > 0) {
-        goPage(val, false)
+    watch(
+      () => props.modelValue,
+      val => {
+        if (typeof val === 'number' && val > 0) {
+          goPage(val, false)
+        }
       }
-    })
+    )
 
-    function goPage (pNum = FIRST, respond = true) {
+    function goPage(pNum = FIRST, respond = true) {
       if (props.disabled) return
       if (typeof pNum !== 'number') return
       let num = pNum < FIRST ? FIRST : pNum
@@ -112,20 +117,18 @@ export default {
       lastPageSize.value = pageSize.value
       change()
     }
-    function change () {
+    function change() {
       emit('change', {
         pageNumber: current.value,
         pageSize: Number(pageSize.value)
       })
     }
-    function pageNumberGenerator (classes, num, text) {
+    function pageNumberGenerator(classes, num, text) {
       const option = {
         href: 'javascript:void(0)',
         onClick: () => goPage(num)
       }
-      return h('li', { class: classes }, [
-        h('a', option, text)
-      ])
+      return h('li', { class: classes }, [h('a', option, text)])
     }
 
     onMounted(() => {
@@ -149,10 +152,14 @@ export default {
             goPage()
           }
         }
-        const options = pageSizeMenu.value.map(val => h('option', { value: val }, val))
+        const options = pageSizeMenu.value.map(val =>
+          h('option', { value: val }, val)
+        )
 
         if (props.displayAll) {
-          options.push(h('option', { value: ALL_RECORD_PAGE_SIZE }, i18n.value.all))
+          options.push(
+            h('option', { value: ALL_RECORD_PAGE_SIZE }, i18n.value.all)
+          )
         }
 
         const li = h('li', { class: 'v-pagination__list' }, [
@@ -165,19 +172,24 @@ export default {
       }
       // page info
       if (props.info) {
-        items.push(h('li', { class: 'v-pagination__info' }, [h('a', pageInfo.value)]))
+        items.push(
+          h('li', { class: 'v-pagination__info' }, [h('a', pageInfo.value)])
+        )
       }
       // scoped slot
       if ('default' in slots) {
         const li = h('li', { class: 'v-pagination__slot' }, [
-          h('a', slots.default({
-            pageNumber: current.value,
-            pageSize: pageSize.value,
-            totalPage: totalPage.value,
-            totalRow: totalRow.value,
-            isFirst: isFirst.value,
-            isLast: isLast.value
-          }))
+          h(
+            'a',
+            slots.default({
+              pageNumber: current.value,
+              pageSize: pageSize.value,
+              totalPage: totalPage.value,
+              totalRow: totalRow.value,
+              isFirst: isFirst.value,
+              isLast: isLast.value
+            })
+          )
         ])
         // build scoped slot with named slot
         items.push(li)
@@ -189,21 +201,29 @@ export default {
       }
       // previous
       const prevClass = ['v-pagination__previous', { disabled: isFirst.value }]
-      items.push(pageNumberGenerator(prevClass, current.value - 1, i18n.value.previous))
+      items.push(
+        pageNumberGenerator(prevClass, current.value - 1, i18n.value.previous)
+      )
       // page numbers
       if (props.pageNumber) {
-        items.push(...pageNumbers.value.map(val => {
-          const numberClass = { active: val === current.value }
-          return pageNumberGenerator(numberClass, val, val)
-        }))
+        items.push(
+          ...pageNumbers.value.map(val => {
+            const numberClass = { active: val === current.value }
+            return pageNumberGenerator(numberClass, val, val)
+          })
+        )
       }
       // next
       const nextClass = ['v-pagination__next', { disabled: isLast.value }]
-      items.push(pageNumberGenerator(nextClass, current.value + 1, i18n.value.next))
+      items.push(
+        pageNumberGenerator(nextClass, current.value + 1, i18n.value.next)
+      )
       // last
       if (props.last) {
         const lastClass = ['v-pagination__last', { disabled: isLast.value }]
-        items.push(pageNumberGenerator(lastClass, totalPage.value, i18n.value.last))
+        items.push(
+          pageNumberGenerator(lastClass, totalPage.value, i18n.value.last)
+        )
       }
       return h('div', { class: classes.value }, [h('ul', items)])
     }

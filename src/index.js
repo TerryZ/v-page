@@ -21,7 +21,8 @@ Page.install = (Vue, options = {}) => {
     if (typeof pageNumber === 'boolean') props.pageNumber.default = pageNumber
     if (typeof first === 'boolean') props.first.default = first
     if (typeof last === 'boolean') props.last.default = last
-    if (typeof pageSizeMenu !== 'undefined') props.pageSizeMenu.default = pageSizeMenu
+    if (typeof pageSizeMenu !== 'undefined')
+      props.pageSizeMenu.default = pageSizeMenu
   }
   Vue.component(Page.name, Page)
 }
