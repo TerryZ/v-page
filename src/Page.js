@@ -6,7 +6,7 @@ import {
   defaultPageSize,
   defaultPageNumberSize,
   defaultPageSizeMenu,
-  getPageNumberStart,
+  getPageNumbers,
   ALL_RECORD_PAGE_SIZE
 } from './helper'
 
@@ -60,14 +60,11 @@ export default {
       return Math.ceil(totalRow.value / pageSize.value)
     })
     const pageNumbers = computed(() => {
-      const start = getPageNumberStart(
+      return getPageNumbers(
         current.value,
         totalPage.value,
         pageNumberSize.value
       )
-      return Array.from({ length: pageNumberSize.value })
-        .map((val, index) => start + index)
-        .filter(val => val >= FIRST && val <= totalPage.value)
     })
     const pageInfo = computed(() => {
       return i18n.value.pageInfo

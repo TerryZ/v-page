@@ -1,36 +1,20 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-// import page from '@/components/v-page/Page'
 import page from '@/Page'
-// import Vue from 'vue'
+import { getPageNumbers } from '@/helper'
 
 describe('v-page', function () {
   describe('page-numbers', function () {
     it('should be [2,3,4,5,6] when current page number is 4', function () {
-      const env = {
-        totalPage: 10,
-        pageNumberSize: 5,
-        current: 4
-      }
-      const values = page.computed.pageNumbers.call(env)
+      const values = getPageNumbers(4, 10, 5)
       expect(values.sort().join('')).to.equal([2, 3, 4, 5, 6].sort().join(''))
     })
     it('should be [1,2,3,4,5] when page number is less than 1(0)', function () {
-      const env = {
-        totalPage: 10,
-        pageNumberSize: 5,
-        current: 0
-      }
-      const values = page.computed.pageNumbers.call(env)
+      const values = getPageNumbers(0, 10, 5)
       expect(values.sort().join('')).to.equal([1, 2, 3, 4, 5].sort().join(''))
     })
     it('should be [16,17,18,19,20] when page number is greater than total page number(22)', function () {
-      const env = {
-        totalPage: 20,
-        pageNumberSize: 5,
-        current: 22
-      }
-      const values = page.computed.pageNumbers.call(env)
+      const values = getPageNumbers(22, 20, 5)
       expect(values.sort().join('')).to.equal(
         [16, 17, 18, 19, 20].sort().join('')
       )
