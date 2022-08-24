@@ -42,7 +42,7 @@ export default {
     displayAll: { type: Boolean, default: false }
   },
   emits: ['update:modelValue', 'change'],
-  setup(props, { emit, slots, expose }) {
+  setup (props, { emit, slots, expose }) {
     const { pageSizeMenu, totalRow } = toRefs(props)
     const current = ref(0)
     const pageSize = ref(
@@ -96,7 +96,7 @@ export default {
       }
     )
 
-    function goPage(pNum = FIRST, respond = true) {
+    function goPage (pNum = FIRST, respond = true) {
       if (props.disabled) return
       if (typeof pNum !== 'number') return
       let num = pNum < FIRST ? FIRST : pNum
@@ -117,13 +117,13 @@ export default {
       lastPageSize.value = pageSize.value
       change()
     }
-    function change() {
+    function change () {
       emit('change', {
         pageNumber: current.value,
         pageSize: Number(pageSize.value)
       })
     }
-    function pageNumberGenerator(classes, num, text) {
+    function pageNumberGenerator (classes, num, text) {
       const option = {
         href: 'javascript:void(0)',
         onClick: () => goPage(num)
@@ -148,7 +148,7 @@ export default {
         const selectOption = {
           disabled: props.disabled,
           onChange: e => {
-            pageSize.value = Number(e.srcElement.value)
+            pageSize.value = Number(e.target.value)
             goPage()
           }
         }

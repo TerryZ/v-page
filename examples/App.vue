@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <examples-index />
-  </div>
+  <examples-index />
 </template>
 
 <script setup>
