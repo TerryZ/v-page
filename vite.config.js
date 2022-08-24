@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
-// import { defineConfig } from 'vitest/config'
+// import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
@@ -19,6 +19,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  build: {},
+  test: {
+    coverage: {
+      reporter: ['text', 'json', 'html']
     }
   }
 })
