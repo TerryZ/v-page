@@ -24,6 +24,6 @@ function getPageNumberStart (current, totalPage, pageNumberSize) {
 export function getPageNumbers (current, totalPage, pageNumberSize) {
   const start = getPageNumberStart(current, totalPage, pageNumberSize)
   return Array.from({ length: pageNumberSize })
-        .map((val, index) => start + index)
-        .filter(val => val >= FIRST && val <= totalPage)
+    .map((val, index) => start + index)
+    .filter(val => val >= FIRST && val <= totalPage)
 }

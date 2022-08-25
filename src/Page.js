@@ -134,6 +134,8 @@ export default {
 
     expose({
       current,
+      totalPage,
+      pageNumbers,
       goPage,
       reload: change
     })

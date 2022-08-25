@@ -31,9 +31,6 @@ describe('v-page', function () {
 
     it('click page number `5`, the page 5 <li> item class name should be `active`', () => {
       wrapper.findAll('a').at(8).trigger('click')
-      // console.log(wrapper.html());
-      // expect(wrapper.props('totalRow')).to.equal(100);
-      // expect(wrapper.is('div')).equal(true);
       expect(wrapper.findAll('li').at(6).classes('active')).to.equal(true)
     })
     it('the number of current page should be 5', () => {
@@ -75,7 +72,7 @@ describe('v-page', function () {
     })
     it('initialize v-page with props: { modelValue: 5, totalRow: 100 }', () => {
       expect(wrapper.vm.current).to.equal(5)
-      expect(wrapper.vm.totalRow).to.equal(100)
+      expect(wrapper.props('totalRow')).to.equal(100)
       expect(wrapper.vm.totalPage).to.equal(10)
     })
     it('switch to the third item of list(50), the number of current page should be 1', () => {
@@ -95,15 +92,15 @@ describe('v-page', function () {
           .text()
       ).to.equal('全部')
     })
-    it('switch page length to all, the `page-change` event should return { pageNumber: 1, pageSize: 0 }', () => {
+    it('switch page length to all, the `change` event should return { pageNumber: 1, pageSize: 0 }', () => {
       wrapper
         .find('li.v-pagination__list select')
         .find('option:last-child')
         .setSelected()
-      const emitted = wrapper.emitted('page-change')
-      const lastEmited = emitted[emitted.length - 1][0]
-      expect(lastEmited.pageNumber).to.equal(1)
-      expect(lastEmited.pageSize).to.equal(0)
+      const emitted = wrapper.emitted('change')
+      const lastEmitted = emitted[emitted.length - 1][0]
+      expect(lastEmitted.pageNumber).to.equal(1)
+      expect(lastEmitted.pageSize).to.equal(0)
     })
   })
 

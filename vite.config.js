@@ -5,15 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
-// export default defineConfig({
-//   build: {},
-//   test: {
-//     coverage: {
-//       reporter: ['text', 'json', 'html']
-//     }
-//   },
-//   plugins: [vue()]
-// })
 export default defineConfig({
   plugins: [vue(), vueJsx()],
   resolve: {
@@ -23,6 +14,7 @@ export default defineConfig({
   },
   build: {},
   test: {
+    environment: 'jsdom',
     coverage: {
       reporter: ['text', 'json', 'html']
     }
