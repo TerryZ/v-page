@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, toRefs, onMounted } from 'vue'
+import { h, ref, computed, watch, toRefs, onMounted, defineComponent } from 'vue'
 import './page.sass'
 import languages, { CN } from './language'
 import {
@@ -10,8 +10,8 @@ import {
   ALL_RECORD_PAGE_SIZE
 } from './helper'
 
-export default {
-  name: 'v-page',
+export default defineComponent({
+  name: 'VPage',
   props: {
     modelValue: { type: Number, default: 0 },
     totalRow: { type: Number, default: 0 },
@@ -227,4 +227,4 @@ export default {
       return h('div', { class: classes.value }, [h('ul', items)])
     }
   }
-}
+})

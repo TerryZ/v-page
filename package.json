@@ -31,6 +31,9 @@
     "page",
     "pagination"
   ],
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
   "dependencies": {
     "vue": "^3.2.37"
   },
@@ -49,13 +52,7 @@
     "sass-loader": "^13.0.2",
     "typescript": "^4.7.4",
     "vite": "^3.0.9",
+    "vite-plugin-css-injected-by-js": "^2.0.3",
     "vitest": "^0.21.0"
-  },
-  "nyc": {
-    "include": [
-      "src/Page.js"
-    ],
-    "instrument": false,
-    "sourceMap": false
   }
 }
