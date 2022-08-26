@@ -1,6 +1,6 @@
 import Page from './Page'
 
-Page.install = (Vue, options = {}) => {
+Page.install = (app, options = {}) => {
   if (Object.keys(options).length) {
     const { props } = Page
     const {
@@ -25,7 +25,7 @@ Page.install = (Vue, options = {}) => {
       props.pageSizeMenu.default = pageSizeMenu
     }
   }
-  Vue.component(Page.name, Page)
+  app.component(Page.name, Page)
 }
 
 export { Page }

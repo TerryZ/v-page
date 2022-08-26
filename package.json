@@ -3,14 +3,22 @@
   "description": "A simple pagination bar",
   "version": "3.0.0-beta.1",
   "author": "TerryZ <terry5@foxmail.com>",
-  "main": "dist/v-page.js",
+  "type": "module",
   "files": [
     "/dist",
     "/types"
   ],
+  "main": "./dist/v-page.umd.cjs",
+  "module": "./dist/v-page.js",
+  "exports": {
+    ".": {
+      "import": "./dist/v-page.js",
+      "require": "./dist/v-page.umd.cjs"
+    }
+  },
   "typings": "types/index.d.ts",
   "license": "MIT",
-  "type": "module",
+  
   "scripts": {
     "dev": "vite",
     "build": "vite build",

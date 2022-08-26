@@ -17,7 +17,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
       name: 'VPage',
-      formats: ['es'],
+      formats: ['es', 'umd'],
       fileName: 'v-page'
     },
     rollupOptions: {
