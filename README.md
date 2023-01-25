@@ -10,7 +10,7 @@ If you are using vue `2.x` version, please use [v-page 2.x](https://github.com/T
 
 Examples and documentation please visit below sites
 
-- [Github Pages](https://terryz.github.io/vue3/)
+- [Github Pages](https://terryz.github.io/vue3/page/)
 
 ## Installation
 
