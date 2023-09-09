@@ -8,16 +8,21 @@ If you are using vue `2.x` version, please use [v-page 2.x](https://github.com/T
 
 ## Examples and Documentation
 
-Examples and documentation please visit below sites
+Documentation and examples and please visit below sites
 
-- [Github Pages](https://terryz.github.io/vue3/page/)
+- [github-pages](https://terryz.github.io/docs-vue3/page/)
 
 ## Installation
 
 [![https://nodei.co/npm/v-page.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/v-page.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/v-page)
 
 ```sh
-npm i -S v-page
+# npm
+npm i v-page
+# yarn
+yarn add v-page
+# pnpm
+pnpm add v-page
 ```
 
 Include and install plugin in your `main.js` file
@@ -39,7 +44,7 @@ You also can use `v-page` in local component
 
 ```vue
 <template>
-  <page />
+  <Page />
 </template>
 
 <script setup>
