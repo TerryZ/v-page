@@ -1,22 +1,25 @@
 {
   "name": "v-page",
   "description": "A simple pagination bar",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
-    "/dist",
-    "/types"
+    "./dist",
+    "./types"
   ],
   "main": "./dist/v-page.umd.cjs",
   "module": "./dist/v-page.js",
   "exports": {
     ".": {
-      "import": "./dist/v-page.js",
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/v-page.js"
+      },
       "require": "./dist/v-page.umd.cjs"
     }
   },
-  "typings": "types/index.d.ts",
+  "typings": "./types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
