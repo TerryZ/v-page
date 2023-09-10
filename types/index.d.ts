@@ -4,7 +4,11 @@ import {
   MethodOptions,
   ComponentOptionsMixin,
   ObjectEmitsOptions,
-  SlotsType
+  SlotsType,
+  AllowedComponentProps,
+  ComponentCustomProps,
+  VNodeProps,
+  VNode
 } from 'vue'
 
 export declare interface PageInfo {
@@ -12,14 +16,33 @@ export declare interface PageInfo {
   pageSize: number
 }
 
-declare interface EmitEvents extends ObjectEmitsOptions {
+// declare interface EmitEvents extends ObjectEmitsOptions {
+//   /** Update pageNumber value */
+//   'update:modelValue': (pageNumber: number) => void
+//   /** The event respond pageNumber or pageSize change */
+//   change: (data: PageInfo) => void
+// }
+
+/** Update pageNumber value */
+declare type EmitEvents = {
   /** Update pageNumber value */
   'update:modelValue': (pageNumber: number) => void
   /** The event respond pageNumber or pageSize change */
   change: (data: PageInfo) => void
 }
 
-declare interface Slots extends SlotsType {
+declare interface PageSlotData {
+  pageNumber: number
+  pageSize: number
+  totalPage: number
+  totalRow: number
+  isFirst: boolean
+  isLast: boolean
+}
+
+// declare type Emits = 'update:modelValue' | 'change'
+
+declare type Slots = Readonly<{
   default: {
     pageNumber: number
     pageSize: number
@@ -28,7 +51,7 @@ declare interface Slots extends SlotsType {
     isFirst: boolean
     isLast: boolean
   }
-}
+}>
 
 /**
  * Pagination plugin for Vue
@@ -94,6 +117,13 @@ declare interface Props {
   displayAll?: boolean
 }
 
+declare interface Emits {
+  /** Update pageNumber value */
+  'onUpdate:modelValue'?: (pageNumber: number) => void
+  /** The event respond pageNumber or pageSize change */
+  onChange?: (data: PageInfo) => void
+}
+
 declare interface Methods extends MethodOptions {
   /** Go to the specified page */
   goPage: (pageNumber: number) => void
@@ -101,21 +131,31 @@ declare interface Methods extends MethodOptions {
   reload: () => void
 }
 
-declare const Page: DefineComponent<
-  Props,
-  {},
-  {},
-  ComputedOptions,
-  Methods,
-  ComponentOptionsMixin,
-  ComponentOptionsMixin,
-  EmitEvents,
-  '',
-  {},
-  {},
-  {},
-  Slots
->
+// declare const Page: DefineComponent<
+//   Props,
+//   {},
+//   {},
+//   ComputedOptions,
+//   Methods,
+//   ComponentOptionsMixin,
+//   ComponentOptionsMixin,
+//   EmitEvents,
+//   Emits,
+//   Props,
+//   {},
+//   {},
+//   Slots
+// >
+
+declare interface _PageI {
+  new (): {
+    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props & Emits
+    $slots: {
+      default?: (defaultSlotData: PageSlotData) => VNode[]
+    }
+  }
+}
+declare const Page: _PageI
 
 export { Page }
 
