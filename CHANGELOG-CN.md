@@ -2,6 +2,11 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.0.0-beta.4](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-10)
+
+- 更新 `.d.ts` 文档
+- 更新依赖库版本
+
 ## [3.0.0-beta.3](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2023-09-09)
 
 - 更新 package.json 的 `.d.ts` 相关设置

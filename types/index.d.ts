@@ -1,65 +1,103 @@
-import { DefineComponent, ComputedOptions, MethodOptions, ComponentOptionsMixin } from 'vue'
+import {
+  DefineComponent,
+  ComputedOptions,
+  MethodOptions,
+  ComponentOptionsMixin,
+  ObjectEmitsOptions,
+  SlotsType
+} from 'vue'
 
-type EmitEvents = 'update:modelValue' | 'change'
+export declare interface PageInfo {
+  pageNumber: number
+  pageSize: number
+}
+
+declare interface EmitEvents extends ObjectEmitsOptions {
+  /** Update pageNumber value */
+  'update:modelValue': (pageNumber: number) => void
+  /** The event respond pageNumber or pageSize change */
+  change: (data: PageInfo) => void
+}
+
+declare interface Slots extends SlotsType {
+  default: {
+    pageNumber: number
+    pageSize: number
+    totalPage: number
+    totalRow: number
+    isFirst: boolean
+    isLast: boolean
+  }
+}
 
 /**
  * Pagination plugin for Vue
  */
 declare interface Props {
   /**
-   * the number of current page
+   * The number of current page
    */
-  value: number
+  modelValue?: number
   /**
-   * the number of total record
+   * The number of total record
    */
   totalRow: number
   /**
-   * v-page language (default: `cn`)
+   * v-page language
+   * @default `cn`
    */
   language?: string
   /**
-   * page size list (default: [10, 20, 50, 100])
+   * Page size list
+   * @default [10, 20, 50, 100]
    */
   pageSizeMenu?: boolean|number[]
   /**
-   * alignment direction (default: `right`)
+   * Alignment direction
+   * @default `right`
    */
   align?: string
   /**
-   * disabled the pagination (default: false)
+   * Disabled the pagination
+   * @default false
    */
   disabled?: boolean
   /**
-   * whether to display the border (default: true)
+   * Whether to display the border
+   * @default true
    */
   border?: boolean
   /**
-   * whether to display page info bar (default: true)
+   * Whether to display page info bar
+   * @default true
    */
   info?: boolean
   /**
-   * whether to display page number buttons (default: true)
+   * Whether to display page number buttons
+   * @default true
    */
   pageNumber?: boolean
   /**
-   * whether to display first page button (default: true)
+   * Whether to display first page button
+   * @default true
    */
   first?: boolean
   /**
-   * whether to display last page button (default: true)
+   * Whether to display last page button
+   * @default true
    */
   last?: boolean
   /**
-   * whether add `All` item in page length list (default: false)
+   * Whether add `All` item in page length list
+   * @default false
    */
   displayAll?: boolean
 }
 
 declare interface Methods extends MethodOptions {
-  /** go to the specified page */
+  /** Go to the specified page */
   goPage: (pageNumber: number) => void
-  /** re-emit `change` event and output pagination states data */
+  /** Re-emit `change` event and output pagination states data */
   reload: () => void
 }
 
@@ -71,9 +109,12 @@ declare const Page: DefineComponent<
   Methods,
   ComponentOptionsMixin,
   ComponentOptionsMixin,
-  EmitEvents[],
   EmitEvents,
-  Props
+  '',
+  {},
+  {},
+  {},
+  Slots
 >
 
 export { Page }
