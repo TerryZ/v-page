@@ -82,3 +82,19 @@ function paginationChange (data) {
 }
 </script>
 ```
+
+In typescript
+
+```ts
+import { ref } from 'vue'
+import { PaginationBar } from 'v-page'
+// required TypeScript 3.8+
+import type { PageInfo } from 'v-page/types'
+
+const pageNumber = ref(3)
+const totalRow = ref(100)
+
+function paginationChange (data: PageInfo): void {
+  console.log(data) // { pageNumber: 1, pageSize: 10 }
+}
+```
