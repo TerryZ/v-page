@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Page as VPage } from '../src'
+import { PaginationBar as VPage } from '../src'
 
 const arr = Array(108)
   .fill(0)
@@ -218,7 +218,9 @@ function displayAllPageChange (data) {
     <div class="bg-white border p-3 rounded-3">
       <v-page
         :total-row="100"
+        :disabled="disabled"
         align="left"
+        language="cn"
         border
       />
     </div>

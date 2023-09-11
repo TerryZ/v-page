@@ -25,7 +25,8 @@ describe('v-page', function () {
     const wrapper = mount(page, {
       props: {
         modelValue: 3,
-        totalRow: 101
+        totalRow: 101,
+        language: 'cn'
       }
     })
 
@@ -67,7 +68,8 @@ describe('v-page', function () {
     const wrapper = mount(page, {
       props: {
         modelValue: 5,
-        totalRow: 100
+        totalRow: 100,
+        language: 'cn'
       }
     })
     it('initialize v-page with props: { modelValue: 5, totalRow: 100 }', () => {

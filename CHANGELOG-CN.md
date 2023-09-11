@@ -2,6 +2,13 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.0.0](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.4...v3.0.0) (2023-09-11)
+
+- 完善 `.d.ts` 文档 `default slot` 内容
+- 优化组件样式
+- 组件默认语言从 `cn` 修改为 `en`
+- 组件导出的模块名称从 `Page` 修改为 `PaginationBar`
+
 ## [3.0.0-beta.4](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-10)
 
 - 更新 `.d.ts` 文档

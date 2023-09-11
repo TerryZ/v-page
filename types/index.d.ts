@@ -1,10 +1,4 @@
 import {
-  DefineComponent,
-  ComputedOptions,
-  MethodOptions,
-  ComponentOptionsMixin,
-  ObjectEmitsOptions,
-  SlotsType,
   AllowedComponentProps,
   ComponentCustomProps,
   VNodeProps,
@@ -16,22 +10,7 @@ export declare interface PageInfo {
   pageSize: number
 }
 
-// declare interface EmitEvents extends ObjectEmitsOptions {
-//   /** Update pageNumber value */
-//   'update:modelValue': (pageNumber: number) => void
-//   /** The event respond pageNumber or pageSize change */
-//   change: (data: PageInfo) => void
-// }
-
-/** Update pageNumber value */
-declare type EmitEvents = {
-  /** Update pageNumber value */
-  'update:modelValue': (pageNumber: number) => void
-  /** The event respond pageNumber or pageSize change */
-  change: (data: PageInfo) => void
-}
-
-declare interface PageSlotData {
+export declare interface PageSlotData {
   pageNumber: number
   pageSize: number
   totalPage: number
@@ -39,19 +18,6 @@ declare interface PageSlotData {
   isFirst: boolean
   isLast: boolean
 }
-
-// declare type Emits = 'update:modelValue' | 'change'
-
-declare type Slots = Readonly<{
-  default: {
-    pageNumber: number
-    pageSize: number
-    totalPage: number
-    totalRow: number
-    isFirst: boolean
-    isLast: boolean
-  }
-}>
 
 /**
  * Pagination plugin for Vue
@@ -67,7 +33,7 @@ declare interface Props {
   totalRow: number
   /**
    * v-page language
-   * @default `cn`
+   * @default `en`
    */
   language?: string
   /**
@@ -124,30 +90,14 @@ declare interface Emits {
   onChange?: (data: PageInfo) => void
 }
 
-declare interface Methods extends MethodOptions {
-  /** Go to the specified page */
-  goPage: (pageNumber: number) => void
-  /** Re-emit `change` event and output pagination states data */
-  reload: () => void
-}
+// declare interface Methods extends MethodOptions {
+//   /** Go to the specified page */
+//   goPage: (pageNumber: number) => void
+//   /** Re-emit `change` event and output pagination states data */
+//   reload: () => void
+// }
 
-// declare const Page: DefineComponent<
-//   Props,
-//   {},
-//   {},
-//   ComputedOptions,
-//   Methods,
-//   ComponentOptionsMixin,
-//   ComponentOptionsMixin,
-//   EmitEvents,
-//   Emits,
-//   Props,
-//   {},
-//   {},
-//   Slots
-// >
-
-declare interface _PageI {
+declare interface PaginationBar {
   new (): {
     $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props & Emits
     $slots: {
@@ -155,8 +105,8 @@ declare interface _PageI {
     }
   }
 }
-declare const Page: _PageI
+declare const PaginationBar: PaginationBar
 
-export { Page }
+export { PaginationBar }
 
-export default Page
+export default PaginationBar

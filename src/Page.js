@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, toRefs, onMounted, defineComponent } from 'vue'
 import './page.sass'
-import languages, { CN } from './language'
+import languages, { EN } from './language'
 import {
   FIRST,
   defaultPageSize,
@@ -11,11 +11,11 @@ import {
 } from './helper'
 
 export default defineComponent({
-  name: 'VPage',
+  name: 'PaginationBar',
   props: {
     modelValue: { type: Number, default: 0 },
     totalRow: { type: Number, default: 0 },
-    language: { type: String, default: CN },
+    language: { type: String, default: EN },
     /**
      * Page size list
      * false: close page size list
@@ -49,7 +49,7 @@ export default defineComponent({
       pageSizeMenu.value === false ? defaultPageSize : pageSizeMenu.value[0]
     )
     const pageNumberSize = ref(defaultPageNumberSize)
-    const i18n = ref(languages[props.language] || languages[CN])
+    const i18n = ref(languages[props.language] || languages[EN])
     const lastPageSize = ref(-1)
 
     const totalPage = computed(() => {
@@ -162,7 +162,7 @@ export default defineComponent({
         }
 
         const li = h('li', { class: 'v-pagination__list' }, [
-          h('a', [
+          h('a', { href: 'javascript:void(0)' }, [
             h('span', i18n.value.pageLength),
             h('select', selectOption, options)
           ])
@@ -172,23 +172,23 @@ export default defineComponent({
       // page info
       if (props.info) {
         items.push(
-          h('li', { class: 'v-pagination__info' }, [h('a', pageInfo.value)])
+          h('li', { class: 'v-pagination__info' }, [
+            h('a', { href: 'javascript:void(0)' }, pageInfo.value)
+          ])
         )
       }
       // scoped slot
       if ('default' in slots) {
+        const slotData = {
+          pageNumber: current.value,
+          pageSize: pageSize.value,
+          totalPage: totalPage.value,
+          totalRow: totalRow.value,
+          isFirst: isFirst.value,
+          isLast: isLast.value
+        }
         const li = h('li', { class: 'v-pagination__slot' }, [
-          h(
-            'a',
-            slots.default({
-              pageNumber: current.value,
-              pageSize: pageSize.value,
-              totalPage: totalPage.value,
-              totalRow: totalRow.value,
-              isFirst: isFirst.value,
-              isLast: isLast.value
-            })
-          )
+          h('a', slots.default(slotData))
         ])
         // build scoped slot with named slot
         items.push(li)

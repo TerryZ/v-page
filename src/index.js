@@ -1,8 +1,8 @@
-import Page from './Page'
+import PaginationBar from './Page'
 
-Page.install = (app, options = {}) => {
+PaginationBar.install = (app, options = {}) => {
   if (Object.keys(options).length) {
-    const { props } = Page
+    const { props } = PaginationBar
     const {
       language,
       align,
@@ -25,8 +25,8 @@ Page.install = (app, options = {}) => {
       props.pageSizeMenu.default = pageSizeMenu
     }
   }
-  app.component(Page.name, Page)
+  app.component(PaginationBar.name, PaginationBar)
 }
 
-export { Page }
-export default Page
+export { PaginationBar }
+export default PaginationBar

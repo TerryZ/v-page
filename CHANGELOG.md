@@ -2,6 +2,13 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.0.0](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.4...v3.0.0) (2023-09-11)
+
+- Complete `.d.ts` document `default slot` content
+- Optimize component styles
+- The component default language is changed from `cn` to `en`
+- The module name exported by the component is changed from `Page` to `PaginationBar`
+
 ## [3.0.0-beta.4](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-10)
 
 - Update `.d.ts` document
