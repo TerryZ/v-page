@@ -83,12 +83,12 @@ declare interface Props {
   displayAll?: boolean
 }
 
-declare interface Emits {
-  /** Update pageNumber value */
-  'onUpdate:modelValue'?: (pageNumber: number) => void
-  /** The event respond pageNumber or pageSize change */
-  onChange?: (data: PageInfo) => void
-}
+// declare interface Emits {
+//   /** Update pageNumber value */
+//   'onUpdate:modelValue'?: (pageNumber: number) => void
+//   /** The event respond pageNumber or pageSize change */
+//   onChange?: (data: PageInfo) => void
+// }
 
 // declare interface Methods extends MethodOptions {
 //   /** Go to the specified page */
@@ -96,10 +96,17 @@ declare interface Emits {
 //   /** Re-emit `change` event and output pagination states data */
 //   reload: () => void
 // }
+// $emit: ((event: "update:modelValue", value: boolean) => void) & ((event: "click:close", e: MouseEvent) => void)
+
+/** Update pageNumber value */
+type EmitUpdateModelValue = (event: "update:modelValue", value: number) => void
+/** The event respond pageNumber or pageSize change */
+type EmitChange = (event: "change", value: PageInfo) => void
 
 declare interface PaginationBar {
   new (): {
-    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props & Emits
+    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props
+    $emit: EmitUpdateModelValue & EmitChange
     $slots: {
       default?: (defaultSlotData: PageSlotData) => VNode[]
     }
