@@ -1,35 +1,34 @@
-import { h, ref, computed, watch, toRefs, onMounted, defineComponent } from 'vue'
 import './page.sass'
-import languages, { EN } from './language'
+
+import { h, ref, computed, watch, toRefs, onMounted, defineComponent } from 'vue'
+
+import { getPageNumbers, getLanguages } from './helper'
+import { EN } from './language'
 import {
   FIRST,
-  defaultPageSize,
-  defaultPageNumberSize,
-  defaultPageSizeMenu,
-  getPageNumbers,
-  ALL_RECORD_PAGE_SIZE
-} from './helper'
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_SIZE_MENU,
+  DEFAULT_PAGE_NUMBER_SIZE,
+  ALL_RECORD_PAGE_SIZE,
+  ALIGN_RIGHT
+} from './constants'
 
 export default defineComponent({
   name: 'PaginationBar',
   props: {
     modelValue: { type: Number, default: 0 },
     totalRow: { type: Number, default: 0 },
+    pageSize: { type: Number, default: DEFAULT_PAGE_SIZE },
     language: { type: String, default: EN },
-    /**
-     * Page size list
-     * false: close page size list
-     * array: custom page sizes list
-     */
-    pageSizeMenu: {
-      type: [Boolean, Array],
-      default: () => defaultPageSizeMenu
-    },
     /**
      * Pagination alignment direction
      * `left`, `center` and `right`(default)
      */
-    align: { type: String, default: 'right' },
+    align: { type: String, default: ALIGN_RIGHT },
+    /** Page size list */
+    pageSizeMenu: { type: [Array], default: () => DEFAULT_PAGE_SIZE_MENU },
+    /** Display page size menu panel */
+    pageSizeOptions: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
     border: { type: Boolean, default: false },
     info: { type: Boolean, default: true },
@@ -38,74 +37,73 @@ export default defineComponent({
     first: { type: Boolean, default: true },
     /** last page button */
     last: { type: Boolean, default: true },
-    /** display all records */
-    displayAll: { type: Boolean, default: false }
+    /**
+     * Display all records
+     *
+     * will add `all` option in page size list
+     * and the page size will be 0
+     */
+    displayAll: { type: Boolean, default: false },
+    /** Hide pagination when only have one page */
+    hideOnSinglePage: { type: Boolean, default: false }
   },
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'update:pageSize', 'change'],
   setup (props, { emit, slots, expose }) {
-    const { pageSizeMenu, totalRow } = toRefs(props)
+    const { pageSizeOptions, pageSizeMenu, totalRow } = toRefs(props)
     const current = ref(0)
-    const pageSize = ref(
-      pageSizeMenu.value === false ? defaultPageSize : pageSizeMenu.value[0]
-    )
-    const pageNumberSize = ref(defaultPageNumberSize)
-    const i18n = ref(languages[props.language] || languages[EN])
     const lastPageSize = ref(-1)
+    const pageNumberSize = ref(DEFAULT_PAGE_NUMBER_SIZE)
+    const lang = getLanguages(props.language)
 
+    const sizeMenu = computed(() => (
+      Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
+        ? pageSizeMenu.value
+        : DEFAULT_PAGE_SIZE_MENU
+    ))
+    const pageSize = ref(props.pageSize || DEFAULT_PAGE_SIZE)
     const totalPage = computed(() => {
       // when display all records, the totalPage always be 1
-      if (pageSize.value === ALL_RECORD_PAGE_SIZE) {
-        return FIRST
-      }
+      if (pageSize.value === ALL_RECORD_PAGE_SIZE) return FIRST
       return Math.ceil(totalRow.value / pageSize.value)
     })
-    const pageNumbers = computed(() => {
-      return getPageNumbers(
-        current.value,
-        totalPage.value,
-        pageNumberSize.value
-      )
-    })
-    const pageInfo = computed(() => {
-      return i18n.value.pageInfo
-        .replace('#pageNumber#', current.value)
-        .replace('#totalPage#', totalPage.value)
-        .replace('#totalRow#', totalRow.value)
-    })
-    const classes = computed(() => {
-      return {
-        'v-pagination': true,
-        'v-pagination--border': props.border,
-        'v-pagination--right': props.align === 'right',
-        'v-pagination--center': props.align === 'center',
-        'v-pagination--disabled': props.disabled
-      }
-    })
+    const pageNumbers = computed(() => getPageNumbers(
+      current.value,
+      totalPage.value,
+      pageNumberSize.value
+    ))
+    const pageInfo = computed(() => lang.pageInfo
+      .replace('#pageNumber#', current.value)
+      .replace('#totalPage#', totalPage.value)
+      .replace('#totalRow#', totalRow.value)
+    )
+    const classes = computed(() => ({
+      'v-pagination': true,
+      'v-pagination--border': props.border,
+      'v-pagination--right': props.align === 'right',
+      'v-pagination--center': props.align === 'center',
+      'v-pagination--disabled': props.disabled
+    }))
     const isFirst = computed(() => current.value === FIRST)
     const isLast = computed(() => current.value === totalPage.value)
 
-    watch(
-      () => props.modelValue,
-      val => {
-        if (typeof val === 'number' && val > 0) {
-          goPage(val, false)
-        }
-      }
-    )
+    watch(() => props.modelValue, val => {
+      if (typeof val !== 'number' || val <= 0) return
+      goPage(val, false)
+    })
+    watch(() => props.pageSize, changePageSize)
 
-    function goPage (pNum = FIRST, respond = true) {
+    function goPage (pNumber = FIRST, respond = true) {
       if (props.disabled) return
-      if (typeof pNum !== 'number') return
-      let num = pNum < FIRST ? FIRST : pNum
-      if (pNum > totalPage.value && totalPage.value > 0) {
+      if (typeof pNumber !== 'number') return
+
+      let num = pNumber < FIRST ? FIRST : pNumber
+      if (pNumber > totalPage.value && totalPage.value > 0) {
         num = totalPage.value
       }
-
       // exit when duplicate operation
       if (num === current.value && pageSize.value === lastPageSize.value) {
         return
       }
-
       current.value = num
       // update v-model value
       if (respond) {
@@ -117,8 +115,17 @@ export default defineComponent({
     function change () {
       emit('change', {
         pageNumber: current.value,
-        pageSize: Number(pageSize.value)
+        pageSize: Number(pageSize.value),
+        totalPage: totalPage.value
       })
+      emit('update:pageSize', pageSize.value)
+    }
+    function changePageSize (val) {
+      if (val <= 0) return
+      if (val === pageSize.value) return
+      if (pageSize.value === val) return
+      pageSize.value = val
+      goPage()
     }
     function pageNumberGenerator (classes, num, text) {
       const option = {
@@ -133,37 +140,36 @@ export default defineComponent({
     })
 
     expose({
+      goPage,
       current,
       totalPage,
       pageNumbers,
-      goPage,
       reload: change
     })
 
     return () => {
+      if (props.hideOnSinglePage && totalPage.value <= 1) return
+
       const items = []
-      // page length list
-      if (Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length) {
+      // page size list
+      if (pageSizeOptions.value) {
         const selectOption = {
           disabled: props.disabled,
-          onChange: e => {
-            pageSize.value = Number(e.target.value)
-            goPage()
-          }
+          onChange: e => changePageSize(Number(e.target.value))
         }
-        const options = pageSizeMenu.value.map(val =>
+        const options = sizeMenu.value.map(val =>
           h('option', { value: val }, val)
         )
 
         if (props.displayAll) {
           options.push(
-            h('option', { value: ALL_RECORD_PAGE_SIZE }, i18n.value.all)
+            h('option', { value: ALL_RECORD_PAGE_SIZE }, lang.all)
           )
         }
 
         const li = h('li', { class: 'v-pagination__list' }, [
           h('a', { href: 'javascript:void(0)' }, [
-            h('span', i18n.value.pageLength),
+            h('span', lang.pageLength),
             h('select', selectOption, options)
           ])
         ])
@@ -196,12 +202,12 @@ export default defineComponent({
       // first
       if (props.first) {
         const firstClass = ['v-pagination__first', { disabled: isFirst.value }]
-        items.push(pageNumberGenerator(firstClass, FIRST, i18n.value.first))
+        items.push(pageNumberGenerator(firstClass, FIRST, lang.first))
       }
       // previous
       const prevClass = ['v-pagination__previous', { disabled: isFirst.value }]
       items.push(
-        pageNumberGenerator(prevClass, current.value - 1, i18n.value.previous)
+        pageNumberGenerator(prevClass, current.value - 1, lang.previous)
       )
       // page numbers
       if (props.pageNumber) {
@@ -215,13 +221,13 @@ export default defineComponent({
       // next
       const nextClass = ['v-pagination__next', { disabled: isLast.value }]
       items.push(
-        pageNumberGenerator(nextClass, current.value + 1, i18n.value.next)
+        pageNumberGenerator(nextClass, current.value + 1, lang.next)
       )
       // last
       if (props.last) {
         const lastClass = ['v-pagination__last', { disabled: isLast.value }]
         items.push(
-          pageNumberGenerator(lastClass, totalPage.value, i18n.value.last)
+          pageNumberGenerator(lastClass, totalPage.value, lang.last)
         )
       }
       return h('div', { class: classes.value }, [h('ul', items)])

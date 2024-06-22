@@ -10,7 +10,9 @@ const disabled = ref(false)
 const target = ref(4)
 const current = ref(3)
 const align = ref('left')
-const page = ref(null)
+const refPage = ref()
+const size = ref(0)
+const inputPageSize = ref(0)
 
 function pagePhotoChange (pInfo) {
   // console.log(pInfo);
@@ -22,9 +24,15 @@ function pagePhotoChange (pInfo) {
   pageArr.value = arr.filter((val, idx) => idx >= start && idx <= end)
 }
 function go () {
-  page.value.goPage(Number(target.value))
+  refPage.value.goPage(Number(target.value))
 }
 function displayAllPageChange (data) {
+  console.log(data)
+}
+function changePageSize () {
+  size.value = Number(inputPageSize.value)
+}
+function pageChange (data) {
   console.log(data)
 }
 </script>
@@ -63,7 +71,7 @@ function displayAllPageChange (data) {
         align="left"
         :total-row="101"
         v-model="current"
-        ref="page"
+        ref="refPage"
       />
 
       <div class="d-flex mt-2">
@@ -87,6 +95,55 @@ function displayAllPageChange (data) {
           @click="current = current + 1"
         >
           page number + 1
+        </button>
+      </div>
+    </div>
+
+    <h5 class="mt-5 mb-3">
+      自定义 page size {{ size }}
+    </h5>
+    <div class="bg-light p-3 rounded-3">
+      <v-page
+        align="left"
+        border
+        :total-row="101"
+        v-model:page-size="size"
+        @change="pageChange"
+        class="mb-3"
+        v-slot="{ pageSize }"
+      >
+        <div>
+          <div>pageSize: <span v-text="pageSize" /></div>
+        </div>
+      </v-page>
+      <v-page
+        align="left"
+        border
+        :total-row="101"
+        :page-size-options="false"
+        v-model:page-size="size"
+        @change="pageChange"
+        v-slot="{ pageSize }"
+      >
+        <div>
+          <div>pageSize: <span v-text="pageSize" /></div>
+        </div>
+      </v-page>
+
+      <div class="d-flex mt-2">
+        <div class="col-md-1 me-3">
+          <input
+            type="text"
+            class="form-control"
+            v-model="inputPageSize"
+          >
+        </div>
+        <button
+          class="btn btn-primary"
+          type="button"
+          @click="changePageSize"
+        >
+          change page size
         </button>
       </div>
     </div>
@@ -128,7 +185,7 @@ function displayAllPageChange (data) {
     <div class="bg-light p-3 rounded-3">
       <v-page
         :total-row="100"
-        :page-size-menu="false"
+        :page-size-options="false"
         align="left"
       />
     </div>
@@ -138,7 +195,7 @@ function displayAllPageChange (data) {
     </h5>
     <div class="bg-light p-3 rounded-3">
       <v-page
-        :page-size-menu="false"
+        :page-size-options="false"
         :info="false"
         align="left"
         :total-row="100"
@@ -150,7 +207,7 @@ function displayAllPageChange (data) {
     </h5>
     <div class="bg-light p-3 rounded-3">
       <v-page
-        :page-size-menu="false"
+        :page-size-options="false"
         :info="false"
         :total-row="100"
         :first="false"
@@ -164,7 +221,7 @@ function displayAllPageChange (data) {
     </h5>
     <div class="bg-light p-3 rounded-3">
       <v-page
-        :page-size-menu="false"
+        :page-size-options="false"
         :info="false"
         :total-row="100"
         :first="false"
@@ -253,6 +310,16 @@ function displayAllPageChange (data) {
         :total-row="101"
         :display-all="true"
         @change="displayAllPageChange"
+      />
+    </div>
+
+    <h5 class="mt-5 mb-3">
+      仅一页时隐藏分页栏
+    </h5>
+    <div class="p-3 rounded-3 border">
+      <v-page
+        :total-row="11"
+        hide-on-single-page
       />
     </div>
   </div>
