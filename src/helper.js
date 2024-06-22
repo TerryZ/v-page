@@ -1,12 +1,5 @@
-export const FIRST = 1
-
-export const defaultPageNumberSize = 5
-
-export const defaultPageSize = 10
-
-export const defaultPageSizeMenu = [defaultPageSize, 20, 50, 100]
-
-export const ALL_RECORD_PAGE_SIZE = 0
+import { FIRST } from './constants'
+import languages, { EN } from './language'
 
 function getPageNumberStart (current, totalPage, pageNumberSize) {
   if (totalPage <= pageNumberSize) return FIRST
@@ -26,4 +19,12 @@ export function getPageNumbers (current, totalPage, pageNumberSize) {
   return Array.from({ length: pageNumberSize })
     .map((val, index) => start + index)
     .filter(val => val >= FIRST && val <= totalPage)
+}
+
+export function getLanguages (lang = EN) {
+  const key = String(lang).toLowerCase()
+
+  if (key in languages) return languages[key]
+
+  return languages[EN]
 }
