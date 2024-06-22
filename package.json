@@ -47,27 +47,27 @@
     "pagination"
   ],
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "^3.4.0"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.4.29"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.3.3",
-    "@vitejs/plugin-vue": "^4.3.4",
-    "@vitejs/plugin-vue-jsx": "^3.0.2",
-    "@vitest/coverage-v8": "^0.34.3",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue-jsx": "^4.0.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "@vue/eslint-config-standard": "^8.0.1",
-    "@vue/test-utils": "^2.4.1",
-    "bootstrap": "^5.3.1",
+    "@vue/test-utils": "^2.4.6",
+    "bootstrap": "^5.3.3",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
-    "jsdom": "^22.1.0",
+    "jsdom": "^24.1.0",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-css-injected-by-js": "^3.3.0",
-    "vitest": "^0.34.4"
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1",
+    "vite-plugin-css-injected-by-js": "^3.5.1",
+    "vitest": "^1.6.0"
   }
 }
