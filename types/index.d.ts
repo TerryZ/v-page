@@ -46,7 +46,7 @@ declare interface Props {
    * Page size list
    * @default [10, 20, 50, 100]
    */
-  pageSizeMenu?: boolean|number[]
+  pageSizeMenu?: number[]
   /**
    * Whether to display page size list panel
    * @default true
