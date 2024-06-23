@@ -32,6 +32,11 @@ declare interface Props {
    */
   totalRow: number
   /**
+   * The number of page size
+   * @default 10
+   */
+  pageSize?: number
+  /**
    * v-page language
    * @default `en`
    */
@@ -41,6 +46,11 @@ declare interface Props {
    * @default [10, 20, 50, 100]
    */
   pageSizeMenu?: boolean|number[]
+  /**
+   * Whether to display page size list panel
+   * @default true
+   */
+  pageSizeOptions?: boolean
   /**
    * Alignment direction
    * @default `right`
@@ -81,6 +91,11 @@ declare interface Props {
    * @default false
    */
   displayAll?: boolean
+  /**
+   * Hide pagination when only have one page
+   * @default false
+   */
+  hideOnSinglePage?: boolean
 }
 
 // declare interface Emits {
