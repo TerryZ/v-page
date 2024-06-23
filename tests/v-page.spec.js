@@ -106,6 +106,48 @@ describe('v-page', function () {
     })
   })
 
+  describe('props', () => {
+    const wrapper = mount(page, {
+      props: {
+        modelValue: 5,
+        totalRow: 100,
+        align: 'center',
+        language: 'cn'
+      }
+    })
+    it('set `align` prop to `center`, pagination should align to the center', () => {
+      expect(wrapper.classes().includes('v-pagination--center')).toBeTruthy()
+    })
+    it('set `disabled` prop to true, pagination should be disabled', async () => {
+      await wrapper.setProps({ disabled: true })
+      expect(wrapper.classes().includes('v-pagination--disabled')).toBeTruthy()
+    })
+    it('set `border` prop to true, pagination should have border style', async () => {
+      await wrapper.setProps({ border: true })
+      expect(wrapper.classes().includes('v-pagination--border')).toBeTruthy()
+    })
+    it('set `pageSizeOptions` prop to false, the page size list panel should be hidden', async () => {
+      await wrapper.setProps({ pageSizeOptions: false })
+      expect(wrapper.find('li.v-pagination__list').exists()).toBeFalsy()
+    })
+    it('set `info` prop to false, the pagination information panel should be hidden', async () => {
+      await wrapper.setProps({ info: false })
+      expect(wrapper.find('li.v-pagination__info').exists()).toBeFalsy()
+    })
+    it('set `first` prop to false, the first button should be hidden', async () => {
+      await wrapper.setProps({ first: false })
+      expect(wrapper.find('li.v-pagination__first').exists()).toBeFalsy()
+    })
+    it('set `last` prop to false, the last button should be hidden', async () => {
+      await wrapper.setProps({ last: false })
+      expect(wrapper.find('li.v-pagination__last').exists()).toBeFalsy()
+    })
+    it('set `hideOnSinglePage` to true, the pagination should be hidden when the total page is 1', async () => {
+      await wrapper.setProps({ hideOnSinglePage: true, pageSize: 100 })
+      expect(wrapper.isVisible()).toBeFalsy()
+    })
+  })
+
   describe('slot', () => {
     const wrapper = mount(page, {
       props: {

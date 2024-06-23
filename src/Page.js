@@ -86,13 +86,10 @@ export default defineComponent({
     const isFirst = computed(() => current.value === FIRST)
     const isLast = computed(() => current.value === totalPage.value)
 
-    watch(() => props.modelValue, val => {
-      if (typeof val !== 'number' || val <= 0) return
-      goPage(val, false)
-    })
+    watch(() => props.modelValue, val => goPage(val))
     watch(() => props.pageSize, changePageSize)
 
-    function goPage (pNumber = FIRST, respond = true) {
+    function goPage (pNumber = FIRST) {
       if (props.disabled) return
       if (typeof pNumber !== 'number') return
 
@@ -105,10 +102,6 @@ export default defineComponent({
         return
       }
       current.value = num
-      // update v-model value
-      if (respond) {
-        emit('update:modelValue', current.value)
-      }
       lastPageSize.value = pageSize.value
       change()
     }
@@ -118,12 +111,12 @@ export default defineComponent({
         pageSize: Number(pageSize.value),
         totalPage: totalPage.value
       })
+      emit('update:modelValue', current.value)
       emit('update:pageSize', pageSize.value)
     }
     function changePageSize (val) {
-      if (val <= 0) return
+      if (val < 0) return
       if (val === pageSize.value) return
-      if (pageSize.value === val) return
       pageSize.value = val
       goPage()
     }
@@ -160,7 +153,6 @@ export default defineComponent({
         const options = sizeMenu.value.map(val =>
           h('option', { value: val }, val)
         )
-
         if (props.displayAll) {
           options.push(
             h('option', { value: ALL_RECORD_PAGE_SIZE }, lang.all)
