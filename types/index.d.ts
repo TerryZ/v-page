@@ -8,6 +8,7 @@ import {
 export declare interface PageInfo {
   pageNumber: number
   pageSize: number
+  totalPage: number
 }
 
 export declare interface PageSlotData {

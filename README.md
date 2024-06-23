@@ -47,7 +47,7 @@ app.use(PaginationBar, {
 app.mount('#app')
 ```
 
-You can also use `v-page` as a locally component
+Use `v-page` as a locally component
 
 ```vue
 <template>
@@ -70,31 +70,16 @@ import { PaginationBar } from 'v-page'
   />
 </template>
 
-<script setup>
+<script setup lang='ts'>
 import { ref } from 'vue'
 import { PaginationBar } from 'v-page'
+import type { PageInfo } from 'v-page/types'
 // set default page to 3
-const pageNumber = ref(3)
-const totalRow = ref(100)
+const pageNumber = ref<number>(3)
+const totalRow = ref<number>(100)
 // respond for pagination change
-function paginationChange (data) {
-  console.log(data) // { pageNumber: 1, pageSize: 10 }
+function paginationChange (data: PageInfo): void {
+  console.log(data) // { pageNumber: 1, pageSize: 10, totalPage: 10 }
 }
 </script>
-```
-
-In typescript
-
-```ts
-import { ref } from 'vue'
-import { PaginationBar } from 'v-page'
-// required TypeScript 3.8+
-import type { PageInfo } from 'v-page/types'
-
-const pageNumber = ref(3)
-const totalRow = ref(100)
-
-function paginationChange (data: PageInfo): void {
-  console.log(data) // { pageNumber: 1, pageSize: 10 }
-}
 ```
