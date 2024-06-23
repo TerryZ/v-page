@@ -2,6 +2,14 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.1.0](https://github.com/TerryZ/v-page/compare/v3.0.0...v3.1.0) (2024-06-23)
+
+- 新增 `pageSizeOptions` prop，用于设置是否显示页数列表
+- `pageSizeMenu` 移除 `boolean` 类型，仅作为页数列表设置项
+- 新增 `pageSize` prop，指定每页项目个数
+- 新增 `hideOnSinglePage` prop，用于设置是否在只有一页时隐藏分页栏
+- `change` 事件输出数据中新增 `totalPage` 总页数属性
+
 ## [3.0.0](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.4...v3.0.0) (2023-09-11)
 
 - 完善 `.d.ts` 文档 `default slot` 内容

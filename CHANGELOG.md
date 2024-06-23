@@ -2,6 +2,14 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.1.0](https://github.com/TerryZ/v-page/compare/v3.0.0...v3.1.0) (2024-06-23)
+
+- Add `pageSizeOptions` prop, used to show page size list
+- `pageSizeMenu` prop remove `boolean` type, only use for set page size list items
+- Add `pageSize` prop, set the item number of per page
+- Add `hideOnSinglePage` prop, hide pagination when have only one page
+- `change` event output data add `totalPage` property for the number of total pages
+
 ## [3.0.0](https://github.com/TerryZ/v-page/compare/v3.0.0-beta.4...v3.0.0) (2023-09-11)
 
 - Complete `.d.ts` document `default slot` content
