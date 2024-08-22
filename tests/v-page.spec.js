@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import page from '@/Page'
+import { PaginationBar } from '@/'
 import { getPageNumbers } from '@/helper'
 
 describe('v-page', function () {
@@ -22,7 +22,7 @@ describe('v-page', function () {
   })
 
   describe('dom operation', () => {
-    const wrapper = mount(page, {
+    const wrapper = mount(PaginationBar, {
       props: {
         modelValue: 3,
         totalRow: 101,
@@ -65,7 +65,7 @@ describe('v-page', function () {
   })
 
   describe('switch page size', () => {
-    const wrapper = mount(page, {
+    const wrapper = mount(PaginationBar, {
       props: {
         modelValue: 5,
         totalRow: 100,
@@ -107,7 +107,7 @@ describe('v-page', function () {
   })
 
   describe('props', () => {
-    const wrapper = mount(page, {
+    const wrapper = mount(PaginationBar, {
       props: {
         modelValue: 5,
         totalRow: 100,
@@ -149,7 +149,7 @@ describe('v-page', function () {
   })
 
   describe('slot', () => {
-    const wrapper = mount(page, {
+    const wrapper = mount(PaginationBar, {
       props: {
         totalRow: 100
       },
