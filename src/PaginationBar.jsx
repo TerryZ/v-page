@@ -134,9 +134,7 @@ export default defineComponent({
       )
     }
 
-    onMounted(() => {
-      goPage(props.modelValue || FIRST)
-    })
+    onMounted(() => goPage(props.modelValue || FIRST))
 
     expose({
       goPage,
