@@ -1,6 +1,6 @@
-$border-radius: .25rem
+$border-radius: .5rem
 $color-text: #333
-$color-muted: #999
+$color-muted: #ddd
 
 .v-pagination
   display: flex
@@ -14,10 +14,15 @@ $color-muted: #999
     a,
     select
       color: $color-muted !important
-  &#{&}--disabled#{&}--border
-    a,
-    a:hover
-      background-color: #fafafa
+    .v-pagination__item a
+      cursor: default
+      &:hover
+        background-color: transparent
+  &#{&}--disabled#{&}--border ul
+    background-color: #fafafa
+  &#{&}--circle:not(.v-pagination--border)
+    .v-pagination__item a
+      border-radius: 50rem
   ul
     margin: 0
     padding: 0
@@ -25,11 +30,6 @@ $color-muted: #999
     li
       list-style: none
       display: flex
-      &.v-pagination__info,
-      &.v-pagination__list
-        a
-          cursor: default
-          color: $color-text
       a
         padding: .3rem .6rem
         text-decoration: none
@@ -41,16 +41,26 @@ $color-muted: #999
         border-radius: $border-radius
         display: inline-flex
         align-items: center
-      &:not(.active):not(.disabled):not(.v-pagination__list):not(.v-pagination__info):not(.v-pagination__slot) a:hover
-        background-color: #fafafa
-      &.active
-        a
-          background-color: #eee
-          color: #aaa
+        transition: all .3s
+      &.v-pagination__info,
+      &.v-pagination__list,
+      &.active,
       &.disabled
         a
-          color: $color-muted !important
           cursor: default
+      &.v-pagination__info,
+      &.v-pagination__list
+        a
+          color: $color-text
+      &.v-pagination__item a:hover
+        background-color: #f7f7f7
+      &.active a
+        background-color: #eee !important
+        color: #aaa
+      &.disabled a
+        color: $color-muted !important
+        &:hover
+          background-color: transparent
       select
         width: auto !important
         font-size: 12px
@@ -78,5 +88,5 @@ $color-muted: #999
           border-top-right-radius: $border-radius
           border-bottom-right-radius: $border-radius
         &.active a
-          color: $color-muted
+          color: #aaa
           background-color: #eee

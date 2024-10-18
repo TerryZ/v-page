@@ -30,6 +30,8 @@ export default defineComponent({
     /** Display page size menu panel */
     pageSizeOptions: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
+    /** Circle style page number button */
+    circle: { type: Boolean, default: false },
     border: { type: Boolean, default: false },
     info: { type: Boolean, default: true },
     pageNumber: { type: Boolean, default: true },
@@ -81,7 +83,8 @@ export default defineComponent({
       'v-pagination--border': props.border,
       'v-pagination--right': props.align === 'right',
       'v-pagination--center': props.align === 'center',
-      'v-pagination--disabled': props.disabled
+      'v-pagination--disabled': props.disabled,
+      'v-pagination--circle': props.circle
     }))
     const isFirst = computed(() => current.value === FIRST)
     const isLast = computed(() => current.value === totalPage.value)
@@ -121,11 +124,14 @@ export default defineComponent({
       goPage()
     }
     function pageNumberGenerator (classes, num, text) {
-      const option = {
-        href: 'javascript:void(0)',
-        onClick: () => goPage(num)
-      }
-      return h('li', { class: classes }, [h('a', option, text)])
+      return (
+        <li class={['v-pagination__item', ...classes]}>
+          <a
+            href='javascript:void(0)'
+            onClick={() => goPage(num)}
+          >{text}</a>
+        </li>
+      )
     }
 
     onMounted(() => {
@@ -205,7 +211,7 @@ export default defineComponent({
       if (props.pageNumber) {
         items.push(
           ...pageNumbers.value.map(val => {
-            const numberClass = { active: val === current.value }
+            const numberClass = [{ active: val === current.value }]
             return pageNumberGenerator(numberClass, val, val)
           })
         )
@@ -222,7 +228,11 @@ export default defineComponent({
           pageNumberGenerator(lastClass, totalPage.value, lang.last)
         )
       }
-      return h('div', { class: classes.value }, [h('ul', items)])
+      return (
+        <div class={classes.value}>
+          <ul>{items}</ul>
+        </div>
+      )
     }
   }
 })

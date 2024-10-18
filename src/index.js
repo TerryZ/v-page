@@ -1,4 +1,4 @@
-import PaginationBar from './Page'
+import PaginationBar from './PaginationBar'
 
 PaginationBar.install = (app, options = {}) => {
   if (Object.keys(options).length) {

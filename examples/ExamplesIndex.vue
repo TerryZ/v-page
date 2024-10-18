@@ -38,7 +38,7 @@ function pageChange (data) {
 </script>
 
 <template>
-  <div class="p-5">
+  <div class="p-3">
     <section>
       <h1>v-page examples</h1>
     </section>
@@ -58,6 +58,8 @@ function pageChange (data) {
     </div>
     <div>
       <v-page
+        language="cn"
+        align="center"
         :total-row="arr.length"
         @change="pagePhotoChange"
       />
@@ -234,7 +236,7 @@ function pageChange (data) {
     <h5 class="mt-5 mb-3">
       禁用
     </h5>
-    <div class="bg-light p-3 rounded-3">
+    <div class="border p-3 rounded-3">
       <v-page
         align="left"
         :total-row="100"
@@ -270,6 +272,19 @@ function pageChange (data) {
     </div>
 
     <h5 class="mt-5 mb-3">
+      圆形按钮风格
+    </h5>
+    <div class="bg-white border p-3 rounded-3">
+      <v-page
+        :total-row="100"
+        :disabled="disabled"
+        align="left"
+        language="cn"
+        circle
+      />
+    </div>
+
+    <h5 class="mt-5 mb-3">
       边框
     </h5>
     <div class="bg-white border p-3 rounded-3">
@@ -279,16 +294,18 @@ function pageChange (data) {
         align="left"
         language="cn"
         border
+        circle
       />
     </div>
 
     <h5 class="mt-5 mb-3">
       插槽
     </h5>
-    <div class="bg-light p-3 rounded-3">
+    <div class="border p-3 rounded-3">
       <v-page
         align="left"
         :total-row="101"
+        :disabled="disabled"
         v-slot="{ pageNumber, pageSize, totalPage, totalRow, isFirst, isLast }"
       >
         <div>
