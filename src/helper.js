@@ -23,8 +23,5 @@ export function getPageNumbers (current, totalPage, pageNumberSize) {
 
 export function getLanguages (lang = EN) {
   const key = String(lang).toLowerCase()
-
-  if (key in languages) return languages[key]
-
-  return languages[EN]
+  return languages[Object.hasOwn(languages, key) ? key : EN]
 }

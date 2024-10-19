@@ -11,7 +11,7 @@ const target = ref(4)
 const current = ref(3)
 const align = ref('left')
 const refPage = ref()
-const size = ref(0)
+const size = ref(30)
 const inputPageSize = ref(0)
 
 function pagePhotoChange (pInfo) {
@@ -112,11 +112,12 @@ function pageChange (data) {
         v-model:page-size="size"
         @change="pageChange"
         class="mb-3"
-        v-slot="{ pageSize }"
       >
-        <div>
-          <div>pageSize: <span v-text="pageSize" /></div>
-        </div>
+        <template #default="{ pageSize }">
+          <div>
+            <div>pageSize: <span v-text="pageSize" /></div>
+          </div>
+        </template>
       </v-page>
       <v-page
         align="left"

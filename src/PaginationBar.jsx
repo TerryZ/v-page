@@ -1,6 +1,6 @@
 import './page.sass'
 
-import { h, ref, computed, watch, toRefs, onMounted, defineComponent } from 'vue'
+import { ref, computed, watch, toRefs, onMounted, defineComponent } from 'vue'
 
 import { getPageNumbers, getLanguages } from './helper'
 import { EN } from './language'
@@ -30,7 +30,7 @@ export default defineComponent({
     /** Display page size menu panel */
     pageSizeOptions: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
-    /** Circle style page number button */
+    /** Round style page number button */
     circle: { type: Boolean, default: false },
     border: { type: Boolean, default: false },
     info: { type: Boolean, default: true },
@@ -123,15 +123,80 @@ export default defineComponent({
       pageSize.value = val
       goPage()
     }
-    function pageNumberGenerator (classes, num, text) {
+
+    function PageSizeOptions () {
+      if (!pageSizeOptions.value) return null
+
+      const SizeOptions = () => sizeMenu.value.map(val =>
+        <option value={val}>{val}</option>
+      )
+      const DisplayAllOption = () => {
+        if (!props.displayAll) return null
+        return (
+          <option value={ALL_RECORD_PAGE_SIZE}>{lang.all}</option>
+        )
+      }
+
+      return (
+        <li class='v-pagination__list'>
+          <a href='javascript:void(0)'>
+            <span>{lang.pageLength}</span>
+            <select
+              disabled={props.disabled}
+              onChange={e => changePageSize(Number(e.target.value))}
+            >
+              <SizeOptions />
+              <DisplayAllOption />
+            </select>
+          </a>
+        </li>
+      )
+    }
+    function PageInformation () {
+      if (!props.info) return null
+      return (
+        <li class='v-pagination__info'>
+          <a href='javascript:void(0)'>{pageInfo.value}</a>
+        </li>
+      )
+    }
+    function PageSlot () {
+      if (!Object.hasOwn(slots, 'default')) return null
+      const slotData = {
+        pageNumber: current.value,
+        pageSize: pageSize.value,
+        totalPage: totalPage.value,
+        totalRow: totalRow.value,
+        isFirst: isFirst.value,
+        isLast: isLast.value
+      }
+      // build scoped slot with named slot
+      return (
+        <li class='v-pagination__slot'>
+          <a href='javascript:void(0)'>{slots.default(slotData)}</a>
+        </li>
+      )
+    }
+    function PageItem ({ classes, pageNumberValue, name, hasItem = true }) {
+      if (!hasItem) return null
       return (
         <li class={['v-pagination__item', ...classes]}>
           <a
             href='javascript:void(0)'
-            onClick={() => goPage(num)}
-          >{text}</a>
+            onClick={() => goPage(pageNumberValue)}
+          >{name}</a>
         </li>
       )
+    }
+    function PageNumberItems () {
+      if (!props.pageNumber) return null
+      return pageNumbers.value.map(val => (
+        <PageItem
+          classes={[{ active: val === current.value }]}
+          pageNumberValue={val}
+          name={val}
+        />
+      ))
     }
 
     onMounted(() => goPage(props.modelValue || FIRST))
@@ -145,90 +210,38 @@ export default defineComponent({
     })
 
     return () => {
-      if (props.hideOnSinglePage && totalPage.value <= 1) return
+      if (props.hideOnSinglePage && totalPage.value <= 1) return null
 
-      const items = []
-      // page size list
-      if (pageSizeOptions.value) {
-        const selectOption = {
-          disabled: props.disabled,
-          onChange: e => changePageSize(Number(e.target.value))
-        }
-        const options = sizeMenu.value.map(val =>
-          h('option', { value: val }, val)
-        )
-        if (props.displayAll) {
-          options.push(
-            h('option', { value: ALL_RECORD_PAGE_SIZE }, lang.all)
-          )
-        }
-
-        const li = h('li', { class: 'v-pagination__list' }, [
-          h('a', { href: 'javascript:void(0)' }, [
-            h('span', lang.pageLength),
-            h('select', selectOption, options)
-          ])
-        ])
-        items.push(li)
-      }
-      // page info
-      if (props.info) {
-        items.push(
-          h('li', { class: 'v-pagination__info' }, [
-            h('a', { href: 'javascript:void(0)' }, pageInfo.value)
-          ])
-        )
-      }
-      // scoped slot
-      if ('default' in slots) {
-        const slotData = {
-          pageNumber: current.value,
-          pageSize: pageSize.value,
-          totalPage: totalPage.value,
-          totalRow: totalRow.value,
-          isFirst: isFirst.value,
-          isLast: isLast.value
-        }
-        const li = h('li', { class: 'v-pagination__slot' }, [
-          h('a', slots.default(slotData))
-        ])
-        // build scoped slot with named slot
-        items.push(li)
-      }
-      // first
-      if (props.first) {
-        const firstClass = ['v-pagination__first', { disabled: isFirst.value }]
-        items.push(pageNumberGenerator(firstClass, FIRST, lang.first))
-      }
-      // previous
-      const prevClass = ['v-pagination__previous', { disabled: isFirst.value }]
-      items.push(
-        pageNumberGenerator(prevClass, current.value - 1, lang.previous)
-      )
-      // page numbers
-      if (props.pageNumber) {
-        items.push(
-          ...pageNumbers.value.map(val => {
-            const numberClass = [{ active: val === current.value }]
-            return pageNumberGenerator(numberClass, val, val)
-          })
-        )
-      }
-      // next
-      const nextClass = ['v-pagination__next', { disabled: isLast.value }]
-      items.push(
-        pageNumberGenerator(nextClass, current.value + 1, lang.next)
-      )
-      // last
-      if (props.last) {
-        const lastClass = ['v-pagination__last', { disabled: isLast.value }]
-        items.push(
-          pageNumberGenerator(lastClass, totalPage.value, lang.last)
-        )
-      }
       return (
         <div class={classes.value}>
-          <ul>{items}</ul>
+          <ul>
+            <PageSizeOptions />
+            <PageInformation />
+            <PageSlot />
+            <PageItem
+              classes={['v-pagination__first', { disabled: isFirst.value }]}
+              pageNumberValue={FIRST}
+              name={lang.first}
+              hasItem={props.first}
+            />
+            <PageItem
+              classes={['v-pagination__previous', { disabled: isFirst.value }]}
+              pageNumberValue={current.value - 1}
+              name={lang.previous}
+            />
+            <PageNumberItems />
+            <PageItem
+              classes={['v-pagination__next', { disabled: isLast.value }]}
+              pageNumberValue={current.value + 1}
+              name={lang.next}
+            />
+            <PageItem
+              classes={['v-pagination__last', { disabled: isLast.value }]}
+              pageNumberValue={totalPage.value}
+              name={lang.last}
+              hasItem={props.last}
+            />
+          </ul>
         </div>
       )
     }
