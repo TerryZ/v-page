@@ -15,7 +15,7 @@ $color-muted: #ddd
     select
       color: $color-muted !important
     .v-pagination__item a
-      cursor: default
+      cursor: default !important
       &:hover
         background-color: transparent
   &#{&}--disabled#{&}--border ul
@@ -41,19 +41,19 @@ $color-muted: #ddd
         border-radius: $border-radius
         display: inline-flex
         align-items: center
+        cursor: default
         transition: all .3s
-      &.v-pagination__info,
       &.v-pagination__list,
+      &.v-pagination__info
+        a
+          color: #888
       &.active,
       &.disabled
         a
-          cursor: default
-      &.v-pagination__info,
-      &.v-pagination__list
-        a
-          color: $color-text
+          cursor: default !important
       &.v-pagination__item a:hover
         background-color: #f7f7f7
+        cursor: pointer
       &.active a
         background-color: #eee !important
         color: #aaa
