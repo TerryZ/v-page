@@ -41,7 +41,7 @@ declare interface Props {
    * v-page language
    * @default `en`
    */
-  language?: string
+  language?: 'cn' | 'en' | 'de' | 'jp' | 'pt'
   /**
    * Page size list
    * @default [10, 20, 50, 100]
@@ -56,7 +56,7 @@ declare interface Props {
    * Alignment direction
    * @default `right`
    */
-  align?: string
+  align?: 'left' | 'right' | 'center'
   /**
    * Disabled the pagination
    * @default false
@@ -68,7 +68,12 @@ declare interface Props {
    */
   border?: boolean
   /**
-   * Whether to display page info bar
+   * Round style page number button
+   * @default false
+   */
+  circle?: boolean
+  /**
+   * Whether to display page information panel
    * @default true
    */
   info?: boolean
@@ -99,30 +104,17 @@ declare interface Props {
   hideOnSinglePage?: boolean
 }
 
-// declare interface Emits {
-//   /** Update pageNumber value */
-//   'onUpdate:modelValue'?: (pageNumber: number) => void
-//   /** The event respond pageNumber or pageSize change */
-//   onChange?: (data: PageInfo) => void
-// }
-
-// declare interface Methods extends MethodOptions {
-//   /** Go to the specified page */
-//   goPage: (pageNumber: number) => void
-//   /** Re-emit `change` event and output pagination states data */
-//   reload: () => void
-// }
-// $emit: ((event: "update:modelValue", value: boolean) => void) & ((event: "click:close", e: MouseEvent) => void)
-
 /** Update pageNumber value */
 type EmitUpdateModelValue = (event: "update:modelValue", value: number) => void
+/** Update pageSize value */
+type EmitUpdatePageSize = (event: "update:pageSize", value: number) => void
 /** The event respond pageNumber or pageSize change */
 type EmitChange = (event: "change", value: PageInfo) => void
 
 declare interface PaginationBar {
   new (): {
     $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props
-    $emit: EmitUpdateModelValue & EmitChange
+    $emit: EmitUpdateModelValue & EmitUpdatePageSize & EmitChange
     $slots: {
       default?: (defaultSlotData: PageSlotData) => VNode[]
     }
