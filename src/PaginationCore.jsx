@@ -12,7 +12,6 @@ import { getLanguages, getPageNumbers } from './helper'
 export function usePagination (props, emit, slots) {
   const { pageSizeOptions, pageSizeMenu, totalRow } = toRefs(props)
   const current = ref(0)
-  const lastPageSize = ref(-1)
   const pageNumberSize = ref(DEFAULT_PAGE_NUMBER_SIZE)
   const lang = getLanguages(props.language)
 
@@ -54,18 +53,21 @@ export function usePagination (props, emit, slots) {
     if (pNumber > totalPage.value && totalPage.value > 0) {
       num = totalPage.value
     }
-    // exit when duplicate operation
-    if (num === current.value && pageSize.value === lastPageSize.value) {
-      return
-    }
+    if (num === current.value) return
+
     current.value = num
-    lastPageSize.value = pageSize.value
+    emit('update:modelValue', current.value)
     change()
   }
   function changePageSize (val) {
     if (val < 0) return
     if (val === pageSize.value) return
+
     pageSize.value = val
+    emit('update:pageSize', pageSize.value)
+    if (current.value === FIRST) {
+      return change()
+    }
     changePageNumber(FIRST)
   }
   function change () {
@@ -74,8 +76,6 @@ export function usePagination (props, emit, slots) {
       pageSize: Number(pageSize.value),
       totalPage: totalPage.value
     })
-    emit('update:modelValue', current.value)
-    emit('update:pageSize', pageSize.value)
   }
 
   function PageSizeOptions () {

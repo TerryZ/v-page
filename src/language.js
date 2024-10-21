@@ -17,7 +17,7 @@ export default {
     all: '全部'
   },
   [EN]: {
-    pageLength: 'Page length',
+    pageLength: 'Per page',
     pageInfo: 'Current #pageNumber#/#totalPage# (total #totalRow# records)',
     first: 'First',
     previous: '«',
