@@ -21,8 +21,18 @@ $color-muted: #ddd
   &#{&}--disabled#{&}--border ul
     background-color: #fafafa
   &#{&}--circle:not(.v-pagination--border)
-    .v-pagination__item a
-      border-radius: 50rem
+    .v-pagination__item
+      a
+        border-radius: 50rem
+        border: 1px solid transparent
+        &:hover
+          border: 1px solid #f7f7f7
+      &.disabled a:hover
+        border: 1px solid transparent
+      &.active a
+        border: 1px solid #ddd !important
+        background-color: transparent !important
+        box-shadow: 0 1px 3px rgb(0,0,0,.1)
   ul
     margin: 0
     padding: 0
