@@ -24,7 +24,8 @@ function pagePhotoChange (pInfo) {
   pageArr.value = arr.filter((val, idx) => idx >= start && idx <= end)
 }
 function go () {
-  refPage.value.goPage(Number(target.value))
+  // refPage.value.goPage(Number(target.value))
+  current.value = Number(target.value)
 }
 function displayAllPageChange (data) {
   console.log(data)
