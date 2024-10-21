@@ -53,8 +53,6 @@ export default defineComponent({
       totalPage,
       current,
       pageNumbers,
-      goPage,
-      change,
       PageSizeOptions,
       PageInformation,
       PageSlot,
@@ -66,11 +64,9 @@ export default defineComponent({
     } = usePagination(props, emit, slots)
 
     expose({
-      goPage,
       current,
       totalPage,
-      pageNumbers,
-      reload: change
+      pageNumbers
     })
 
     return () => {

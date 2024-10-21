@@ -43,10 +43,10 @@ export function usePagination (props, emit, slots) {
   const isFirst = computed(() => current.value === FIRST)
   const isLast = computed(() => current.value === totalPage.value)
 
-  watch(() => props.modelValue, val => goPage(val))
+  watch(() => props.modelValue, changePageNumber)
   watch(() => props.pageSize, changePageSize)
 
-  function goPage (pNumber = FIRST) {
+  function changePageNumber (pNumber = FIRST) {
     if (props.disabled) return
     if (typeof pNumber !== 'number') return
 
@@ -62,6 +62,12 @@ export function usePagination (props, emit, slots) {
     lastPageSize.value = pageSize.value
     change()
   }
+  function changePageSize (val) {
+    if (val < 0) return
+    if (val === pageSize.value) return
+    pageSize.value = val
+    changePageNumber(FIRST)
+  }
   function change () {
     emit('change', {
       pageNumber: current.value,
@@ -70,12 +76,6 @@ export function usePagination (props, emit, slots) {
     })
     emit('update:modelValue', current.value)
     emit('update:pageSize', pageSize.value)
-  }
-  function changePageSize (val) {
-    if (val < 0) return
-    if (val === pageSize.value) return
-    pageSize.value = val
-    goPage()
   }
 
   function PageSizeOptions () {
@@ -141,7 +141,7 @@ export function usePagination (props, emit, slots) {
       <li class={['v-pagination__item', ...classes]}>
         <a
           href='javascript:void(0)'
-          onClick={() => goPage(pageNumberValue)}
+          onClick={() => changePageNumber(pageNumberValue)}
         >{name}</a>
       </li>
     )
@@ -195,16 +195,13 @@ export function usePagination (props, emit, slots) {
     )
   }
 
-  onMounted(() => goPage(props.modelValue || FIRST))
+  onMounted(() => changePageNumber(props.modelValue || FIRST))
 
   return {
     containerClasses,
     totalPage,
     current,
     pageNumbers,
-
-    goPage,
-    change,
 
     PageSizeOptions,
     PageInformation,

@@ -277,7 +277,7 @@ function pageChange (data) {
     </h5>
     <div class="bg-white border p-3 rounded-3">
       <v-page
-        :total-row="100"
+        :total-row="1000"
         :disabled="disabled"
         align="left"
         language="cn"
