@@ -8,8 +8,8 @@ export const [
 
 export default {
   [CN]: {
-    pageLength: '每页记录数 ',
-    pageInfo: '当前显示第 #pageNumber# / #totalPage# 页（共#totalRow#条记录）',
+    pageLength: '每页记录数',
+    pageInfo: '显示 #pageNumber#/#totalPage# 页(共#totalRow#条记录)',
     first: '首页',
     previous: '«',
     next: '»',
@@ -17,8 +17,8 @@ export default {
     all: '全部'
   },
   [EN]: {
-    pageLength: 'Page length ',
-    pageInfo: 'Current #pageNumber# / #totalPage# (total #totalRow# records)',
+    pageLength: 'Page length',
+    pageInfo: 'Current #pageNumber#/#totalPage# (total #totalRow# records)',
     first: 'First',
     previous: '«',
     next: '»',
@@ -26,8 +26,8 @@ export default {
     all: 'All'
   },
   [DE]: {
-    pageLength: 'Seitenlänge ',
-    pageInfo: 'Aktuell #pageNumber# / #totalPage# (gesamt #totalRow# Aufzeichnungen)',
+    pageLength: 'Seitenlänge',
+    pageInfo: 'Aktuell #pageNumber#/#totalPage# (gesamt #totalRow# Aufzeichnungen)',
     first: 'Zuerst',
     previous: '«',
     next: '»',
@@ -36,7 +36,7 @@ export default {
   },
   [JP]: {
     pageLength: 'ページごとの記録数',
-    pageInfo: '現在の第 #pageNumber# / #totalPage# ページ（全部で #totalRow# 条の記録）',
+    pageInfo: '現在の第 #pageNumber#/#totalPage# ページ(全部で #totalRow# 条の記録)',
     first: 'トップページ',
     previous: '«',
     next: '»',
@@ -44,8 +44,8 @@ export default {
     all: 'すべて'
   },
   [PT]: {
-    pageLength: 'Resultados por página ',
-    pageInfo: '#pageNumber# / #totalPage# (total de #totalRow#)',
+    pageLength: 'Resultados por página',
+    pageInfo: '#pageNumber#/#totalPage# (total de #totalRow#)',
     first: 'Início',
     previous: '<',
     next: '>',
