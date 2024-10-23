@@ -9,7 +9,7 @@ export const [
 export default {
   [CN]: {
     pageLength: '每页记录数',
-    pageInfo: '显示 #pageNumber#/#totalPage# 页(共#totalRow#条记录)',
+    pageInfo: '第 #pageNumber#/#totalPage# 页(共#totalRow#条记录)',
     first: '首页',
     previous: '«',
     next: '»',
@@ -18,7 +18,7 @@ export default {
   },
   [EN]: {
     pageLength: 'Per page',
-    pageInfo: 'Current #pageNumber#/#totalPage# (total #totalRow# records)',
+    pageInfo: 'Page #pageNumber#/#totalPage# (total #totalRow# records)',
     first: 'First',
     previous: '«',
     next: '»',
