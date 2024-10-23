@@ -11,7 +11,7 @@ const target = ref(4)
 const current = ref(3)
 const align = ref('left')
 const refPage = ref()
-const size = ref(30)
+const size = ref(25)
 const inputPageSize = ref(0)
 
 function pagePhotoChange (pInfo) {
@@ -105,10 +105,11 @@ function pageChange (data) {
     <h5 class="mt-5 mb-3">
       自定义 page size {{ size }}
     </h5>
-    <div class="bg-light p-3 rounded-3">
+    <div class="border p-3 rounded-3">
       <v-page
         align="left"
         border
+        display-all
         :total-row="101"
         v-model:page-size="size"
         @change="pageChange"

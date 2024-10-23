@@ -13,16 +13,22 @@ export function usePagination (props, emit, slots) {
   const { pageSizeOptions, pageSizeMenu, totalRow } = toRefs(props)
   const current = ref(0)
   const pageNumberSize = ref(DEFAULT_PAGE_NUMBER_SIZE)
+  const pageSize = ref(props.pageSize ?? DEFAULT_PAGE_SIZE)
   const lang = getLanguages(props.language)
 
-  const sizeMenu = computed(() => (
-    Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
+  const sizeList = computed(() => {
+    if (!pageSizeOptions.value) return []
+
+    const sizes = Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
       ? pageSizeMenu.value
       : DEFAULT_PAGE_SIZE_MENU
-  ))
-  const pageSize = ref(props.pageSize || DEFAULT_PAGE_SIZE)
+    const sizeSet = new Set(sizes)
+    sizeSet.add(pageSize.value)
+
+    return [...sizeSet].sort((a, b) => a - b)
+  })
   const totalPage = computed(() => {
-    // when display all records, the totalPage always be 1
+    // when display all records, the `totalPage` value always be 1
     if (pageSize.value === ALL_RECORD_PAGE_SIZE) return FIRST
     return Math.ceil(totalRow.value / pageSize.value)
   })
@@ -81,13 +87,19 @@ export function usePagination (props, emit, slots) {
   function PageSizeOptions () {
     if (!pageSizeOptions.value) return null
 
-    const SizeOptions = () => sizeMenu.value.map(val =>
-      <option value={val}>{val}</option>
+    const SizeOptions = () => sizeList.value.map(val =>
+      <option
+        value={val}
+        selected={pageSize.value === val}
+      >{val}</option>
     )
     const DisplayAllOption = () => {
       if (!props.displayAll) return null
       return (
-        <option value={ALL_RECORD_PAGE_SIZE}>{lang.all}</option>
+        <option
+          value={ALL_RECORD_PAGE_SIZE}
+          selected={pageSize.value === ALL_RECORD_PAGE_SIZE}
+        >{lang.all}</option>
       )
     }
 
