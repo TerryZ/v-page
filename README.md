@@ -73,7 +73,7 @@ import { PaginationBar } from 'v-page'
 <script setup lang='ts'>
 import { ref } from 'vue'
 import { PaginationBar } from 'v-page'
-import type { PageInfo } from 'v-page/types'
+import type { PageInfo } from 'v-page'
 // set default page to 3
 const pageNumber = ref<number>(3)
 const totalRow = ref<number>(100)
