@@ -39,11 +39,11 @@ export function usePagination (props, emit, slots) {
   ))
   const containerClasses = computed(() => ({
     'v-pagination': true,
-    'v-pagination--border': props.border,
     'v-pagination--right': props.align === 'right',
     'v-pagination--center': props.align === 'center',
     'v-pagination--disabled': props.disabled,
-    'v-pagination--circle': props.circle
+    'v-pagination--border': props.border,
+    'v-pagination--circle': !props.border && props.circle
   }))
   const isFirst = computed(() => current.value === FIRST)
   const isLast = computed(() => current.value === totalPage.value)
@@ -183,7 +183,7 @@ export function usePagination (props, emit, slots) {
       <PageItem
         classes={['v-pagination__previous', { disabled: isFirst.value }]}
         pageNumberValue={current.value - 1}
-        name={lang.previous}
+        name='«'
       />
     )
   }
@@ -192,7 +192,7 @@ export function usePagination (props, emit, slots) {
       <PageItem
         classes={['v-pagination__next', { disabled: isLast.value }]}
         pageNumberValue={current.value + 1}
-        name={lang.next}
+        name='»'
       />
     )
   }
