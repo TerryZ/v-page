@@ -47,12 +47,10 @@ export default defineComponent({
     hideOnSinglePage: { type: Boolean, default: false }
   },
   emits: ['update:modelValue', 'update:pageSize', 'change'],
-  setup (props, { emit, slots, expose }) {
+  setup (props, { emit, slots }) {
     const {
       containerClasses,
       totalPage,
-      current,
-      pageNumbers,
       PageSizeOptions,
       PageInformation,
       PageSlot,
@@ -62,12 +60,6 @@ export default defineComponent({
       NextPageItem,
       LastPageItem
     } = usePagination(props, emit, slots)
-
-    expose({
-      current,
-      totalPage,
-      pageNumbers
-    })
 
     return () => {
       if (props.hideOnSinglePage && totalPage.value <= 1) return null
