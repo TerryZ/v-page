@@ -26,27 +26,25 @@ describe('v-page', function () {
       props: {
         modelValue: 3,
         totalRow: 101,
-        language: 'cn'
+        language: 'cn',
+        border: true
       }
     })
 
-    it('click page number `5`, the page 5 <li> item class name should be `active`', () => {
-      wrapper.findAll('a').at(8).trigger('click')
+    it('分页栏应用了边框线风格', () => {
+      expect(wrapper.classes('v-pagination--border')).toBeTruthy()
+    })
+    it('click page number `5`, the page 5 <li> item class name should be `active`', async () => {
+      await wrapper.findAll('a').at(8).trigger('click')
       expect(wrapper.findAll('li').at(6).classes('active')).to.equal(true)
     })
     it('the number of current page should be 5', () => {
-      expect(wrapper.vm.current).to.equal(5)
+      expect(wrapper.emitted('update:modelValue')[1]).toEqual([5])
     })
-    it('the page numbers should be [3,4,5,6,7]', () => {
-      expect(wrapper.vm.pageNumbers.sort().join('')).to.equal(
-        [3, 4, 5, 6, 7].sort().join('')
-      )
-    })
-
-    it('click `last page` button, the number of current page should be 11', () => {
+    it('click `last page` button, the number of current page should be 11', async () => {
       // click `last page` button
-      wrapper.find('li.v-pagination__last').find('a').trigger('click')
-      expect(wrapper.vm.current).to.equal(11)
+      await wrapper.find('li.v-pagination__last').find('a').trigger('click')
+      expect(wrapper.emitted('update:modelValue')[2]).toEqual([11])
     })
     it('the `next page` and `last page` buttons should be disabled', () => {
       expect(
@@ -56,11 +54,16 @@ describe('v-page', function () {
         wrapper.find('li.v-pagination__last').classes('disabled')
       ).to.equal(true)
     })
-    it('the page info bar content should be `当前显示第 11 / 11 页（共101条记录）`', () => {
-      const expectInfoString = '当前显示第 11 / 11 页（共101条记录）'
+    it('the page info bar content should be `第 11/11 页(共101条记录)`', () => {
+      const expectInfoString = '第 11/11 页(共101条记录)'
       expect(wrapper.find('li.v-pagination__info a').text()).to.equal(
         expectInfoString
       )
+    })
+    it('设置大于总页数的页码，页码应被强制设置为总页数值', async () => {
+      await wrapper.setProps({ modelValue: 20 })
+      // 总页码没有发生变化，相应事件也应没有被触发
+      expect(wrapper.emitted('update:modelValue')).toHaveLength(3)
     })
   })
 
@@ -69,21 +72,25 @@ describe('v-page', function () {
       props: {
         modelValue: 5,
         totalRow: 100,
-        language: 'cn'
+        language: 'cn',
+        circle: true
       }
     })
+    it('分页栏应用了圆形按钮风格', () => {
+      expect(wrapper.classes('v-pagination--circle')).toBeTruthy()
+    })
     it('initialize v-page with props: { modelValue: 5, totalRow: 100 }', () => {
-      expect(wrapper.vm.current).to.equal(5)
+      expect(wrapper.emitted('update:modelValue')[0]).toEqual([5])
       expect(wrapper.props('totalRow')).to.equal(100)
-      expect(wrapper.vm.totalPage).to.equal(10)
+      expect(wrapper.emitted('change')[0]).toEqual([{ pageNumber: 5, pageSize: 10, totalPage: 10 }])
     })
     it('switch to the third item of list(50), the number of current page should be 1', () => {
       // select the third page size(50) in the dropdown menu
       wrapper.find('select').findAll('option').at(2).setSelected()
-      expect(wrapper.vm.current).to.equal(1)
+      expect(wrapper.emitted('update:modelValue')[1]).toEqual([1])
     })
     it('the number of total page should be 2', () => {
-      expect(wrapper.vm.totalPage).to.equal(2)
+      expect(wrapper.emitted('change')[1][0].totalPage).to.equal(2)
     })
     it('`displayAll` prop set to true, page length list should add `全部` option', async () => {
       await wrapper.setProps({ displayAll: true })
@@ -100,7 +107,7 @@ describe('v-page', function () {
         .find('option:last-child')
         .setSelected()
       const emitted = wrapper.emitted('change')
-      const lastEmitted = emitted[emitted.length - 1][0]
+      const lastEmitted = emitted.at(-1)[0]
       expect(lastEmitted.pageNumber).to.equal(1)
       expect(lastEmitted.pageSize).to.equal(0)
     })
@@ -151,7 +158,10 @@ describe('v-page', function () {
   describe('slot', () => {
     const wrapper = mount(PaginationBar, {
       props: {
-        totalRow: 100
+        totalRow: 100,
+        pageSize: 25,
+        border: true,
+        circle: true
       },
       slots: {
         default: `
@@ -172,8 +182,8 @@ describe('v-page', function () {
     it('scoped slot should output 6 page current states', () => {
       const slot = wrapper.find('li.v-pagination__slot')
       expect(slot.find('.slot-page-number').text()).to.equal('1')
-      expect(slot.find('.slot-page-size').text()).to.equal('10')
-      expect(slot.find('.slot-total-page').text()).to.equal('10')
+      expect(slot.find('.slot-page-size').text()).to.equal('25')
+      expect(slot.find('.slot-total-page').text()).to.equal('4')
       expect(slot.find('.slot-total-row').text()).to.equal('100')
       expect(slot.find('.slot-is-first').text()).to.equal('true')
       expect(slot.find('.slot-is-last').text()).to.equal('false')
@@ -182,12 +192,19 @@ describe('v-page', function () {
       await wrapper.find('li.v-pagination__last a').trigger('click')
 
       const slot = wrapper.find('li.v-pagination__slot')
-      expect(slot.find('.slot-page-number').text()).to.equal('10')
-      expect(slot.find('.slot-page-size').text()).to.equal('10')
-      expect(slot.find('.slot-total-page').text()).to.equal('10')
+      expect(slot.find('.slot-page-number').text()).to.equal('4')
+      expect(slot.find('.slot-page-size').text()).to.equal('25')
+      expect(slot.find('.slot-total-page').text()).to.equal('4')
       expect(slot.find('.slot-total-row').text()).to.equal('100')
       expect(slot.find('.slot-is-first').text()).to.equal('false')
       expect(slot.find('.slot-is-last').text()).to.equal('true')
+    })
+    it('同时启用了圆形按钮风格与边框线样式时，应只有边框线样式生效', () => {
+      expect(wrapper.classes().includes('v-pagination--border')).toBeTruthy()
+      expect(wrapper.classes().includes('v-pagination--circle')).toBeFalsy()
+    })
+    it('每页记录数列表当前选中项目应为 `25`', () => {
+      expect(wrapper.find('.v-pagination__list select').element.value).toBe('25')
     })
   })
 })
