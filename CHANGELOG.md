@@ -2,6 +2,14 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.2.0](https://github.com/TerryZ/v-page/compare/v3.1.0...v3.2.0) (2024-10-24)
+
+- Added `circle` prop to set whether to apply round button style
+- Added `pageSize` value to the number of records per page list
+- Automatically select an item in the number of records per page list when it matches the `pageSize` value
+- Streamlined multilingual text content
+- Removed exposed data items and functions
+
 ## [3.1.0](https://github.com/TerryZ/v-page/compare/v3.0.0...v3.1.0) (2024-06-23)
 
 - Add `pageSizeOptions` prop, used to show page size list

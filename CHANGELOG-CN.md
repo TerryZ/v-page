@@ -2,6 +2,14 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.2.0](https://github.com/TerryZ/v-page/compare/v3.1.0...v3.2.0) (2024-10-24)
+
+- 新增 `circle` prop，用于设置是否应用圆形按钮样式
+- `pageSize` 值添加至每页记录数列表
+- 每页记录数列表中的项目匹配 `pageSize` 值时，自动选中该项目
+- 精简多语言文本内容
+- 移除暴露的数据项与函数
+
 ## [3.1.0](https://github.com/TerryZ/v-page/compare/v3.0.0...v3.1.0) (2024-06-23)
 
 - 新增 `pageSizeOptions` prop，用于设置是否显示页数列表
