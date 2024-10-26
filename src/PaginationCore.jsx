@@ -19,13 +19,17 @@ export function usePagination (props, emit, slots) {
   const sizeList = computed(() => {
     if (!pageSizeOptions.value) return []
 
-    const sizes = Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
-      ? pageSizeMenu.value
-      : DEFAULT_PAGE_SIZE_MENU
-    const sizeSet = new Set(sizes)
-    sizeSet.add(pageSize.value)
+    const sizes = Array.from(
+      Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
+        ? pageSizeMenu.value
+        : DEFAULT_PAGE_SIZE_MENU
+    )
+    // filter duplicate items
+    if (pageSize.value !== 0 && !sizes.includes(pageSize.value)) { // display all
+      sizes.push(pageSize.value)
+    }
 
-    return [...sizeSet].sort((a, b) => a - b)
+    return sizes.sort((a, b) => a - b)
   })
   const totalPage = computed(() => {
     // when display all records, the `totalPage` value always be 1
@@ -66,6 +70,7 @@ export function usePagination (props, emit, slots) {
     change()
   }
   function changePageSize (val) {
+    if (typeof val !== 'number') return
     if (val < 0) return
     if (val === pageSize.value) return
 
@@ -84,11 +89,15 @@ export function usePagination (props, emit, slots) {
     })
   }
 
+  function Link (props, { slots }) {
+    return <a href='javascript:void(0)'>{slots?.default?.()}</a>
+  }
   function PageSizeOptions () {
     if (!pageSizeOptions.value) return null
 
     const SizeOptions = () => sizeList.value.map(val =>
       <option
+        key={val}
         value={val}
         selected={pageSize.value === val}
       >{val}</option>
@@ -105,7 +114,7 @@ export function usePagination (props, emit, slots) {
 
     return (
       <li class='v-pagination__list'>
-        <a href='javascript:void(0)'>
+        <Link>
           <span>{lang.pageLength}</span>
           <select
             disabled={props.disabled}
@@ -114,7 +123,7 @@ export function usePagination (props, emit, slots) {
             <SizeOptions />
             <DisplayAllOption />
           </select>
-        </a>
+        </Link>
       </li>
     )
   }
@@ -126,7 +135,7 @@ export function usePagination (props, emit, slots) {
       .replace('#totalRow#', totalRow.value)
     return (
       <li class='v-pagination__info'>
-        <a href='javascript:void(0)'>{content}</a>
+        <Link>{content}</Link>
       </li>
     )
   }
@@ -143,7 +152,7 @@ export function usePagination (props, emit, slots) {
     // build scoped slot with named slot
     return (
       <li class='v-pagination__slot'>
-        <a href='javascript:void(0)'>{slots.default(slotData)}</a>
+        <Link>{slots.default(slotData)}</Link>
       </li>
     )
   }
@@ -151,10 +160,9 @@ export function usePagination (props, emit, slots) {
     if (!hasItem) return null
     return (
       <li class={['v-pagination__item', ...classes]}>
-        <a
-          href='javascript:void(0)'
-          onClick={() => changePageNumber(pageNumberValue)}
-        >{name}</a>
+        <Link onClick={() => changePageNumber(pageNumberValue)} >
+          {name}
+        </Link>
       </li>
     )
   }
@@ -162,6 +170,7 @@ export function usePagination (props, emit, slots) {
     if (!props.pageNumber) return null
     return pageNumbers.value.map(val => (
       <PageItem
+        key={val}
         classes={[{ active: val === current.value }]}
         pageNumberValue={val}
         name={val}

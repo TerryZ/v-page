@@ -12,7 +12,7 @@ const current = ref(3)
 const align = ref('left')
 const refPage = ref()
 const size = ref(25)
-const inputPageSize = ref(0)
+const inputPageSize = ref(15)
 
 function pagePhotoChange (pInfo) {
   // console.log(pInfo);
@@ -30,8 +30,8 @@ function go () {
 function displayAllPageChange (data) {
   console.log(data)
 }
-function changePageSize () {
-  size.value = Number(inputPageSize.value)
+function changePageSize (val) {
+  size.value = Number(typeof val === 'number' ? val : inputPageSize.value)
 }
 function pageChange (data) {
   console.log(data)
@@ -144,11 +144,18 @@ function pageChange (data) {
           >
         </div>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary me-3"
           type="button"
           @click="changePageSize"
         >
           change page size
+        </button>
+        <button
+          class="btn btn-primary"
+          type="button"
+          @click="changePageSize(15)"
+        >
+          set page size to 15
         </button>
       </div>
     </div>
