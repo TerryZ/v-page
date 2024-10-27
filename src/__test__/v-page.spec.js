@@ -113,6 +113,41 @@ describe('v-page', function () {
     })
   })
 
+  describe('每页记录数列表与 `pageSize` 联动应用', () => {
+    const wrapper = mount(PaginationBar, {
+      props: {
+        totalRow: 100,
+        language: 'cn',
+        pageSize: 25
+      }
+    })
+    it('每页记录数列表中应包含 `25` 选项，且该项目应被选中', () => {
+      expect(wrapper.find('select').element.value).toBe('25')
+      expect(wrapper.find('select option:checked').text()).toBe('25')
+    })
+    it('在记录数列表中选择 `50` 选项，每页记录数应被设置为 `50`', async () => {
+      await wrapper.find('select').setValue('50')
+      expect(wrapper.find('select').element.value).toBe('50')
+      expect(wrapper.find('select option:checked').text()).toBe('50')
+    })
+    it('列表中应不再存在 `25` 的项目', () => {
+      expect(wrapper.find('select option[value="25"]').exists()).toBeFalsy()
+    })
+    it('设置 `pageSize` prop 为 `15`，应在列表中添加该项目并选中', async () => {
+      await wrapper.setProps({ pageSize: 15 })
+      expect(wrapper.find('select').element.value).toBe('15')
+      expect(wrapper.find('select option:checked').text()).toBe('15')
+    })
+    it('在记录数列表中选择 `20` 选项，每页记录数应被设置为 `20`', async () => {
+      await wrapper.find('select').setValue('20')
+      expect(wrapper.find('select').element.value).toBe('20')
+      expect(wrapper.find('select option:checked').text()).toBe('20')
+    })
+    it('列表中应不再存在 `15` 的项目', () => {
+      expect(wrapper.find('select option[value="15"]').exists()).toBeFalsy()
+    })
+  })
+
   describe('props', () => {
     const wrapper = mount(PaginationBar, {
       props: {
