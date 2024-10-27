@@ -39,7 +39,7 @@ function pageChange (data) {
 </script>
 
 <template>
-  <div class="p-3">
+  <div class="p-3 page-demo">
     <section>
       <h1>v-page examples</h1>
     </section>
@@ -253,31 +253,36 @@ function pageChange (data) {
         :disabled="disabled"
       />
 
-      <hr>
-
-      <div>
-        <div
-          class="btn-group mt-2"
-          role="group"
-          aria-label="..."
+      <div
+        class="btn-group mt-3"
+        role="group"
+        aria-label="Basic radio toggle button group"
+      >
+        <input
+          type="radio"
+          class="btn-check"
+          id="radio-enabled"
+          autocomplete="off"
+          v-model="disabled"
+          :value="false"
         >
-          <button
-            type="button"
-            class="btn btn-outline-dark"
-            :disabled="!disabled"
-            @click="disabled = false"
-          >
-            Enabled
-          </button>
-          <button
-            type="button"
-            class="btn btn-danger"
-            :disabled="disabled"
-            @click="disabled = true"
-          >
-            Disabled
-          </button>
-        </div>
+        <label
+          class="btn btn-outline-primary"
+          for="radio-enabled"
+        >Enabled</label>
+
+        <input
+          type="radio"
+          class="btn-check"
+          id="radio-disabled"
+          autocomplete="off"
+          v-model="disabled"
+          :value="true"
+        >
+        <label
+          class="btn btn-outline-primary"
+          for="radio-disabled"
+        >Disabled</label>
       </div>
     </div>
 
@@ -286,7 +291,7 @@ function pageChange (data) {
     </h5>
     <div class="bg-white border p-3 rounded-3">
       <v-page
-        :total-row="1000"
+        :total-row="1500"
         :disabled="disabled"
         align="left"
         language="cn"
@@ -351,3 +356,11 @@ function pageChange (data) {
     </div>
   </div>
 </template>
+
+<style lang="sass">
+.page-demo
+  a
+    color: blue
+    &:hover
+      color: red
+</style>

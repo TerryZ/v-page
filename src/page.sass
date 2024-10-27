@@ -25,6 +25,12 @@ $color-muted: #ddd
       a
         border-radius: 50rem
         border: 1px solid transparent
+        min-height: 30px
+        min-width: 30px
+        padding: 0 .6rem
+        display: flex
+        align-items: center
+        justify-content: center
         &:hover
           border: 1px solid #f7f7f7
       &.disabled a:hover
@@ -52,7 +58,7 @@ $color-muted: #ddd
         display: inline-flex
         align-items: center
         cursor: default
-        transition: all .3s
+        // transition: all .3s
       &.v-pagination__list,
       &.v-pagination__info
         a
@@ -63,10 +69,13 @@ $color-muted: #ddd
           cursor: default !important
       &.v-pagination__item a:hover
         background-color: #f7f7f7
+        color: black
         cursor: pointer
       &.active a
         background-color: #eee !important
         color: #aaa
+        &:hover
+          color: #aaa
       &.disabled a
         color: $color-muted !important
         &:hover
