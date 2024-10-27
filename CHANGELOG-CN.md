@@ -2,6 +2,14 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.2.1](https://github.com/TerryZ/v-page/compare/v3.2.0...v3.2.1) (2024-10-27)
+
+### 问题修复
+
+- 每页记录数列表变更选中项目，有概率出现选中项目与 `pageSize` 值不一致
+- 圆形按钮问题修正
+- 样式避免被污染
+
 ## [3.2.0](https://github.com/TerryZ/v-page/compare/v3.1.0...v3.2.0) (2024-10-24)
 
 - 新增 `circle` prop，用于设置是否应用圆形按钮样式

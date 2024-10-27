@@ -2,6 +2,14 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.2.1](https://github.com/TerryZ/v-page/compare/v3.2.0...v3.2.1) (2024-10-27)
+
+### Bug Fixes
+
+- When changing the selected item in the list of records per page, there is a chance that the selected item will be inconsistent with the `pageSize` value
+- Fixed round page number button style issue
+- Avoid component style contamination
+
 ## [3.2.0](https://github.com/TerryZ/v-page/compare/v3.1.0...v3.2.0) (2024-10-24)
 
 - Added `circle` prop to set whether to apply round button style
