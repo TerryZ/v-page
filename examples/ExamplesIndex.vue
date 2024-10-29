@@ -13,6 +13,7 @@ const align = ref('left')
 const refPage = ref()
 const size = ref(25)
 const inputPageSize = ref(15)
+const pageSizeCurrent = ref(3)
 
 function pagePhotoChange (pInfo) {
   // console.log(pInfo);
@@ -111,6 +112,7 @@ function pageChange (data) {
         border
         display-all
         :total-row="101"
+        v-model="pageSizeCurrent"
         v-model:page-size="size"
         @change="pageChange"
         class="mb-3"

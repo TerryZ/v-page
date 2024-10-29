@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "allowJs": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "paths": {
       "@/*": ["./src/*"]
     }
