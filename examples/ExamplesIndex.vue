@@ -1,6 +1,15 @@
 <script setup>
 import { ref } from 'vue'
-import { PaginationBar as VPage } from '../src'
+import {
+  PaginationBar,
+  PaginationPageSizeOptions,
+  PaginationInfo,
+  PaginationPageNumbers,
+  PaginationFirstPage,
+  PaginationPreviousPage,
+  PaginationNextPage,
+  PaginationLastPage
+} from '../src'
 
 const arr = Array(108)
   .fill(0)
@@ -59,24 +68,34 @@ function pageChange (data) {
       </div>
     </div>
     <div>
-      <v-page
+      <PaginationBar
         language="cn"
         align="center"
         :total-row="arr.length"
         @change="pagePhotoChange"
-      />
+      >
+        <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       完整分页栏
     </h5>
     <div class="bg-light p-3 rounded-3">
-      <v-page
+      <PaginationBar
         align="left"
         :total-row="101"
         v-model="current"
         ref="refPage"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
 
       <div class="d-flex mt-2">
         <div class="col-md-1 me-3">
@@ -107,7 +126,7 @@ function pageChange (data) {
       自定义 page size {{ size }}
     </h5>
     <div class="border p-3 rounded-3">
-      <v-page
+      <PaginationBar
         align="left"
         border
         display-all
@@ -118,12 +137,13 @@ function pageChange (data) {
         class="mb-3"
       >
         <template #default="{ pageSize }">
+          <PaginationPageSizeOptions />
           <div>
             <div>pageSize: <span v-text="pageSize" /></div>
           </div>
         </template>
-      </v-page>
-      <v-page
+      </PaginationBar>
+      <PaginationBar
         align="left"
         border
         :total-row="101"
@@ -132,10 +152,11 @@ function pageChange (data) {
         @change="pageChange"
         v-slot="{ pageSize }"
       >
+        <PaginationPageSizeOptions />
         <div>
           <div>pageSize: <span v-text="pageSize" /></div>
         </div>
-      </v-page>
+      </PaginationBar>
 
       <div class="d-flex mt-2">
         <div class="col-md-1 me-3">
@@ -186,10 +207,12 @@ function pageChange (data) {
         </div>
       </div>
       <div>
-        <v-page
+        <PaginationBar
           :align="align"
           :total-row="101"
-        />
+        >
+          <PaginationPageSizeOptions />
+        </PaginationBar>
       </div>
     </div>
 
@@ -197,44 +220,50 @@ function pageChange (data) {
       无页数选择列表
     </h5>
     <div class="bg-light p-3 rounded-3">
-      <v-page
+      <PaginationBar
         :total-row="100"
         :page-size-options="false"
         align="left"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       无分页信息栏
     </h5>
     <div class="bg-light p-3 rounded-3">
-      <v-page
+      <PaginationBar
         :page-size-options="false"
         :info="false"
         align="left"
         :total-row="100"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       无首页、尾页
     </h5>
     <div class="bg-light p-3 rounded-3">
-      <v-page
+      <PaginationBar
         :page-size-options="false"
         :info="false"
         :total-row="100"
         :first="false"
         :last="false"
         align="left"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       无分页码
     </h5>
     <div class="bg-light p-3 rounded-3">
-      <v-page
+      <PaginationBar
         :page-size-options="false"
         :info="false"
         :total-row="100"
@@ -242,18 +271,22 @@ function pageChange (data) {
         :last="false"
         :page-number="false"
         align="left"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       禁用
     </h5>
     <div class="border p-3 rounded-3">
-      <v-page
+      <PaginationBar
         align="left"
         :total-row="100"
         :disabled="disabled"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
 
       <div
         class="btn-group mt-3"
@@ -292,40 +325,45 @@ function pageChange (data) {
       圆形按钮风格
     </h5>
     <div class="bg-white border p-3 rounded-3">
-      <v-page
+      <PaginationBar
         :total-row="1500"
         :disabled="disabled"
         align="left"
         language="cn"
         circle
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       边框
     </h5>
     <div class="bg-white border p-3 rounded-3">
-      <v-page
+      <PaginationBar
         :total-row="100"
         :disabled="disabled"
         align="left"
         language="cn"
         border
         circle
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       插槽
     </h5>
     <div class="border p-3 rounded-3">
-      <v-page
+      <PaginationBar
         align="left"
         :total-row="101"
         :disabled="disabled"
         v-slot="{ pageNumber, pageSize, totalPage, totalRow, isFirst, isLast }"
       >
-        <div>
+        <PaginationPageSizeOptions />
+        <div class="d-flex gap-1">
           <div>page: <span v-text="pageNumber" /></div>
           <div>pageSize: <span v-text="pageSize" /></div>
           <div>totalPage: <span v-text="totalPage" /></div>
@@ -333,28 +371,32 @@ function pageChange (data) {
           <div>isFirst: <span v-text="isFirst" /></div>
           <div>isLast: <span v-text="isLast" /></div>
         </div>
-      </v-page>
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       显示全部数据
     </h5>
     <div class="p-3 rounded-3 border">
-      <v-page
+      <PaginationBar
         :total-row="101"
         :display-all="true"
         @change="displayAllPageChange"
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
 
     <h5 class="mt-5 mb-3">
       仅一页时隐藏分页栏
     </h5>
     <div class="p-3 rounded-3 border">
-      <v-page
+      <PaginationBar
         :total-row="11"
         hide-on-single-page
-      />
+      >
+        <PaginationPageSizeOptions />
+      </PaginationBar>
     </div>
   </div>
 </template>
