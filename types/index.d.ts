@@ -23,7 +23,7 @@ export declare interface PageSlotData {
 /**
  * Pagination plugin for Vue
  */
-declare interface Props {
+declare interface PaginationProps {
   /**
    * The number of current page
    */
@@ -48,11 +48,6 @@ declare interface Props {
    */
   pageSizeMenu?: number[]
   /**
-   * Whether to display page size list panel
-   * @default true
-   */
-  pageSizeOptions?: boolean
-  /**
    * Alignment direction
    * @default `right`
    */
@@ -73,26 +68,6 @@ declare interface Props {
    */
   circle?: boolean
   /**
-   * Whether to display page information panel
-   * @default true
-   */
-  info?: boolean
-  /**
-   * Whether to display page number buttons
-   * @default true
-   */
-  pageNumber?: boolean
-  /**
-   * Whether to display first page button
-   * @default true
-   */
-  first?: boolean
-  /**
-   * Whether to display last page button
-   * @default true
-   */
-  last?: boolean
-  /**
    * Whether add `All` item in page length list
    * @default false
    */
@@ -111,17 +86,50 @@ type EmitUpdatePageSize = (event: "update:pageSize", value: number) => void
 /** The event respond pageNumber or pageSize change */
 type EmitChange = (event: "change", value: PageInfo) => void
 
+type ComponentProps = AllowedComponentProps & ComponentCustomProps & VNodeProps
+
 declare interface PaginationBar {
   new (): {
-    $props: AllowedComponentProps & ComponentCustomProps & VNodeProps & Props
+    $props: ComponentProps & PaginationProps
     $emit: EmitUpdateModelValue & EmitUpdatePageSize & EmitChange
     $slots: {
       default?: (defaultSlotData: PageSlotData) => VNode[]
     }
   }
 }
+declare interface PaginationComponent {
+  new (): {
+    $props: ComponentProps
+  }
+}
+declare interface PaginationPanel {
+  new (): {
+    $props: ComponentProps
+    $slots: {
+      default?: () => VNode[]
+    }
+  }
+}
 declare const PaginationBar: PaginationBar
+declare const PaginationPageSizeOptions: PaginationComponent
+declare const PaginationInfo: PaginationComponent
+declare const PaginationPageNumbers: PaginationComponent
+declare const PaginationFirstPage: PaginationComponent
+declare const PaginationPreviousPage: PaginationComponent
+declare const PaginationNextPage: PaginationComponent
+declare const PaginationLastPage: PaginationComponent
+declare const PaginationPanel: PaginationPanel
 
-export { PaginationBar }
+export {
+  PaginationBar,
+  PaginationPageSizeOptions,
+  PaginationInfo,
+  PaginationPageNumbers,
+  PaginationFirstPage,
+  PaginationPreviousPage,
+  PaginationNextPage,
+  PaginationLastPage,
+  PaginationPanel
+}
 
 export default PaginationBar
