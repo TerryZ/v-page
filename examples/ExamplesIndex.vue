@@ -4,6 +4,7 @@ import {
   PaginationBar,
   PaginationPageSizeOptions,
   PaginationInfo,
+  PaginationPanel,
   PaginationPageNumbers,
   PaginationFirstPage,
   PaginationPreviousPage,
@@ -95,6 +96,12 @@ function pageChange (data) {
         ref="refPage"
       >
         <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
 
       <div class="d-flex mt-2">
@@ -138,24 +145,34 @@ function pageChange (data) {
       >
         <template #default="{ pageSize }">
           <PaginationPageSizeOptions />
-          <div>
+          <PaginationInfo />
+          <PaginationPanel>
             <div>pageSize: <span v-text="pageSize" /></div>
-          </div>
+          </PaginationPanel>
+          <PaginationFirstPage />
+          <PaginationPreviousPage />
+          <PaginationPageNumbers />
+          <PaginationNextPage />
+          <PaginationLastPage />
         </template>
       </PaginationBar>
       <PaginationBar
         align="left"
         border
         :total-row="101"
-        :page-size-options="false"
         v-model:page-size="size"
         @change="pageChange"
         v-slot="{ pageSize }"
       >
-        <PaginationPageSizeOptions />
-        <div>
+        <PaginationInfo />
+        <PaginationPanel>
           <div>pageSize: <span v-text="pageSize" /></div>
-        </div>
+        </PaginationPanel>
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
 
       <div class="d-flex mt-2">
@@ -212,6 +229,12 @@ function pageChange (data) {
           :total-row="101"
         >
           <PaginationPageSizeOptions />
+          <PaginationInfo />
+          <PaginationFirstPage />
+          <PaginationPreviousPage />
+          <PaginationPageNumbers />
+          <PaginationNextPage />
+          <PaginationLastPage />
         </PaginationBar>
       </div>
     </div>
@@ -225,7 +248,12 @@ function pageChange (data) {
         :page-size-options="false"
         align="left"
       >
-        <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
     </div>
 
@@ -234,12 +262,14 @@ function pageChange (data) {
     </h5>
     <div class="bg-light p-3 rounded-3">
       <PaginationBar
-        :page-size-options="false"
-        :info="false"
         align="left"
         :total-row="100"
       >
-        <PaginationPageSizeOptions />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
     </div>
 
@@ -248,14 +278,12 @@ function pageChange (data) {
     </h5>
     <div class="bg-light p-3 rounded-3">
       <PaginationBar
-        :page-size-options="false"
-        :info="false"
         :total-row="100"
-        :first="false"
-        :last="false"
         align="left"
       >
-        <PaginationPageSizeOptions />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
       </PaginationBar>
     </div>
 
@@ -264,15 +292,11 @@ function pageChange (data) {
     </h5>
     <div class="bg-light p-3 rounded-3">
       <PaginationBar
-        :page-size-options="false"
-        :info="false"
         :total-row="100"
-        :first="false"
-        :last="false"
-        :page-number="false"
         align="left"
       >
-        <PaginationPageSizeOptions />
+        <PaginationPreviousPage />
+        <PaginationNextPage />
       </PaginationBar>
     </div>
 
@@ -286,6 +310,12 @@ function pageChange (data) {
         :disabled="disabled"
       >
         <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
 
       <div
@@ -333,6 +363,12 @@ function pageChange (data) {
         circle
       >
         <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
     </div>
 
@@ -349,6 +385,12 @@ function pageChange (data) {
         circle
       >
         <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
     </div>
 
@@ -363,14 +405,22 @@ function pageChange (data) {
         v-slot="{ pageNumber, pageSize, totalPage, totalRow, isFirst, isLast }"
       >
         <PaginationPageSizeOptions />
-        <div class="d-flex gap-1">
-          <div>page: <span v-text="pageNumber" /></div>
-          <div>pageSize: <span v-text="pageSize" /></div>
-          <div>totalPage: <span v-text="totalPage" /></div>
-          <div>totalRow: <span v-text="totalRow" /></div>
-          <div>isFirst: <span v-text="isFirst" /></div>
-          <div>isLast: <span v-text="isLast" /></div>
-        </div>
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
+        <PaginationPanel>
+          <div class="d-flex gap-1">
+            <div>page: <span v-text="pageNumber" /></div>
+            <div>pageSize: <span v-text="pageSize" /></div>
+            <div>totalPage: <span v-text="totalPage" /></div>
+            <div>totalRow: <span v-text="totalRow" /></div>
+            <div>isFirst: <span v-text="isFirst" /></div>
+            <div>isLast: <span v-text="isLast" /></div>
+          </div>
+        </PaginationPanel>
       </PaginationBar>
     </div>
 
@@ -384,6 +434,12 @@ function pageChange (data) {
         @change="displayAllPageChange"
       >
         <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
     </div>
 
@@ -396,6 +452,12 @@ function pageChange (data) {
         hide-on-single-page
       >
         <PaginationPageSizeOptions />
+        <PaginationInfo />
+        <PaginationFirstPage />
+        <PaginationPreviousPage />
+        <PaginationPageNumbers />
+        <PaginationNextPage />
+        <PaginationLastPage />
       </PaginationBar>
     </div>
   </div>

@@ -28,18 +28,10 @@ export default defineComponent({
     align: { type: String, default: ALIGN_RIGHT },
     /** Page size list */
     pageSizeMenu: { type: [Array], default: () => DEFAULT_PAGE_SIZE_MENU },
-    /** Display page size menu panel */
-    pageSizeOptions: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
     /** Round style page number button */
     circle: { type: Boolean, default: false },
     border: { type: Boolean, default: false },
-    info: { type: Boolean, default: true },
-    pageNumber: { type: Boolean, default: true },
-    /** first page button */
-    first: { type: Boolean, default: true },
-    /** last page button */
-    last: { type: Boolean, default: true },
     /**
      * Display all records
      *
@@ -52,27 +44,12 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'update:pageSize', 'change'],
   setup (props, { emit, slots }) {
-    // const {
-    //   containerClasses,
-    //   totalPage,
-    //   PageSizeOptions,
-    //   PageInformation,
-    //   PageSlot,
-    //   PageNumberItems,
-    //   FirstPageItem,
-    //   PreviousPageItem,
-    //   NextPageItem,
-    //   LastPageItem
-    // } = usePagination(props, emit, slots)
-    const { pageSizeOptions, pageSizeMenu, totalRow } = toRefs(props)
+    const { pageSizeMenu, totalRow } = toRefs(props)
     const current = ref(0)
     const pageNumberSize = ref(DEFAULT_PAGE_NUMBER_SIZE)
     const pageSize = ref(props.pageSize ?? DEFAULT_PAGE_SIZE)
-    // const lang = getLanguages(props.language)
 
     const sizeList = computed(() => {
-      if (!pageSizeOptions.value) return []
-
       const sizes = Array.from(
         Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
           ? pageSizeMenu.value
@@ -161,6 +138,7 @@ export default defineComponent({
 
     return () => {
       if (props.hideOnSinglePage && totalPage.value <= 1) return null
+
       const slotData = {
         pageNumber: current.value,
         pageSize: pageSize.value,
@@ -173,14 +151,6 @@ export default defineComponent({
       return (
         <div class={containerClasses.value}>
           <ul>
-            {/* <PageSizeOptions />
-            <PageInformation />
-            <PageSlot />
-            <FirstPageItem />
-            <PreviousPageItem />
-            <PageNumberItems />
-            <NextPageItem />
-            <LastPageItem /> */}
             {slots?.default?.(slotData)}
           </ul>
         </div>
