@@ -67,12 +67,30 @@ import { PaginationBar } from 'v-page'
     v-model="pageNumber"
     :total-row="totalRow"
     @change="paginationChange"
-  />
+  >
+    <PaginationPageSizeOptions />
+    <PaginationInfo />
+    <PaginationFirstPage />
+    <PaginationPreviousPage />
+    <PaginationPageNumbers />
+    <PaginationNextPage />
+    <PaginationLastPage />
+  </PaginationBar>
 </template>
 
 <script setup lang='ts'>
 import { ref } from 'vue'
-import { PaginationBar } from 'v-page'
+import {
+  PaginationBar,
+  PaginationPageSizeOptions,
+  PaginationInfo,
+  PaginationPanel,
+  PaginationPageNumbers,
+  PaginationFirstPage,
+  PaginationPreviousPage,
+  PaginationNextPage,
+  PaginationLastPage
+} from 'v-page'
 import type { PageInfo } from 'v-page'
 // set default page to 3
 const pageNumber = ref<number>(3)
