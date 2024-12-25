@@ -2,6 +2,13 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.3.0](https://github.com/TerryZ/v-page/compare/v3.2.1...v3.3.0) (2024-12-25)
+
+### Features
+
+- The pagination panels are provided as independent components and can be freely combined and arranged
+- Removed `pageSizeOptions`, `info`, `first` and `last` props
+
 ## [3.2.1](https://github.com/TerryZ/v-page/compare/v3.2.0...v3.2.1) (2024-10-27)
 
 ### Bug Fixes
