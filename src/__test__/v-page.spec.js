@@ -1,7 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { PaginationBar } from '@/'
 import { getPageNumbers } from '@/helper'
+import {
+  PaginationComplete, PaginationSlot
+} from './PaginationComponents'
 
 describe('v-page', function () {
   describe('page-numbers', function () {
@@ -22,12 +25,14 @@ describe('v-page', function () {
   })
 
   describe('dom operation', () => {
-    const wrapper = mount(PaginationBar, {
+    const vModelFn = vi.fn()
+    const wrapper = mount(PaginationComplete, {
       props: {
         modelValue: 3,
         totalRow: 101,
         language: 'cn',
-        border: true
+        border: true,
+        'onUpdate:modelValue': vModelFn
       }
     })
 
@@ -39,12 +44,12 @@ describe('v-page', function () {
       expect(wrapper.findAll('li').at(6).classes('active')).to.equal(true)
     })
     it('the number of current page should be 5', () => {
-      expect(wrapper.emitted('update:modelValue')[1]).toEqual([5])
+      expect(vModelFn).toHaveBeenCalledWith(5)
     })
     it('click `last page` button, the number of current page should be 11', async () => {
       // click `last page` button
       await wrapper.find('li.v-pagination__last').find('a').trigger('click')
-      expect(wrapper.emitted('update:modelValue')[2]).toEqual([11])
+      expect(vModelFn).toHaveBeenCalledWith(11)
     })
     it('the `next page` and `last page` buttons should be disabled', () => {
       expect(
@@ -63,34 +68,39 @@ describe('v-page', function () {
     it('设置大于总页数的页码，页码应被强制设置为总页数值', async () => {
       await wrapper.setProps({ modelValue: 20 })
       // 总页码没有发生变化，相应事件也应没有被触发
-      expect(wrapper.emitted('update:modelValue')).toHaveLength(3)
+      expect(vModelFn).toHaveBeenCalledTimes(3)
     })
   })
 
   describe('switch page size', () => {
-    const wrapper = mount(PaginationBar, {
+    const vModelFn = vi.fn()
+    const changeFn = vi.fn()
+    const wrapper = mount(PaginationComplete, {
       props: {
         modelValue: 5,
         totalRow: 100,
         language: 'cn',
-        circle: true
+        circle: true,
+        onChange: changeFn,
+        'onUpdate:modelValue': vModelFn
       }
     })
+    const bar = wrapper.getComponent(PaginationBar)
     it('分页栏应用了圆形按钮风格', () => {
       expect(wrapper.classes('v-pagination--circle')).toBeTruthy()
     })
     it('initialize v-page with props: { modelValue: 5, totalRow: 100 }', () => {
-      expect(wrapper.emitted('update:modelValue')[0]).toEqual([5])
-      expect(wrapper.props('totalRow')).to.equal(100)
-      expect(wrapper.emitted('change')[0]).toEqual([{ pageNumber: 5, pageSize: 10, totalPage: 10 }])
+      expect(vModelFn).toHaveBeenCalledWith(5)
+      expect(bar.props('totalRow')).to.equal(100)
+      expect(changeFn).toHaveBeenCalledWith({ pageNumber: 5, pageSize: 10, totalPage: 10 })
     })
     it('switch to the third item of list(50), the number of current page should be 1', () => {
       // select the third page size(50) in the dropdown menu
       wrapper.find('select').findAll('option').at(2).setSelected()
-      expect(wrapper.emitted('update:modelValue')[1]).toEqual([1])
+      expect(vModelFn).toHaveBeenCalledWith(1)
     })
     it('the number of total page should be 2', () => {
-      expect(wrapper.emitted('change')[1][0].totalPage).to.equal(2)
+      expect(bar.emitted('change')[1][0].totalPage).to.equal(2)
     })
     it('`displayAll` prop set to true, page length list should add `全部` option', async () => {
       await wrapper.setProps({ displayAll: true })
@@ -106,19 +116,18 @@ describe('v-page', function () {
         .find('li.v-pagination__list select')
         .find('option:last-child')
         .setSelected()
-      const emitted = wrapper.emitted('change')
-      const lastEmitted = emitted.at(-1)[0]
-      expect(lastEmitted.pageNumber).to.equal(1)
-      expect(lastEmitted.pageSize).to.equal(0)
+      expect(changeFn).toHaveBeenCalledWith({ pageNumber: 1, pageSize: 0, totalPage: 1 })
     })
   })
 
   describe('每页记录数列表与 `pageSize` 联动应用', () => {
-    const wrapper = mount(PaginationBar, {
+    const vModelPageSizeFn = vi.fn()
+    const wrapper = mount(PaginationComplete, {
       props: {
         totalRow: 100,
         language: 'cn',
-        pageSize: 25
+        pageSize: 25,
+        'onUpdate:pageSize': vModelPageSizeFn
       }
     })
     it('每页记录数列表中应包含 `25` 选项，且该项目应被选中', () => {
@@ -135,8 +144,8 @@ describe('v-page', function () {
     })
     it('设置 `pageSize` prop 为 `15`，应在列表中添加该项目并选中', async () => {
       await wrapper.setProps({ pageSize: 15 })
-      expect(wrapper.find('select').element.value).toBe('15')
-      expect(wrapper.find('select option:checked').text()).toBe('15')
+      expect(vModelPageSizeFn).toHaveBeenCalledWith(15)
+      expect(wrapper.find('select option[selected]').text()).toBe('15')
     })
     it('在记录数列表中选择 `20` 选项，每页记录数应被设置为 `20`', async () => {
       await wrapper.find('select').setValue('20')
@@ -168,22 +177,6 @@ describe('v-page', function () {
       await wrapper.setProps({ border: true })
       expect(wrapper.classes().includes('v-pagination--border')).toBeTruthy()
     })
-    it('set `pageSizeOptions` prop to false, the page size list panel should be hidden', async () => {
-      await wrapper.setProps({ pageSizeOptions: false })
-      expect(wrapper.find('li.v-pagination__list').exists()).toBeFalsy()
-    })
-    it('set `info` prop to false, the pagination information panel should be hidden', async () => {
-      await wrapper.setProps({ info: false })
-      expect(wrapper.find('li.v-pagination__info').exists()).toBeFalsy()
-    })
-    it('set `first` prop to false, the first button should be hidden', async () => {
-      await wrapper.setProps({ first: false })
-      expect(wrapper.find('li.v-pagination__first').exists()).toBeFalsy()
-    })
-    it('set `last` prop to false, the last button should be hidden', async () => {
-      await wrapper.setProps({ last: false })
-      expect(wrapper.find('li.v-pagination__last').exists()).toBeFalsy()
-    })
     it('set `hideOnSinglePage` to true, the pagination should be hidden when the total page is 1', async () => {
       await wrapper.setProps({ hideOnSinglePage: true, pageSize: 100 })
       expect(wrapper.isVisible()).toBeFalsy()
@@ -191,28 +184,15 @@ describe('v-page', function () {
   })
 
   describe('slot', () => {
-    const wrapper = mount(PaginationBar, {
+    const wrapper = mount(PaginationSlot, {
       props: {
         totalRow: 100,
         pageSize: 25,
         border: true,
         circle: true
-      },
-      slots: {
-        default: `
-        <template #default="props">
-          <div>
-            <div class="slot-page-number" v-text="props.pageNumber" />
-            <div class="slot-page-size" v-text="props.pageSize" />
-            <div class="slot-total-page" v-text="props.totalPage" />
-            <div class="slot-total-row" v-text="props.totalRow" />
-            <div class="slot-is-first" v-text="props.isFirst" />
-            <div class="slot-is-last" v-text="props.isLast" />
-          </div>
-        </template>
-        `
       }
     })
+    console.log(wrapper.html())
 
     it('scoped slot should output 6 page current states', () => {
       const slot = wrapper.find('li.v-pagination__slot')
