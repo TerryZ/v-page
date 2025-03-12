@@ -192,7 +192,7 @@ describe('v-page', function () {
         circle: true
       }
     })
-    console.log(wrapper.html())
+    // console.log(wrapper.html())
 
     it('scoped slot should output 6 page current states', () => {
       const slot = wrapper.find('li.v-pagination__slot')

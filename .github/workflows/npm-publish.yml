@@ -23,6 +23,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm i --frozen-lockfile
+      - run: pnpm lint
       - run: pnpm coverage
 
       - name: Upload coverage to Codecov
