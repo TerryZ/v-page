@@ -2,6 +2,13 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.4.0](https://github.com/TerryZ/v-page/compare/v3.3.0...v3.4.0) (2025-10-15)
+
+### Features
+
+- The `PaginationPageSizeOptions` component has been renamed to `PaginationPageSizes`
+- The `PaginationBar` component default slot now uses the classic layout
+
 ## [3.3.0](https://github.com/TerryZ/v-page/compare/v3.2.1...v3.3.0) (2024-12-25)
 
 ### Features
