@@ -111,7 +111,7 @@ declare interface PaginationPanel {
   }
 }
 declare const PaginationBar: PaginationBar
-declare const PaginationPageSizeOptions: PaginationComponent
+declare const PaginationPageSizes: PaginationComponent
 declare const PaginationInfo: PaginationComponent
 declare const PaginationPageNumbers: PaginationComponent
 declare const PaginationFirstPage: PaginationComponent
@@ -122,7 +122,7 @@ declare const PaginationPanel: PaginationPanel
 
 export {
   PaginationBar,
-  PaginationPageSizeOptions,
+  PaginationPageSizes,
   PaginationInfo,
   PaginationPageNumbers,
   PaginationFirstPage,

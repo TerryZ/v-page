@@ -1,6 +1,6 @@
 import {
   PaginationBar,
-  PaginationPageSizeOptions,
+  PaginationPageSizes,
   PaginationInfo,
   PaginationPanel,
   PaginationPageNumbers,
@@ -13,7 +13,7 @@ import {
 export function PaginationComplete (props, { attrs }) {
   return (
     <PaginationBar {...attrs}>
-      <PaginationPageSizeOptions />
+      <PaginationPageSizes />
       <PaginationInfo />
       <PaginationFirstPage />
       <PaginationPreviousPage />
@@ -28,7 +28,7 @@ export function PaginationSlot (props, { attrs }) {
     <PaginationBar {...attrs}>{{
       default: (data) => (
         <>
-          <PaginationPageSizeOptions />
+          <PaginationPageSizes />
           <PaginationInfo />
           <PaginationPanel>
             <div class="slot-page-number">{data.pageNumber}</div>

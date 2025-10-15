@@ -16,7 +16,7 @@ function PageItem ({ classes, pageNumberValue, name }) {
   )
 }
 
-export function PaginationPageSizeOptions () {
+export function PaginationPageSizes () {
   const {
     lang, sizeList, pageSize, disabled, displayAll, changePageSize
   } = inject(injectPagination)
