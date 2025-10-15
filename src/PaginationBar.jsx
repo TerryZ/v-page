@@ -14,6 +14,16 @@ import {
 import { EN } from './language'
 import { getLanguages, getPageNumbers } from './helper'
 
+import {
+  PaginationPageSizes,
+  PaginationInfo,
+  PaginationFirstPage,
+  PaginationNextPage,
+  PaginationPageNumbers,
+  PaginationPreviousPage,
+  PaginationLastPage
+} from './PaginationCore'
+
 export default defineComponent({
   name: 'PaginationBar',
   props: {
@@ -119,6 +129,29 @@ export default defineComponent({
         totalPage: totalPage.value
       })
     }
+    function PaginationModules () {
+      if (slots.default) {
+        return slots.default({
+          pageNumber: current.value,
+          pageSize: pageSize.value,
+          totalPage: totalPage.value,
+          totalRow: totalRow.value,
+          isFirst: isFirst.value,
+          isLast: isLast.value
+        })
+      }
+      return (
+        <>
+          <PaginationPageSizes />
+          <PaginationInfo />
+          <PaginationFirstPage />
+          <PaginationPreviousPage />
+          <PaginationPageNumbers />
+          <PaginationNextPage />
+          <PaginationLastPage />
+        </>
+      )
+    }
 
     onMounted(() => changePageNumber(props.modelValue || FIRST))
 
@@ -139,19 +172,10 @@ export default defineComponent({
     return () => {
       if (props.hideOnSinglePage && totalPage.value <= 1) return null
 
-      const slotData = {
-        pageNumber: current.value,
-        pageSize: pageSize.value,
-        totalPage: totalPage.value,
-        totalRow: totalRow.value,
-        isFirst: isFirst.value,
-        isLast: isLast.value
-      }
-
       return (
         <div class={containerClasses.value}>
           <ul>
-            {slots?.default?.(slotData)}
+            <PaginationModules />
           </ul>
         </div>
       )
