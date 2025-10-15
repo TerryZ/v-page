@@ -1,7 +1,7 @@
 {
   "name": "v-page",
   "description": "A simple pagination bar",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
