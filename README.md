@@ -1,4 +1,4 @@
-# [v-page](https://terryz.github.io/vue/#/page) &middot; [![CircleCI](https://dl.circleci.com/status-badge/img/gh/TerryZ/v-page/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/TerryZ/v-page/tree/master) [![code coverage](https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-page) [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/) [![npm download](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# [v-page](https://terryz.github.io/vue/#/page) &middot; [![test](https://github.com/TerryZ/v-page/actions/workflows/npm-publish.yml/badge.svg?branch=master)](https://github.com/TerryZ/v-page/actions/workflows/npm-publish.yml) [![code coverage](https://codecov.io/gh/TerryZ/v-page/branch/master/graph/badge.svg)](https://codecov.io/gh/TerryZ/v-page) [![npm version](https://img.shields.io/npm/v/v-page.svg)](https://www.npmjs.com/package/v-page) [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://mit-license.org/) [![npm download](https://img.shields.io/npm/dy/v-page.svg)](https://www.npmjs.com/package/v-page) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 A simple pagination bar for vue3, including size Menu, i18n support features
 
@@ -67,31 +67,12 @@ import { PaginationBar } from 'v-page'
     v-model="pageNumber"
     :total-row="totalRow"
     @change="paginationChange"
-  >
-    <PaginationPageSizeOptions />
-    <PaginationInfo />
-    <PaginationFirstPage />
-    <PaginationPreviousPage />
-    <PaginationPageNumbers />
-    <PaginationNextPage />
-    <PaginationLastPage />
-  </PaginationBar>
+  />
 </template>
 
 <script setup lang='ts'>
 import { ref } from 'vue'
-import {
-  PaginationBar,
-  PaginationPageSizeOptions,
-  PaginationInfo,
-  PaginationPanel,
-  PaginationPageNumbers,
-  PaginationFirstPage,
-  PaginationPreviousPage,
-  PaginationNextPage,
-  PaginationLastPage
-} from 'v-page'
-import type { PageInfo } from 'v-page'
+import { PaginationBar, type PageInfo } from 'v-page'
 // set default page to 3
 const pageNumber = ref<number>(3)
 const totalRow = ref<number>(100)
