@@ -7,8 +7,10 @@
     "allowJs": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
+    "outDir": "dist",
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["src"]
 }

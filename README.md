@@ -2,7 +2,8 @@
 
 A simple pagination bar for vue3, including size Menu, i18n support features
 
-<img src="https://terryz.github.io/image/v-page/v-page.png" alt="v-page" height="54px">
+<img src="./examples/snapshot.png" alt="v-page" height="80">
+<!-- ![snapshot](./examples/snapshot.png) -->
 
 If you are using vue `2.x` version, please use [v-page 2.x](https://github.com/TerryZ/v-page/tree/dev-vue-2) version instead
 
@@ -32,7 +33,7 @@ yarn add v-page
 pnpm add v-page
 ```
 
-Include and install plugin in your `main.js` file
+Include and install plugin in your project
 
 ```js
 import { createApp } from 'vue'
@@ -70,7 +71,7 @@ import { PaginationBar } from 'v-page'
   />
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { PaginationBar, type PageInfo } from 'v-page'
 // set default page to 3
