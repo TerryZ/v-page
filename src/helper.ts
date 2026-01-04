@@ -1,7 +1,7 @@
 import { FIRST } from './constants'
 import languages, { EN } from './language'
 
-function getPageNumberStart (current, totalPage, pageNumberSize) {
+function getPageNumberStart(current: number, totalPage: number, pageNumberSize: number) {
   if (totalPage <= pageNumberSize) return FIRST
 
   const half = Math.floor(pageNumberSize / 2)
@@ -14,14 +14,14 @@ function getPageNumberStart (current, totalPage, pageNumberSize) {
   return start
 }
 
-export function getPageNumbers (current, totalPage, pageNumberSize) {
+export function getPageNumbers(current: number, totalPage: number, pageNumberSize: number) {
   const start = getPageNumberStart(current, totalPage, pageNumberSize)
   return Array.from({ length: pageNumberSize })
     .map((val, index) => start + index)
-    .filter(val => val >= FIRST && val <= totalPage)
+    .filter((val) => val >= FIRST && val <= totalPage)
 }
 
-export function getLanguages (lang = EN) {
+export function getLanguages(lang = EN) {
   const key = String(lang).toLowerCase()
   return languages[Object.hasOwn(languages, key) ? key : EN]
 }

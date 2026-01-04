@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { PaginationBar } from '@/'
+import { PaginationBar } from '@/index'
 import { getPageNumbers } from '@/helper'
-import {
-  PaginationComplete, PaginationSlot
-} from './PaginationComponents'
+import { PaginationComplete, PaginationSlot } from './PaginationComponents'
+
+import type { PageInfo } from '@/index'
 
 describe('v-page', function () {
   describe('page-numbers', function () {
@@ -18,9 +18,7 @@ describe('v-page', function () {
     })
     it('should be [16,17,18,19,20] when page number is greater than total page number(22)', function () {
       const values = getPageNumbers(22, 20, 5)
-      expect(values.sort().join('')).to.equal(
-        [16, 17, 18, 19, 20].sort().join('')
-      )
+      expect(values.sort().join('')).to.equal([16, 17, 18, 19, 20].sort().join(''))
     })
   })
 
@@ -40,8 +38,8 @@ describe('v-page', function () {
       expect(wrapper.classes('v-pagination--border')).toBeTruthy()
     })
     it('click page number `5`, the page 5 <li> item class name should be `active`', async () => {
-      await wrapper.findAll('a').at(8).trigger('click')
-      expect(wrapper.findAll('li').at(6).classes('active')).to.equal(true)
+      await wrapper.findAll('a').at(8)!.trigger('click')
+      expect(wrapper.findAll('li').at(6)!.classes('active')).to.equal(true)
     })
     it('the number of current page should be 5', () => {
       expect(vModelFn).toHaveBeenCalledWith(5)
@@ -52,18 +50,12 @@ describe('v-page', function () {
       expect(vModelFn).toHaveBeenCalledWith(11)
     })
     it('the `next page` and `last page` buttons should be disabled', () => {
-      expect(
-        wrapper.find('li.v-pagination__next').classes('disabled')
-      ).to.equal(true)
-      expect(
-        wrapper.find('li.v-pagination__last').classes('disabled')
-      ).to.equal(true)
+      expect(wrapper.find('li.v-pagination__next').classes('disabled')).to.equal(true)
+      expect(wrapper.find('li.v-pagination__last').classes('disabled')).to.equal(true)
     })
     it('the page info bar content should be `第 11/11 页(共101条记录)`', () => {
       const expectInfoString = '第 11/11 页(共101条记录)'
-      expect(wrapper.find('li.v-pagination__info a').text()).to.equal(
-        expectInfoString
-      )
+      expect(wrapper.find('li.v-pagination__info a').text()).to.equal(expectInfoString)
     })
     it('设置大于总页数的页码，页码应被强制设置为总页数值', async () => {
       await wrapper.setProps({ modelValue: 20 })
@@ -96,26 +88,22 @@ describe('v-page', function () {
     })
     it('switch to the third item of list(50), the number of current page should be 1', () => {
       // select the third page size(50) in the dropdown menu
-      wrapper.find('select').findAll('option').at(2).setSelected()
+      // wrapper.find('select').findAll('option').at(2)!.setSelected()
+      wrapper.find('select').setValue(50)
       expect(vModelFn).toHaveBeenCalledWith(1)
     })
     it('the number of total page should be 2', () => {
-      expect(bar.emitted('change')[1][0].totalPage).to.equal(2)
+      const payload = bar.emitted('change')?.[1]?.[0] as PageInfo
+      expect(payload.totalPage).to.equal(2)
     })
     it('`displayAll` prop set to true, page length list should add `全部` option', async () => {
       await wrapper.setProps({ displayAll: true })
       expect(
-        wrapper
-          .find('li.v-pagination__list select')
-          .find('option:last-child')
-          .text()
+        wrapper.find('li.v-pagination__list select').find('option:last-child').text()
       ).to.equal('全部')
     })
     it('switch page length to all, the `change` event should return { pageNumber: 1, pageSize: 0 }', () => {
-      wrapper
-        .find('li.v-pagination__list select')
-        .find('option:last-child')
-        .setSelected()
+      wrapper.find('li.v-pagination__list select').setValue(0)
       expect(changeFn).toHaveBeenCalledWith({ pageNumber: 1, pageSize: 0, totalPage: 1 })
     })
   })
@@ -219,7 +207,9 @@ describe('v-page', function () {
       expect(wrapper.classes().includes('v-pagination--circle')).toBeFalsy()
     })
     it('每页记录数列表当前选中项目应为 `25`', () => {
-      expect(wrapper.find('.v-pagination__list select').element.value).toBe('25')
+      expect((wrapper.find('.v-pagination__list select').element as HTMLSelectElement).value).toBe(
+        '25'
+      )
     })
   })
 })

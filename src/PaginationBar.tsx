@@ -1,6 +1,7 @@
 import './page.sass'
 
 import { ref, computed, watch, toRefs, onMounted, defineComponent, provide } from 'vue'
+import type { Ref, ComputedRef, SlotsType } from 'vue'
 
 import {
   FIRST,
@@ -23,6 +24,35 @@ import {
   PaginationPreviousPage,
   PaginationLastPage
 } from './PaginationCore'
+
+export interface PaginationProvided {
+  lang: Record<string, string>
+  pageSize: Ref<number>
+  totalRow: Ref<number>
+  displayAll: Ref<boolean>
+  disabled: Ref<boolean>
+  sizeList: ComputedRef<number[]>
+  pageNumbers: ComputedRef<number[]>
+  isFirst: ComputedRef<boolean>
+  isLast: ComputedRef<boolean>
+  current: Ref<number>
+  totalPage: ComputedRef<number>
+  changePageNumber: (pNumber: number) => void
+  changePageSize: (val: number) => void
+}
+export declare interface PageInfo {
+  pageNumber: number
+  pageSize: number
+  totalPage: number
+}
+export declare interface PageSlotData {
+  pageNumber: number
+  pageSize: number
+  totalPage: number
+  totalRow: number
+  isFirst: boolean
+  isLast: boolean
+}
 
 export default defineComponent({
   name: 'PaginationBar',
@@ -52,21 +82,30 @@ export default defineComponent({
     /** Hide pagination when only have one page */
     hideOnSinglePage: { type: Boolean, default: false }
   },
-  emits: ['update:modelValue', 'update:pageSize', 'change'],
-  setup (props, { emit, slots }) {
-    const { pageSizeMenu, totalRow } = toRefs(props)
-    const current = ref(0)
-    const pageNumberSize = ref(DEFAULT_PAGE_NUMBER_SIZE)
-    const pageSize = ref(props.pageSize ?? DEFAULT_PAGE_SIZE)
+  // emits: ['update:modelValue', 'update:pageSize', 'change'],
+  emits: {
+    'update:modelValue': (value: number) => typeof value === 'number',
+    'update:pageSize': (value: number) => typeof value === 'number',
+    change: (pageInfo: PageInfo) => true
+  },
+  slots: Object as SlotsType<{
+    default: PageSlotData
+  }>,
+  setup(props, { emit, slots }) {
+    const { pageSizeMenu, totalRow, displayAll, disabled } = toRefs(props)
+    const current = ref<number>(0)
+    const pageNumberSize = ref<number>(DEFAULT_PAGE_NUMBER_SIZE)
+    const pageSize = ref<number>(props.pageSize ?? DEFAULT_PAGE_SIZE)
 
     const sizeList = computed(() => {
-      const sizes = Array.from(
+      const sizes: number[] = Array.from(
         Array.isArray(pageSizeMenu.value) && pageSizeMenu.value.length > 0
-          ? pageSizeMenu.value
+          ? (pageSizeMenu.value as number[])
           : DEFAULT_PAGE_SIZE_MENU
       )
       // filter duplicate items
-      if (pageSize.value !== 0 && !sizes.includes(pageSize.value)) { // display all
+      if (pageSize.value !== 0 && !sizes.includes(pageSize.value)) {
+        // display all
         sizes.push(pageSize.value)
       }
 
@@ -77,16 +116,14 @@ export default defineComponent({
       if (pageSize.value === ALL_RECORD_PAGE_SIZE) return FIRST
       return Math.ceil(totalRow.value / pageSize.value)
     })
-    const pageNumbers = computed(() => getPageNumbers(
-      current.value,
-      totalPage.value,
-      pageNumberSize.value
-    ))
+    const pageNumbers = computed(() =>
+      getPageNumbers(current.value, totalPage.value, pageNumberSize.value)
+    )
     const containerClasses = computed(() => ({
       'v-pagination': true,
       'v-pagination--right': props.align === 'right',
       'v-pagination--center': props.align === 'center',
-      'v-pagination--disabled': props.disabled,
+      'v-pagination--disabled': disabled.value,
       'v-pagination--border': props.border,
       'v-pagination--circle': !props.border && props.circle
     }))
@@ -96,8 +133,8 @@ export default defineComponent({
     watch(() => props.modelValue, changePageNumber)
     watch(() => props.pageSize, changePageSize)
 
-    function changePageNumber (pNumber = FIRST) {
-      if (props.disabled) return
+    function changePageNumber(pNumber = FIRST) {
+      if (disabled.value) return
       if (typeof pNumber !== 'number') return
 
       let num = pNumber < FIRST ? FIRST : pNumber
@@ -110,7 +147,7 @@ export default defineComponent({
       emit('update:modelValue', current.value)
       change()
     }
-    function changePageSize (val) {
+    function changePageSize(val: number) {
       if (typeof val !== 'number') return
       if (val < 0) return
       if (val === pageSize.value) return
@@ -122,26 +159,30 @@ export default defineComponent({
       }
       changePageNumber(FIRST)
     }
-    function change () {
+    function change() {
       emit('change', {
         pageNumber: current.value,
         pageSize: Number(pageSize.value),
         totalPage: totalPage.value
       })
     }
-    function PaginationModules () {
+    function PaginationModules() {
       if (slots.default) {
-        return slots.default({
-          pageNumber: current.value,
-          pageSize: pageSize.value,
-          totalPage: totalPage.value,
-          totalRow: totalRow.value,
-          isFirst: isFirst.value,
-          isLast: isLast.value
-        })
+        return (
+          <ul>
+            {slots.default({
+              pageNumber: current.value,
+              pageSize: pageSize.value,
+              totalPage: totalPage.value,
+              totalRow: totalRow.value,
+              isFirst: isFirst.value,
+              isLast: isLast.value
+            })}
+          </ul>
+        )
       }
       return (
-        <>
+        <ul>
           <PaginationPageSizes />
           <PaginationInfo />
           <PaginationFirstPage />
@@ -149,14 +190,14 @@ export default defineComponent({
           <PaginationPageNumbers />
           <PaginationNextPage />
           <PaginationLastPage />
-        </>
+        </ul>
       )
     }
 
     onMounted(() => changePageNumber(props.modelValue || FIRST))
 
-    provide(injectPagination, {
-      lang: getLanguages(props.language),
+    provide<PaginationProvided>(injectPagination, {
+      lang: getLanguages(props.language)!,
       pageSize,
       sizeList,
       pageNumbers,
@@ -166,7 +207,9 @@ export default defineComponent({
       totalPage,
       changePageNumber,
       changePageSize,
-      ...toRefs(props)
+      totalRow,
+      displayAll,
+      disabled
     })
 
     return () => {
@@ -174,9 +217,7 @@ export default defineComponent({
 
       return (
         <div class={containerClasses.value}>
-          <ul>
-            <PaginationModules />
-          </ul>
+          <PaginationModules />
         </div>
       )
     }
