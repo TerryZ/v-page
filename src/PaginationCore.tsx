@@ -1,6 +1,6 @@
 import { inject, type SetupContext } from 'vue'
 
-import { FIRST, ALL_RECORD_PAGE_SIZE, injectPagination } from './constants'
+import { FIRST, ALL_RECORD_PAGE_SIZE, keyInternal } from './constants'
 import type { PaginationProvided } from './PaginationBar'
 
 interface LinkProps {
@@ -13,7 +13,7 @@ function Link(props: { onClick?: () => void }, { slots }: SetupContext) {
   return <a href="javascript:void(0)">{slots?.default?.()}</a>
 }
 function PageItem({ classes, pageNumberValue, name }: LinkProps) {
-  const { changePageNumber } = inject<PaginationProvided>(injectPagination)!
+  const { changePageNumber } = inject<PaginationProvided>(keyInternal)!
   return (
     <li class={['v-pagination__item', ...classes!]}>
       <Link onClick={() => changePageNumber(pageNumberValue!)}>{name}</Link>
@@ -23,7 +23,7 @@ function PageItem({ classes, pageNumberValue, name }: LinkProps) {
 
 export function PaginationPageSizes() {
   const { lang, sizeList, pageSize, disabled, displayAll, changePageSize } =
-    inject<PaginationProvided>(injectPagination)!
+    inject<PaginationProvided>(keyInternal)!
 
   const SizeOptions = () => (
     <>
@@ -60,7 +60,7 @@ export function PaginationPageSizes() {
   )
 }
 export function PaginationInfo() {
-  const { lang, current, totalPage, totalRow } = inject<PaginationProvided>(injectPagination)!
+  const { lang, current, totalPage, totalRow } = inject<PaginationProvided>(keyInternal)!
   const content = lang
     .pageInfo!.replace('#pageNumber#', String(current.value))
     .replace('#totalPage#', String(totalPage.value))
@@ -79,7 +79,7 @@ export function PaginationPanel(props: unknown, { slots }: SetupContext) {
   )
 }
 export function PaginationPageNumbers() {
-  const { pageNumbers, current } = inject<PaginationProvided>(injectPagination)!
+  const { pageNumbers, current } = inject<PaginationProvided>(keyInternal)!
   return (
     <>
       {pageNumbers.value.map((val) => (
@@ -94,7 +94,7 @@ export function PaginationPageNumbers() {
   )
 }
 export function PaginationFirstPage() {
-  const { isFirst, lang } = inject<PaginationProvided>(injectPagination)!
+  const { isFirst, lang } = inject<PaginationProvided>(keyInternal)!
   return (
     <PageItem
       classes={['v-pagination__first', { disabled: isFirst.value }]}
@@ -104,7 +104,7 @@ export function PaginationFirstPage() {
   )
 }
 export function PaginationPreviousPage() {
-  const { isFirst, current } = inject<PaginationProvided>(injectPagination)!
+  const { isFirst, current } = inject<PaginationProvided>(keyInternal)!
   return (
     <PageItem
       classes={['v-pagination__previous', { disabled: isFirst.value }]}
@@ -114,7 +114,7 @@ export function PaginationPreviousPage() {
   )
 }
 export function PaginationNextPage() {
-  const { isLast, current } = inject<PaginationProvided>(injectPagination)!
+  const { isLast, current } = inject<PaginationProvided>(keyInternal)!
   return (
     <PageItem
       classes={['v-pagination__next', { disabled: isLast.value }]}
@@ -124,7 +124,7 @@ export function PaginationNextPage() {
   )
 }
 export function PaginationLastPage() {
-  const { isLast, totalPage, lang } = inject<PaginationProvided>(injectPagination)!
+  const { isLast, totalPage, lang } = inject<PaginationProvided>(keyInternal)!
   return (
     <PageItem
       classes={['v-pagination__last', { disabled: isLast.value }]}

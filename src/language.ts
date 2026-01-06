@@ -1,12 +1,15 @@
-export const [
-  CN,
-  EN,
-  DE,
-  JP,
-  PT
-] = ['cn', 'en', 'de', 'jp', 'pt']
+export type LanguageKey = 'cn' | 'en' | 'de' | 'jp' | 'pt'
+export interface LanguageRecord {
+  pageLength: string
+  pageInfo: string
+  first: string
+  last: string
+  all: string
+}
 
-export default {
+export const [CN, EN, DE, JP, PT] = ['cn', 'en', 'de', 'jp', 'pt']
+
+const languages: Record<string, LanguageRecord> = {
   [CN]: {
     pageLength: '每页记录数',
     pageInfo: '第 #pageNumber#/#totalPage# 页(共#totalRow#条记录)',
@@ -43,3 +46,5 @@ export default {
     all: 'Todos'
   }
 }
+
+export default languages

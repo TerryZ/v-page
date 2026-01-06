@@ -7,4 +7,5 @@ export const ALL_RECORD_PAGE_SIZE = 0
 
 export const [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT] = ['left', 'center', 'right']
 
-export const injectPagination = Symbol('pagination')
+export const keyInternal = Symbol('pagination-internal')
+export const keyOptions = Symbol('pagination-options')

@@ -1,7 +1,7 @@
 import './page.sass'
 
 import { ref, computed, watch, toRefs, onMounted, defineComponent, provide } from 'vue'
-import type { Ref, ComputedRef, SlotsType } from 'vue'
+import type { Ref, ComputedRef, SlotsType, PropType } from 'vue'
 
 import {
   FIRST,
@@ -10,9 +10,9 @@ import {
   DEFAULT_PAGE_SIZE_MENU,
   DEFAULT_PAGE_NUMBER_SIZE,
   ALL_RECORD_PAGE_SIZE,
-  injectPagination
+  keyInternal
 } from './constants'
-import { EN } from './language'
+import { EN, type LanguageRecord, type LanguageKey } from './language'
 import { getLanguages, getPageNumbers } from './helper'
 
 import {
@@ -26,7 +26,7 @@ import {
 } from './PaginationCore'
 
 export interface PaginationProvided {
-  lang: Record<string, string>
+  lang: ComputedRef<LanguageRecord>
   pageSize: Ref<number>
   totalRow: Ref<number>
   displayAll: Ref<boolean>
@@ -60,7 +60,7 @@ export default defineComponent({
     modelValue: { type: Number, default: 0 },
     pageSize: { type: Number, default: DEFAULT_PAGE_SIZE },
     totalRow: { type: Number, default: 0 },
-    language: { type: String, default: EN },
+    language: { type: String as PropType<LanguageKey>, default: EN },
     /**
      * Pagination alignment direction
      * `left`, `center` and `right`(default)
@@ -96,6 +96,7 @@ export default defineComponent({
     const current = ref<number>(0)
     const pageNumberSize = ref<number>(DEFAULT_PAGE_NUMBER_SIZE)
     const pageSize = ref<number>(props.pageSize ?? DEFAULT_PAGE_SIZE)
+    const lang = computed<LanguageRecord>(() => getLanguages(props.language)!)
 
     const sizeList = computed(() => {
       const sizes: number[] = Array.from(
@@ -196,8 +197,8 @@ export default defineComponent({
 
     onMounted(() => changePageNumber(props.modelValue || FIRST))
 
-    provide<PaginationProvided>(injectPagination, {
-      lang: getLanguages(props.language)!,
+    provide<PaginationProvided>(keyInternal, {
+      lang,
       pageSize,
       sizeList,
       pageNumbers,

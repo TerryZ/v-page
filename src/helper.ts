@@ -1,5 +1,6 @@
 import { FIRST } from './constants'
 import languages, { EN } from './language'
+import type { LanguageKey } from './language'
 
 function getPageNumberStart(current: number, totalPage: number, pageNumberSize: number) {
   if (totalPage <= pageNumberSize) return FIRST
@@ -21,7 +22,7 @@ export function getPageNumbers(current: number, totalPage: number, pageNumberSiz
     .filter((val) => val >= FIRST && val <= totalPage)
 }
 
-export function getLanguages(lang = EN) {
+export function getLanguages(lang: LanguageKey | string = EN) {
   const key = String(lang).toLowerCase()
   return languages[Object.hasOwn(languages, key) ? key : EN]
 }
