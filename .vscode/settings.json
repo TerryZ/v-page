@@ -2,8 +2,11 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
+    "typescript",
+    "typescriptreact",
     "vue"
   ],
+  "eslint.useFlatConfig": true,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts",
