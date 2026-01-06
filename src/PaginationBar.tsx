@@ -1,7 +1,6 @@
 import './page.sass'
 
-import { ref, computed, watch, toRefs, onMounted, defineComponent, provide } from 'vue'
-import type { Ref, ComputedRef, SlotsType, PropType } from 'vue'
+import { ref, computed, watch, toRefs, onMounted, defineComponent, provide, inject } from 'vue'
 
 import {
   FIRST,
@@ -10,11 +9,11 @@ import {
   DEFAULT_PAGE_SIZE_MENU,
   DEFAULT_PAGE_NUMBER_SIZE,
   ALL_RECORD_PAGE_SIZE,
-  keyInternal
+  keyInternal,
+  keyOptions
 } from './constants'
-import { EN, type LanguageRecord, type LanguageKey } from './language'
+import { EN } from './language'
 import { getLanguages, getPageNumbers } from './helper'
-
 import {
   PaginationPageSizes,
   PaginationInfo,
@@ -25,34 +24,14 @@ import {
   PaginationLastPage
 } from './PaginationCore'
 
-export interface PaginationProvided {
-  lang: ComputedRef<LanguageRecord>
-  pageSize: Ref<number>
-  totalRow: Ref<number>
-  displayAll: Ref<boolean>
-  disabled: Ref<boolean>
-  sizeList: ComputedRef<number[]>
-  pageNumbers: ComputedRef<number[]>
-  isFirst: ComputedRef<boolean>
-  isLast: ComputedRef<boolean>
-  current: Ref<number>
-  totalPage: ComputedRef<number>
-  changePageNumber: (pNumber: number) => void
-  changePageSize: (val: number) => void
-}
-export declare interface PageInfo {
-  pageNumber: number
-  pageSize: number
-  totalPage: number
-}
-export declare interface PageSlotData {
-  pageNumber: number
-  pageSize: number
-  totalPage: number
-  totalRow: number
-  isFirst: boolean
-  isLast: boolean
-}
+import type { SlotsType, PropType, Ref } from 'vue'
+import type {
+  LanguageKey,
+  LanguageRecord,
+  PaginationProvided,
+  PageInfo,
+  PageSlotData
+} from './types'
 
 export default defineComponent({
   name: 'PaginationBar',
@@ -67,7 +46,7 @@ export default defineComponent({
      */
     align: { type: String, default: ALIGN_RIGHT },
     /** Page size list */
-    pageSizeMenu: { type: [Array], default: () => DEFAULT_PAGE_SIZE_MENU },
+    pageSizeMenu: { type: [Array] as PropType<number[]>, default: () => DEFAULT_PAGE_SIZE_MENU },
     disabled: { type: Boolean, default: false },
     /** Round style page number button */
     circle: { type: Boolean, default: false },
@@ -82,11 +61,10 @@ export default defineComponent({
     /** Hide pagination when only have one page */
     hideOnSinglePage: { type: Boolean, default: false }
   },
-  // emits: ['update:modelValue', 'update:pageSize', 'change'],
   emits: {
     'update:modelValue': (value: number) => typeof value === 'number',
     'update:pageSize': (value: number) => typeof value === 'number',
-    change: (pageInfo: PageInfo) => true
+    change: (pageInfo: PageInfo) => typeof pageInfo !== 'undefined'
   },
   slots: Object as SlotsType<{
     default: PageSlotData
@@ -96,7 +74,14 @@ export default defineComponent({
     const current = ref<number>(0)
     const pageNumberSize = ref<number>(DEFAULT_PAGE_NUMBER_SIZE)
     const pageSize = ref<number>(props.pageSize ?? DEFAULT_PAGE_SIZE)
-    const lang = computed<LanguageRecord>(() => getLanguages(props.language)!)
+    const globalOptions = inject<Ref<string>>(keyOptions, ref(''))
+    const getLanguageKey = () => {
+      if (props.language !== EN) return props.language
+      // global install setting
+      if (globalOptions.value) return globalOptions.value
+      return EN
+    }
+    const lang = computed<LanguageRecord>(() => getLanguages(getLanguageKey())!)
 
     const sizeList = computed(() => {
       const sizes: number[] = Array.from(
