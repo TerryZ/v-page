@@ -1,13 +1,7 @@
 import { inject, type SetupContext } from 'vue'
 
 import { FIRST, ALL_RECORD_PAGE_SIZE, keyInternal } from './constants'
-import type { PaginationProvided } from './PaginationBar'
-
-interface LinkProps {
-  classes?: (string | Record<string, boolean>)[]
-  pageNumberValue?: number
-  name: string | number
-}
+import type { PaginationProvided, LinkProps } from './types'
 
 function Link(props: { onClick?: () => void }, { slots }: SetupContext) {
   return <a href="javascript:void(0)">{slots?.default?.()}</a>
@@ -38,7 +32,7 @@ export function PaginationPageSizes() {
     if (!displayAll.value) return null
     return (
       <option value={ALL_RECORD_PAGE_SIZE} selected={pageSize.value === ALL_RECORD_PAGE_SIZE}>
-        {lang.all}
+        {lang.value.all}
       </option>
     )
   }
@@ -50,7 +44,7 @@ export function PaginationPageSizes() {
   return (
     <li class="v-pagination__list">
       <Link>
-        <span>{lang.pageLength}</span>
+        <span>{lang.value.pageLength}</span>
         <select disabled={disabled.value} onChange={handleChange}>
           <SizeOptions />
           <DisplayAllOption />
@@ -61,7 +55,7 @@ export function PaginationPageSizes() {
 }
 export function PaginationInfo() {
   const { lang, current, totalPage, totalRow } = inject<PaginationProvided>(keyInternal)!
-  const content = lang
+  const content = lang.value
     .pageInfo!.replace('#pageNumber#', String(current.value))
     .replace('#totalPage#', String(totalPage.value))
     .replace('#totalRow#', String(totalRow.value))
@@ -99,7 +93,7 @@ export function PaginationFirstPage() {
     <PageItem
       classes={['v-pagination__first', { disabled: isFirst.value }]}
       pageNumberValue={FIRST}
-      name={lang.first!}
+      name={lang.value.first!}
     />
   )
 }
@@ -129,7 +123,7 @@ export function PaginationLastPage() {
     <PageItem
       classes={['v-pagination__last', { disabled: isLast.value }]}
       pageNumberValue={totalPage.value}
-      name={lang.last!}
+      name={lang.value.last!}
     />
   )
 }

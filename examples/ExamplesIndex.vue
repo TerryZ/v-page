@@ -9,9 +9,10 @@ import {
   PaginationFirstPage,
   PaginationPreviousPage,
   PaginationNextPage,
-  PaginationLastPage
+  PaginationLastPage,
+  setLanguage
 } from '../src'
-import type { PageInfo } from '../src'
+import type { PageInfo, LanguageKey } from '../src'
 
 const arr = Array(108)
   .fill(0)
@@ -21,6 +22,7 @@ const disabled = ref(false)
 const target = ref(4)
 const current = ref(3)
 const align = ref('left')
+const language = ref<LanguageKey>('cn')
 const refPage = ref()
 const size = ref(25)
 const inputPageSize = ref(15)
@@ -47,6 +49,9 @@ function changePageSize(val: number | Event) {
 }
 function pageChange(data: PageInfo) {
   console.log(data)
+}
+function changeGlobalLanguage() {
+  setLanguage('cn')
 }
 </script>
 
@@ -152,7 +157,7 @@ function pageChange(data: PageInfo) {
 
     <h5 class="mt-5 mb-3">对齐方向</h5>
     <div class="bg-light p-3 rounded-3">
-      <div class="mb-3 d-flex align-items-center">
+      <div class="mb-3 d-flex align-items-center gap-3">
         <div>方向：</div>
         <div>
           <select v-model="align" class="form-select">
@@ -161,9 +166,24 @@ function pageChange(data: PageInfo) {
             <option value="right">右对齐</option>
           </select>
         </div>
+        <div>语言：</div>
+        <div>
+          <select v-model="language" class="form-select">
+            <option value="en">English</option>
+            <option value="cn">简体中文</option>
+            <option value="de">German</option>
+            <option value="jp">Japanese</option>
+            <option value="pt">Portuguese</option>
+          </select>
+        </div>
+        <div>
+          <button type="button" @click="changeGlobalLanguage" class="btn btn-primary">
+            change global language to 'cn'
+          </button>
+        </div>
       </div>
       <div>
-        <PaginationBar :align="align" :total-row="101">
+        <PaginationBar :align="align" :language="language" :total-row="101">
           <PaginationPageSizes />
           <PaginationInfo />
           <PaginationFirstPage />

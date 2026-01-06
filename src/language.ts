@@ -1,11 +1,4 @@
-export type LanguageKey = 'cn' | 'en' | 'de' | 'jp' | 'pt'
-export interface LanguageRecord {
-  pageLength: string
-  pageInfo: string
-  first: string
-  last: string
-  all: string
-}
+import type { LanguageRecord } from './types'
 
 export const [CN, EN, DE, JP, PT] = ['cn', 'en', 'de', 'jp', 'pt']
 
