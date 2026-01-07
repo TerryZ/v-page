@@ -2,6 +2,6 @@
   <examples-index />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ExamplesIndex from './ExamplesIndex.vue'
 </script>
