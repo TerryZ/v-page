@@ -54,6 +54,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
+    "coverage": "vitest run --coverage",
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
