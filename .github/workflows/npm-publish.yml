@@ -10,6 +10,9 @@ on:
       - release
   # release:
   #   types: [published]
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
 
 jobs:
   test:
@@ -19,7 +22,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: "22.x"
           cache: pnpm
 
       - run: pnpm i --frozen-lockfile
@@ -47,7 +50,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: "22.x"
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
@@ -55,8 +58,8 @@ jobs:
       - run: pnpm build
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # env:
+        # NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Get version from package.json
         id: version
