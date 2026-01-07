@@ -1,7 +1,7 @@
 {
   "name": "v-page",
   "description": "A simple pagination bar",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "author": "TerryZ <terry5@foxmail.com>",
   "type": "module",
   "files": [
@@ -10,7 +10,7 @@
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
-  "main": "./dist/v-page.umd.cjs",
+  "main": "./dist/v-page.cjs",
   "module": "./dist/v-page.js",
   "exports": {
     ".": {
@@ -18,7 +18,7 @@
         "types": "./dist/types/index.d.ts",
         "default": "./dist/v-page.js"
       },
-      "require": "./dist/v-page.umd.cjs"
+      "require": "./dist/v-page.cjs"
     },
     "./types": {
       "import": {
@@ -76,9 +76,10 @@
     "npm-run-all2": "^8.0.4",
     "prettier": "3.7.4",
     "sass": "^1.97.1",
-    "typescript": "~5.9.3",
+    "typescript": "~5.8.3",
     "vite": "^7.3.0",
     "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.16",
     "vue-tsc": "^3.2.1"
   }
