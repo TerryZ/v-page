@@ -56,9 +56,10 @@ jobs:
 
       - run: pnpm i --frozen-lockfile
       - run: pnpm build
+      - run: npm install -g npm@latest
       - name: Publish to npm
-        # run: npm publish
-        run: npm publish --provenance --access public
+        run: npm publish --access public
+        # run: npm publish --provenance --access public
 
       - name: Get version from package.json
         id: version
