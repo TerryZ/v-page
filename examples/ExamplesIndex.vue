@@ -12,7 +12,7 @@ import {
   PaginationLastPage,
   setLanguage
 } from '../src'
-import type { PageInfo, LanguageKey } from '../src'
+import type { PageInfo, LanguageKey, AlignDirection } from '../src'
 
 const arr = Array(108)
   .fill(0)
@@ -21,7 +21,7 @@ const pageArr = ref<number[]>([])
 const disabled = ref(false)
 const target = ref(4)
 const current = ref(3)
-const align = ref('left')
+const align = ref<AlignDirection>('left')
 const language = ref<LanguageKey>('cn')
 const refPage = ref()
 const size = ref(25)

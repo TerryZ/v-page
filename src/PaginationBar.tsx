@@ -28,6 +28,7 @@ import type { SlotsType, PropType, Ref } from 'vue'
 import type {
   LanguageKey,
   LanguageRecord,
+  AlignDirection,
   PaginationProvided,
   PageInfo,
   PageSlotData
@@ -44,7 +45,7 @@ export default defineComponent({
      * Pagination alignment direction
      * `left`, `center` and `right`(default)
      */
-    align: { type: String, default: ALIGN_RIGHT },
+    align: { type: String as PropType<AlignDirection>, default: ALIGN_RIGHT },
     /** Page size list */
     pageSizeMenu: { type: [Array] as PropType<number[]>, default: () => DEFAULT_PAGE_SIZE_MENU },
     disabled: { type: Boolean, default: false },

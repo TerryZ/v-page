@@ -1,6 +1,7 @@
 import type { Ref, ComputedRef } from 'vue'
 
 export type LanguageKey = 'cn' | 'en' | 'de' | 'jp' | 'pt'
+export type AlignDirection = 'left' | 'center' | 'right'
 export interface LanguageRecord {
   pageLength: string
   pageInfo: string
@@ -9,7 +10,15 @@ export interface LanguageRecord {
   all: string
 }
 export interface PaginationGlobalOptions {
+  /**
+   * Component language
+   */
   language?: LanguageKey
+  /**
+   * Register component globally
+   * @default false
+   */
+  register?: boolean
 }
 export interface LinkProps {
   classes?: (string | Record<string, boolean>)[]
