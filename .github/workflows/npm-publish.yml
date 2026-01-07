@@ -50,17 +50,15 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
           cache: pnpm
 
       - run: pnpm i --frozen-lockfile
       - run: pnpm build
       - name: Publish to npm
-        run: npm publish
-        # run: npm publish --provenance --access public
-        # env:
-        # NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # run: npm publish
+        run: npm publish --provenance --access public
 
       - name: Get version from package.json
         id: version
