@@ -10,26 +10,22 @@ export type * from './types'
 export * from './PaginationCore'
 
 const PluginSetup = () => {
-  const lang = ref('en')
+  const lang = ref(EN)
 
   const install = (app: App, options: PaginationGlobalOptions = {}) => {
-    // TODO: 语言依赖注入
     app.provide(keyOptions, lang)
     if (options?.language) setLanguage(options.language)
     app.component(PaginationBar.name!, PaginationBar)
   }
   const setLanguage = (language?: LanguageKey) => {
     lang.value = language || EN
-    console.log('global:', lang.value)
   }
   return { install, setLanguage }
 }
 
 const { install, setLanguage } = PluginSetup()
 
-PaginationBar.install = install
-
-const PaginationPlugin: Plugin = {
+const PaginationPlugin: Plugin<PaginationGlobalOptions> = {
   install
 }
 

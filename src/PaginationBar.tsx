@@ -91,7 +91,7 @@ export default defineComponent({
       )
       // filter duplicate items
       if (pageSize.value !== 0 && !sizes.includes(pageSize.value)) {
-        // display all
+        // current page size
         sizes.push(pageSize.value)
       }
 
