@@ -35,15 +35,16 @@ pnpm add v-page
 
 Include and install plugin in your project
 
-```js
+```ts
 import { createApp } from 'vue'
 import App from './app.vue'
-import { PaginationBar } from 'v-page'
+import PaginationPlugin from 'v-page'
 
 const app = createApp(App)
 // install component globally
-app.use(PaginationBar, {
+app.use(PaginationPlugin, {
   // globally config options
+  language: 'cn'
 })
 app.mount('#app')
 ```
@@ -64,11 +65,7 @@ import { PaginationBar } from 'v-page'
 
 ```vue
 <template>
-  <PaginationBar
-    v-model="pageNumber"
-    :total-row="totalRow"
-    @change="paginationChange"
-  />
+  <PaginationBar v-model="pageNumber" :total-row="totalRow" @change="paginationChange" />
 </template>
 
 <script setup lang="ts">
@@ -78,7 +75,7 @@ import { PaginationBar, type PageInfo } from 'v-page'
 const pageNumber = ref<number>(3)
 const totalRow = ref<number>(100)
 // respond for pagination change
-function paginationChange (data: PageInfo): void {
+function paginationChange(data: PageInfo) {
   console.log(data) // { pageNumber: 1, pageSize: 10, totalPage: 10 }
 }
 </script>
